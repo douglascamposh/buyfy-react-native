@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './src/reducers';
+import ProductList from './src/components/ProductList';
+import ReduxThunk from 'redux-thunk';
+import firebase from 'firebase';
 
 class App extends Component {
   
@@ -16,12 +21,12 @@ class App extends Component {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   }
-  
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
+        <ProductList/>
+      </Provider>
     );
   }
 }
