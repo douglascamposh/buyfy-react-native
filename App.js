@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/reducers';
 import ProductList from './src/components/ProductList';
+import ProductCreate from './src/components/ProductCreate';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
 
@@ -10,13 +11,14 @@ class App extends Component {
   
   componentWillMount(){
     const firebaseConfig = {
-      apiKey: "AIzaSyAWstYk9m6xgFDPT2s0r-KEVU80iYXFtvk",
-      authDomain: "manager-f5b83.firebaseapp.com",
-      databaseURL: "https://manager-f5b83.firebaseio.com",
-      projectId: "manager-f5b83",
-      storageBucket: "manager-f5b83.appspot.com",
-      messagingSenderId: "221017087583",
-      appId: "1:221017087583:web:b37b7c3657699b4d8185ea"
+      apiKey: "AIzaSyCF_B7_evu1i8GNqYLaoN2W3VdJkjR-n1I",
+      authDomain: "buyfy-4c6ff.firebaseapp.com",
+      databaseURL: "https://buyfy-4c6ff.firebaseio.com",
+      projectId: "buyfy-4c6ff",
+      storageBucket: "buyfy-4c6ff.appspot.com",
+      messagingSenderId: "490218052808",
+      appId: "1:490218052808:web:a8d021f6c084695de819fd",
+      measurementId: "G-7BSLRN0X6M"
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -26,6 +28,7 @@ class App extends Component {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
         <ProductList/>
+        <ProductCreate/>
       </Provider>
     );
   }

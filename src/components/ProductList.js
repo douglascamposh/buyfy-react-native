@@ -7,13 +7,11 @@ import ProductListItem from './ProductListItem';
 
 class ProductList extends Component {
   componentWillMount() {
-    console.log("componentWillMount", this.props);
     this.props.productsFetch();
     this.createDatasource(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps", nextProps);
     this.createDatasource(nextProps);
   }
 
