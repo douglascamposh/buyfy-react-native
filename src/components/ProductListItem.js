@@ -1,36 +1,16 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableWithoutFeedback, Image } from 'react-native';
-import { CardSection, Spinner } from './common';
-import { imagesFetch } from '../actions';
-import { connect } from 'react-redux';
+import { CardSection, AsyncImage} from './common';
 
 class ProductListItem extends Component {
-  
-  componentWillMount() {
-    const {imageName} = this.props.product;
-    const uri = imageName ? `images/${imageName}` : 'regalo.jpg';
-    this.props.imagesFetch(uri);
-  }
 
   onRowPress() {
     console.log("press button");
   }
 
-  renderImage = () => {
-    console.log("this.props", this.props.image);
-    if(!this.props.loading) {
-      return <Spinner size="large"/>;
-    }
-    return (
-      <Image
-        style={{width: 50, height: 50}}
-        source={{uri: this.props.image}}
-      />
-    );
-  }
-
   render() {
-    const {name, description, price} = this.props.product;
+    const {name, description, price, imageName} = this.props.product;
+    const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
         <View>
@@ -44,7 +24,7 @@ class ProductListItem extends Component {
             <Text style={styles.titleStyle}>
               {price}
             </Text>
-            {this.renderImage()}
+            <AsyncImage image={imageRoute} style={{width: '100%', height: 50, resizeMode: 'contain'}} ></AsyncImage>
           </CardSection>
         </View>
       </TouchableWithoutFeedback>
@@ -59,9 +39,4 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({imageLoader}) => {
-  const {image, loading} = imageLoader;
-  return {image, loading};
-};
-
-export default connect(mapStateToProps, {imagesFetch})(ProductListItem);
+export default ProductListItem;
