@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/reducers';
 import ProductList from './src/components/ProductList';
 import ProductCreate from './src/components/ProductCreate';
+import AppNavigator from './src/navigation/DrawerNavigator';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
 
@@ -27,8 +28,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
-        <ProductList/>
-        <ProductCreate/>
+        <AppNavigator/>
       </Provider>
     );
   }
