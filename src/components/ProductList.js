@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView } from 'react-native';
+import { ListView, FlatList } from 'react-native';
 import { productsFetch } from '../actions';
 import ProductListItem from './ProductListItem';
 
@@ -16,22 +16,23 @@ class ProductList extends Component {
   }
 
   createDatasource({ products }) {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    this.dataSource = ds.cloneWithRows(products);
+    // const ds = new FlatList.DataSource({
+    //   rowHasChanged: (r1, r2) => r1 !== r2
+    // });
+    // this.dataSource = ds.cloneWithRows(products);
   }
 
-  renderRow(product) {
+  renderItem({item: product}) {
     return <ProductListItem product={product}/>
   }
 
   render() {
     return (
-      <ListView
+      <FlatList
         enableEmptySections
-        renderRow={this.renderRow}
-        dataSource={this.dataSource}
+        renderItem={this.renderItem}
+        data={this.props.products}
+        keyExtractor={({index}) => String(index)}
       />
     );
   }
