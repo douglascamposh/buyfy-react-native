@@ -7,12 +7,13 @@ import {View, TouchableOpacity, Image} from 'react-native';
 
 import ProductList from '../components/ProductList';
 import ProductCreate from '../components/ProductCreate';
-
+import ProductDetailScreen from '../screens/ProductDetailsScreen';
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
   };
+
   render() {
     return (
       <View style={{ flexDirection: 'row' }}>
@@ -32,10 +33,9 @@ const productList_StackNavigator = createStackNavigator({
     screen: ProductList,
     navigationOptions: ({ navigation }) => ({
       title: 'Prods',
-      drawerLabel: 'Productos',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
     })
-  },
+  }
 });
 
 const productCreate_StackNavigator = createStackNavigator({
@@ -45,7 +45,7 @@ const productCreate_StackNavigator = createStackNavigator({
       title: 'ProdCreate',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
     }),
-  },
+  }
 });
 
 const DrawerNavigator = createDrawerNavigator(
@@ -61,6 +61,11 @@ const DrawerNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: 'Crear Producto',
       }
+    },
+    Prods: {
+      screen: createStackNavigator({
+        details: {screen: ProductDetailScreen}
+      })
     }
   }
 );
