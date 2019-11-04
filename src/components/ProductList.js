@@ -8,22 +8,17 @@ import ProductListItem from './ProductListItem';
 class ProductList extends Component {
   componentWillMount() {
     this.props.productsFetch();
-    this.createDatasource(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.createDatasource(nextProps);
   }
 
-  createDatasource({ products }) {
-    // const ds = new FlatList.DataSource({
-    //   rowHasChanged: (r1, r2) => r1 !== r2
-    // });
-    // this.dataSource = ds.cloneWithRows(products);
+  productDetailOnClick = (product) => {
+    this.props.navigation.navigate('productDetail', { product });
   }
 
-  renderItem({item: product}) {
-    return <ProductListItem product={product}/>
+  renderItem = ({item: product}) => {
+    return <ProductListItem product={product} productDetailOnClick={this.productDetailOnClick}/>
   }
 
   render() {
@@ -32,7 +27,7 @@ class ProductList extends Component {
         enableEmptySections
         renderItem={this.renderItem}
         data={this.props.products}
-        keyExtractor={({index}) => String(index)}
+        keyExtractor={({uid}) => String(uid)}
       />
     );
   }

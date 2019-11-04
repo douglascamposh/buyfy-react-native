@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import ProductDetail from '../components/ProductDetail';
 
 class ProductDetailScreen extends Component {
-    static navigationOptions = ({ navigation }) => {
-      return {
-        headerTitle: 'Details',
-        headerRight: () => (
-          <Button title="Settings" onPress={() => navigation.navigate('Products')}/>
-        )
-      }
-    }
-
-    render() {
-      return (
-        <View>
-          <Text>detail Screen</Text>
-          <Text>detail Screen</Text>
-          <Text>detail Screen</Text>
-          <Text>detail Screen</Text>
-          <Text>detail Screen</Text>
-          <Text>detail Screen</Text>
-        </View>
-      );
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'Details',
+      title: 'Product Detail'
     }
   }
+
+  render() {
+    return (<ProductDetail navigation={this.props.navigation}/>);
+  }
+}
 
 export default ProductDetailScreen;

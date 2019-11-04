@@ -6,7 +6,7 @@ import { CardSection, AsyncImage} from './common';
 class ProductListItem extends Component {
 
   onRowPress() {
-    console.log("press button");
+    this.props.productDetailOnClick(this.props.product);
   }
 
   render() {

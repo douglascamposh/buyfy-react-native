@@ -3,69 +3,39 @@ import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import {View, TouchableOpacity, Image} from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 
-import ProductList from '../components/ProductList';
+import NavigationDrawerStructure from './AppNavigator';
+
 import ProductCreate from '../components/ProductCreate';
 import ProductDetailScreen from '../screens/ProductDetailsScreen';
+import ProductListScreen from '../screens/ProductListScreen';
 
-class NavigationDrawerStructure extends Component {
-  toggleDrawer = () => {
-    this.props.navigationProps.toggleDrawer();
-  };
-
-  render() {
-    return (
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
-          <Image
-            source={require('../../assets/drawer.png')}
-            style={{ width: 25, height: 25, marginLeft: 5 }}
-          />
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
-
-const productList_StackNavigator = createStackNavigator({
-  First: {
-    screen: ProductList,
+const product_StackNavigator = createStackNavigator({
+  productList: {
+    screen: ProductListScreen,
     navigationOptions: ({ navigation }) => ({
-      title: 'Prods',
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
     })
-  }
-});
-
-const productCreate_StackNavigator = createStackNavigator({
-  Second: {
+  },
+  createProduct: {
     screen: ProductCreate,
     navigationOptions: ({ navigation }) => ({
-      title: 'ProdCreate',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
-    }),
+      title: 'Crear Producto'
+    })
+  },
+  productDetail: {
+    screen: ProductDetailScreen
   }
 });
 
 const DrawerNavigator = createDrawerNavigator(
   {
     Products: {
-      screen: productList_StackNavigator,
+      screen: product_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Productos'
-      },
-    },
-    ProductCreate: {
-      screen: productCreate_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Crear Producto',
       }
-    },
-    Prods: {
-      screen: createStackNavigator({
-        details: {screen: ProductDetailScreen}
-      })
     }
   }
 );

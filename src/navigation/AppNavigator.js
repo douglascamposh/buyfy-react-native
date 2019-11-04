@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { View, TouchableOpacity, Image } from 'react-native';
 
 import DrawerNavigator from './DrawerNavigator';
 
@@ -6,6 +7,7 @@ class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
   };
+
   render() {
     return (
       <View style={{ flexDirection: 'row' }}>
@@ -19,3 +21,5 @@ class NavigationDrawerStructure extends Component {
     );
   }
 }
+
+export default NavigationDrawerStructure;
