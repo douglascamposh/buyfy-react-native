@@ -10,6 +10,7 @@ import NavigationDrawerStructure from './AppNavigator';
 import ProductCreate from '../components/ProductCreate';
 import ProductDetailScreen from '../screens/ProductDetailsScreen';
 import ProductListScreen from '../screens/ProductListScreen';
+import StoreListScreen from '../screens/StoreListScreen';
 
 const product_StackNavigator = createStackNavigator({
   productList: {
@@ -29,8 +30,23 @@ const product_StackNavigator = createStackNavigator({
   }
 });
 
+const store_StackNavigator = createStackNavigator({
+  storeList: {
+    screen: StoreListScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
+    })
+  }
+});
+
 const DrawerNavigator = createDrawerNavigator(
   {
+    store: {
+      screen: store_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Restaurantes'
+      }
+    },
     Products: {
       screen: product_StackNavigator,
       navigationOptions: {

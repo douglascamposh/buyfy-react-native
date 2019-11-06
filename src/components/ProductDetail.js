@@ -1,6 +1,9 @@
 import React from 'react';
 import { CardSection, AsyncImage } from './common';
+import { Dimensions } from 'react-native';
 import { Card, Button, Image, Text } from 'react-native-elements';
+
+const deviceWidth = Dimensions.get('window').width;
 
 const ProductDetail = (props) => {
   const { navigation } = props;
@@ -10,10 +13,11 @@ const ProductDetail = (props) => {
   const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
 
   return (
-    <Card>
+    <Card
+    >
       <AsyncImage
         image={imageRoute}
-        style={{width: '100%', height: 100, resizeMode: 'contain'}} />
+        style={styles.image} />
       <Text h4 style={{marginBottom: 10}}>
         {name}
       </Text>
@@ -26,5 +30,26 @@ const ProductDetail = (props) => {
     </Card>
   );
 }
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: 'blue',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+
+  item: {
+    width: deviceWidth / 2,
+    height: deviceWidth / 2
+  },
+
+  image: {
+    width: '100%',
+    height: 200,
+    alignSelf: 'stretch',
+    resizeMode: 'cover'
+  }
+};
 
 export default ProductDetail;
