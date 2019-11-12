@@ -10,12 +10,12 @@ class StoreList extends Component {
     this.props.storesFetch();
   }
 
-  productDetailOnClick = (store) => {
-    this.props.navigation.navigate('storeDetail', { store });
+  storeOnClick = (store) => {
+    this.props.navigation.navigate('productList', { store });
   }
 
   renderItem = ({item: store}) => {
-    return <StoreListItem store={store} />
+    return <StoreListItem store={store} storeOnClick={this.storeOnClick} />
   }
 
   render() {
@@ -23,7 +23,7 @@ class StoreList extends Component {
       <FlatList
         enableEmptySections
         renderItem={this.renderItem}
-        data={this.props.products}
+        data={this.props.stores}
         keyExtractor={({uid}) => String(uid)}
       />
     );

@@ -11,6 +11,15 @@ export const productsFetch = () => {
   };
 };
 
+export const productsFetchByStoreId = (storeId) => {
+  return (dispatch) => {
+    firebase.database().ref(`/products`).orderByChild('store').equalTo(storeId)
+    .on('value', snapshot => {
+      dispatch({type: PRODUCT_FETCH_SUCCESS, payload: snapshot.val()});
+    });
+  };
+};
+
 export const productCreate = ({name, description, price, image}) => {
   return (dispatch) => {
     const imageName = image ? uuid() : '';

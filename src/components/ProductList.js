@@ -1,13 +1,15 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView, FlatList } from 'react-native';
-import { productsFetch } from '../actions';
+import { FlatList } from 'react-native';
+import { productsFetch, productsFetchByIds } from '../actions';
 import ProductListItem from './ProductListItem';
 
 class ProductList extends Component {
   componentWillMount() {
-    this.props.productsFetch();
+    const { navigation } = this.props;
+    const store = navigation.getParam('store', {});
+    this.props.productsFetchByStoreId(store.uid);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,4 +42,4 @@ const mapStateToProps = state => {
   return {products};
 };
 
-export default connect(mapStateToProps, {productsFetch})(ProductList);
+export default connect(mapStateToProps, {productsFetch, productsFetchByIds})(ProductList);
