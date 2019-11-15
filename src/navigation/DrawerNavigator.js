@@ -7,28 +7,25 @@ import { View, TouchableOpacity, Image } from 'react-native';
 
 import NavigationDrawerStructure from './AppNavigator';
 
-import ProductCreate from '../components/ProductCreate';
+import ProductCreateScreen from '../screens/ProductCreateScreen';
 import ProductDetailScreen from '../screens/ProductDetailsScreen';
 import ProductListScreen from '../screens/ProductListScreen';
 import StoreListScreen from '../screens/StoreListScreen';
 
-const product_StackNavigator = createStackNavigator({
-  productList: {
-    screen: ProductListScreen,
-    navigationOptions: ({ navigation }) => ({
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
-    })
-  },
-  createProduct: {
-    screen: ProductCreate,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Crear Producto'
-    })
-  },
-  productDetail: {
-    screen: ProductDetailScreen
-  }
-});
+// const product_StackNavigator = createStackNavigator({
+//   productList: {
+//     screen: ProductListScreen,
+//   },
+//   createProduct: {
+//     screen: ProductCreate,
+//     navigationOptions: ({ navigation }) => ({
+//       title: 'Crear Producto'
+//     })
+//   },
+//   productDetail: {
+//     screen: ProductDetailScreen
+//   }
+// });
 
 const store_StackNavigator = createStackNavigator({
   storeList: {
@@ -36,6 +33,15 @@ const store_StackNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
     })
+  },
+  productList: {
+    screen: ProductListScreen,
+  },
+  createProduct: {
+    screen: ProductCreateScreen
+  },
+  productDetail: {
+    screen: ProductDetailScreen
   }
 });
 
@@ -45,12 +51,6 @@ const DrawerNavigator = createDrawerNavigator(
       screen: store_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Restaurantes'
-      }
-    },
-    Products: {
-      screen: product_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Productos'
       }
     }
   }

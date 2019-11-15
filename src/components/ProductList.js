@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList } from 'react-native';
-import { productsFetch, productsFetchByIds } from '../actions';
+import { productsFetch, productsFetchByStoreId } from '../actions';
 import ProductListItem from './ProductListItem';
 
 class ProductList extends Component {
@@ -42,4 +42,4 @@ const mapStateToProps = state => {
   return {products};
 };
 
-export default connect(mapStateToProps, {productsFetch, productsFetchByIds})(ProductList);
+export default connect(mapStateToProps, {productsFetch, productsFetchByStoreId})(ProductList);

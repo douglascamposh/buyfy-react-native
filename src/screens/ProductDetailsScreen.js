@@ -12,7 +12,7 @@ class ProductDetailScreen extends Component {
   }
 
   render() {
-    return (<ProductDetail navigation={this.props.navigation}/>);
+    return <ProductDetail navigation={this.props.navigation}/>;
   }
 }
 

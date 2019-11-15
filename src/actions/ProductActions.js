@@ -13,18 +13,18 @@ export const productsFetch = () => {
 
 export const productsFetchByStoreId = (storeId) => {
   return (dispatch) => {
-    firebase.database().ref(`/products`).orderByChild('store').equalTo(storeId)
+    firebase.database().ref(`/products`).orderByChild('storeId').equalTo(storeId)
     .on('value', snapshot => {
       dispatch({type: PRODUCT_FETCH_SUCCESS, payload: snapshot.val()});
     });
   };
 };
 
-export const productCreate = ({name, description, price, image}) => {
+export const productCreate = ({name, description, price, image, storeId}) => {
   return (dispatch) => {
     const imageName = image ? uuid() : '';
     firebase.database().ref(`/products`)
-    .push({name, description, price, imageName})
+    .push({name, description, price, imageName, storeId})
     .then((response) => {
       uploadImage(image, imageName)
       .then((response) => {
@@ -32,15 +32,15 @@ export const productCreate = ({name, description, price, image}) => {
         dispatch({type: PRODUCT_CREATE});
       })
       .catch(error => {
-        console.error("It was not possible upload the image", error);
+        console.warn("It was not possible upload the image", error);
         dispatch({type: PRODUCT_CREATE});
       });
     });
   };
 };
 
-const uploadImage = async (uri, imageName) => {
-  const response = await fetch(uri);
+const uploadImage = async (image, imageName) => {
+  const response = await fetch(image);
   const blob = await response.blob();
   const ref = firebase.storage().ref().child(`images/${imageName}`);
   return ref.put(blob);

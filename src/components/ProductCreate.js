@@ -7,8 +7,8 @@ import EmployeeForm from './ProductForm';
 class ProductCreate extends Component {
   
   onButtonPress() {
-    const {name, description, price, image} = this.props;
-    this.props.productCreate({name, description, price, image});
+    const {name, description, price, image, storeId} = this.props;
+    this.props.productCreate({name, description, price, image, storeId});
     this.props.navigation.navigate('productList');
   }
 
