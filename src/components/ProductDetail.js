@@ -6,10 +6,9 @@ import { Card, Button, Image, Text } from 'react-native-elements';
 const deviceWidth = Dimensions.get('window').width;
 
 const ProductDetail = (props) => {
-  const { navigation } = props;
-  const product = navigation.getParam('product', {});
+  const { product } = props;
   
-  const {name, description, price, imageName} = product;
+  const { name, description, price, imageName } = product;
   const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
 
   return (

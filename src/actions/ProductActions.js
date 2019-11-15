@@ -26,15 +26,17 @@ export const productCreate = ({name, description, price, image, storeId}) => {
     firebase.database().ref(`/products`)
     .push({name, description, price, imageName, storeId})
     .then((response) => {
-      uploadImage(image, imageName)
-      .then((response) => {
-        console.info("image uploaded", imageName);
-        dispatch({type: PRODUCT_CREATE});
-      })
-      .catch(error => {
-        console.warn("It was not possible upload the image", error);
-        dispatch({type: PRODUCT_CREATE});
-      });
+      if(image) {
+        uploadImage(image, imageName)
+        .then((response) => {
+          console.info("image uploaded", imageName);
+          dispatch({type: PRODUCT_CREATE});
+        })
+        .catch(error => {
+          console.warn("It was not possible upload the image", error);
+          dispatch({type: PRODUCT_CREATE});
+        });
+      }
     });
   };
 };

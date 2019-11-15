@@ -9,9 +9,13 @@ class ProductCreateScreen extends Component {
     }
   }
 
+  onButtonPress = () => {
+    this.props.navigation.navigate('productList');
+  }
+
   render() {
     const storeId = this.props.navigation.getParam('storeId', {});
-    return <ProductCreate navigation={this.props.navigation} storeId={storeId}/>;
+    return <ProductCreate onButtonPress={this.onButtonPress} storeId={storeId}/>;
   }
 }
 
