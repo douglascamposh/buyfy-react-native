@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
-
-import DrawerNavigator from './DrawerNavigator';
+import { View } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -11,12 +10,11 @@ class NavigationDrawerStructure extends Component {
   render() {
     return (
       <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
-          <Image
-            source={require('../../assets/drawer.png')}
-            style={{ width: 25, height: 25, marginLeft: 5 }}
-          />
-        </TouchableOpacity>
+        <Icon
+          name='ios-menu'
+          type='ionicon'
+          onPress={this.toggleDrawer.bind(this)}
+        />
       </View>
     );
   }

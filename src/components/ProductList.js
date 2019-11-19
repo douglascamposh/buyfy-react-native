@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { productsFetch, productsFetchByStoreId } from '../actions';
 import ProductListItem from './ProductListItem';
+import { Explorer } from './common';
 
 class ProductList extends Component {
   componentWillMount() {
@@ -25,12 +26,15 @@ class ProductList extends Component {
 
   render() {
     return (
-      <FlatList
+      <View>
+        <Explorer data={this.props.products}/>
+        <FlatList
         enableEmptySections
         renderItem={this.renderItem}
         data={this.props.products}
         keyExtractor={({uid}) => String(uid)}
       />
+      </View>
     );
   }
 }

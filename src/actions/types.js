@@ -4,3 +4,5 @@ export const PRODUCT_UPDATE_FORM = 'product_update_form';
 export const IMAGE_FETCH_SUCCESS = 'image_fetch_success';
 
 export const STORE_FETCH_SUCCESS = 'store_fetch_success';
+export const STORE_CREATE = 'store_create';
+export const STORE_UPDATE_FORM = 'store_update_form';

@@ -10,7 +10,7 @@ class StoreListItem extends Component {
   }
 
   render() {
-    const { name, deliveryTime, deliveryPrice, imageName, products } = this.props.store;
+    const { name, deliveryTime, deliveryPrice, imageName } = this.props.store;
     const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>

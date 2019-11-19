@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {productUpdateForm} from '../actions';
-import {View, Text, Image} from 'react-native';
-import {CardSection, Input, Button, ImagePicker} from './common';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { productUpdateForm } from '../actions';
+import { View } from 'react-native';
+import { CardSection, Input, ImagePicker } from './common';
 import * as ExpoImagePicker from 'expo-image-picker';
-import firebase from 'firebase';
 
 class ProductForm extends Component {
 

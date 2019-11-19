@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import ProductList from '../components/ProductList';
 
 class ProductListScreen extends Component {
@@ -8,7 +8,11 @@ class ProductListScreen extends Component {
     return {
       headerTitle: 'Productos',
       headerRight: () => (
-        <Button title="Nuevo" onPress={() => navigation.navigate('createProduct', { storeId })}/>
+        <Icon
+          name='ios-add-circle-outline'
+          type='ionicon'
+          color='#517fa4'
+          onPress={() => navigation.navigate('createProduct', { storeId })} />
       )
     }
   }

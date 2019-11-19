@@ -3,7 +3,7 @@ import {View, Image} from 'react-native';
 import { Button } from './Button'
 
 const ImagePicker = (props) => {
-  const {image} = props;
+  const { image } = props;
   return (
     <View>
       <Button onPress={props.onPress}>
