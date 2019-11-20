@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { View, TouchableOpacity, Image } from 'react-native';
 
 import NavigationDrawerStructure from './AppNavigator';
 

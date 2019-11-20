@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 import { AsyncImage } from './AsyncImage';
 
 const ExplorerItem = (props) => {
