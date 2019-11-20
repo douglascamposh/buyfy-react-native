@@ -5,6 +5,7 @@ import reducers from './src/reducers';
 import AppNavigator from './src/navigation/DrawerNavigator';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
+import * as Permissions from 'expo-permissions';
 
 class App extends Component {
   
@@ -21,6 +22,13 @@ class App extends Component {
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+  }
+
+  async componentDidMount() {
+    //- get camera roll permission
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === "granted")
+      console.log("status", status);
   }
 
   render() {
