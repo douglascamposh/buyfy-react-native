@@ -29,11 +29,11 @@ class ProductList extends Component {
       <View>
         <Explorer data={this.props.products}/>
         <FlatList
-        enableEmptySections
-        renderItem={this.renderItem}
-        data={this.props.products}
-        keyExtractor={({uid}) => String(uid)}
-      />
+          enableEmptySections
+          renderItem={this.renderItem}
+          data={this.props.products}
+          keyExtractor={({uid}) => String(uid)}
+        />
       </View>
     );
   }

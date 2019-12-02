@@ -8,3 +8,5 @@ export * from './Confirm';
 export * from './ImagePicker';
 export * from './AsyncImage';
 export * from './Explorer';
+export * from './AsyncTile';
+export * from './FloatButton';
