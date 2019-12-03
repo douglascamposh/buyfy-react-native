@@ -1,6 +1,11 @@
 import firebase from 'firebase';
 import uuid from 'uuid/v4';
-import { PRODUCT_FETCH_SUCCESS, PRODUCT_CREATE, PRODUCT_UPDATE_FORM } from './types';
+import {
+  PRODUCT_FETCH_SUCCESS,
+  PRODUCT_CREATE,
+  PRODUCT_UPDATE_FORM,
+  PRODUCT_CREATE_ORDER
+} from './types';
 
 export const productsFetch = () => {
   return (dispatch) => {
@@ -53,4 +58,18 @@ export const productUpdateForm = ({prop, value}) => {
     type: PRODUCT_UPDATE_FORM,
     payload: {prop, value}
   }
+};
+
+export const productOrderCreate = ({quantity, notes, price, productId, userId=1}) => {
+  return (dispatch) => {
+    firebase.database().ref(`/orders`)
+    .push({quantity, notes, price, productId, userId})
+    .then(() => {  
+      console.info(`Added product Id ${productId} to order`);
+      dispatch({type: PRODUCT_CREATE_ORDER});
+    })
+    .catch(error => {
+      console.warn("It was not add the order", error);
+    });
+  };
 };

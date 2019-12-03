@@ -9,7 +9,7 @@ class ProductCreate extends Component {
   onButtonPress() {
     const {name, description, price, image, storeId} = this.props;
     this.props.productCreate({name, description, price, image, storeId});
-    this.props.onButtonPress();
+    this.props.navigateTo('productList');
   }
 
   render() {

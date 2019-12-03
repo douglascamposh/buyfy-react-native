@@ -52,8 +52,6 @@ class ProductForm extends Component {
   }
 }
 
-
-
 const mapStateToProps = (state) => {
   const {name, description, price, image} = state.productForm;
   return {name, description, price, image};
