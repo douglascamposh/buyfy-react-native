@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { productUpdateForm } from '../../actions';
 import { View } from 'react-native';
-import { CardSection } from '../common';
-import { Card, Text, Input } from 'react-native-elements';
+import { Card, CardSection } from '../common';
+import { Text, Input } from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input';
 
 class ProductOrderForm extends Component {
@@ -13,11 +13,14 @@ class ProductOrderForm extends Component {
       <View>
         <Card>
           <CardSection>
-            <Text h4>
+            <Text style={{ fontWeight: 'bold' }}>
               Unidades
             </Text>
           </CardSection>
-          <CardSection>
+          <CardSection style={{
+            justifyContent: 'center',
+            alignItems: 'center'}}
+          >
             <NumericInput
               value={this.props.quantity}
               onChange={value => this.props.productUpdateForm({prop: 'quantity', value})}
@@ -40,7 +43,7 @@ class ProductOrderForm extends Component {
         </Card>
         <Card>
           <CardSection>
-            <Text h4>
+            <Text style={{ fontWeight: 'bold' }}>
               ¿Quieres aclarar algo?
             </Text>
           </CardSection>

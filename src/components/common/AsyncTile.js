@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Tile, Text } from 'react-native-elements';
-import { View } from 'react-native';
+import { Tile } from 'react-native-elements';
 import { Spinner } from './Spinner';
 import firebase from 'firebase';
 
@@ -42,9 +41,10 @@ class AsyncTile extends Component {
       }
       return (
         <Tile
+          style={[this.props.style]}
           imageSrc={{uri: this.state.url}}
           title={this.props.title}
-          contentContainerStyle={{ height: 70 }}
+          contentContainerStyle={{ flex: 1 }}
         >
           {this.props.children}
         </Tile>
@@ -54,4 +54,4 @@ class AsyncTile extends Component {
   }
 }
 
-export {AsyncTile};
+export { AsyncTile };

@@ -14,7 +14,7 @@ const FloatButton = ({text, onPress}) => {
 const styles = {
   bottomView: {
     width: '100%', 
-    height: 50,
+    height: 60,
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,

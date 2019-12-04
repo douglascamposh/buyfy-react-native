@@ -25,10 +25,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    //- get camera roll permission
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status === "granted")
-      console.log("status", status);
   }
 
   render() {

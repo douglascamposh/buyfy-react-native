@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AsyncTile, FloatButton } from '../common';
+import { Card, AsyncTile, FloatButton } from '../common';
 import { Dimensions, View, ScrollView } from 'react-native';
 import { Text } from 'react-native-elements';
 import ProductOrderForm from './ProductOrderForm';
@@ -22,16 +22,18 @@ class ProductDetail extends Component {
     const { name, description, price, imageName } = product;
     const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
     return (
-      <View>
+      <View style={styles.container}>
         <ScrollView>
-          <AsyncTile image={imageRoute} title={name}>
-            <Text style={{marginBottom: 10}}>
-              {description}
-            </Text>
-            <Text style={{marginBottom: 10}}>
-              {price} Bs.
-            </Text>
-          </AsyncTile>
+          <Card>
+            <AsyncTile image={imageRoute} title={name}>
+              <Text style={{marginBottom: 10}}>
+                {description}
+              </Text>
+              <Text style={styles.textStyle}>
+                {price} Bs.
+              </Text>
+            </AsyncTile>
+          </Card>
           <ProductOrderForm {...this.props}/>
         </ScrollView>
         <FloatButton text={'Agregar a pedido'} onPress={this.addToOrder.bind(this)}/>
@@ -43,9 +45,12 @@ class ProductDetail extends Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'blue',
     flexDirection: 'row',
     flexWrap: 'wrap'
+  },
+  textStyle: {
+    fontWeight: 'bold',
+    marginBottom: 10
   }
 };
 
