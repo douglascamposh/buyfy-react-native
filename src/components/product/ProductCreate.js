@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { productCreate } from '../actions';
-import { Card, CardSection, Button } from './common';
-import EmployeeForm from './ProductForm';
+import { productCreate } from '../../actions';
+import { Card, CardSection, Button } from '../common';
+import ProductForm from './ProductForm';
 
 class ProductCreate extends Component {
   
@@ -15,7 +15,7 @@ class ProductCreate extends Component {
   render() {
     return (
       <Card>
-        <EmployeeForm {...this.props}/>
+        <ProductForm {...this.props}/>
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this)}>
             Create

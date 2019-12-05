@@ -46,7 +46,8 @@ const styles = {
   },
   containerStyle: {
     height:130,
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 20
   }
 };
 

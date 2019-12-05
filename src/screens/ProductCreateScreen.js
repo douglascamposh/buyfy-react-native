@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProductCreate from '../components/ProductCreate';
+import ProductCreate from '../components/product/ProductCreate';
 
 class ProductCreateScreen extends Component {
   static navigationOptions = ({ navigation }) => {

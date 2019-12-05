@@ -5,6 +5,7 @@ import { Dimensions, View, ScrollView } from 'react-native';
 import { Text } from 'react-native-elements';
 import ProductOrderForm from './ProductOrderForm';
 import { productOrderCreate } from '../../actions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const deviceWidth = Dimensions.get('window').width;
 
@@ -24,6 +25,7 @@ class ProductDetail extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
+          <KeyboardAwareScrollView>
           <Card>
             <AsyncTile image={imageRoute} title={name}>
               <Text style={{marginBottom: 10}}>
@@ -35,6 +37,7 @@ class ProductDetail extends Component {
             </AsyncTile>
           </Card>
           <ProductOrderForm {...this.props}/>
+          </KeyboardAwareScrollView>
         </ScrollView>
         <FloatButton text={'Agregar a pedido'} onPress={this.addToOrder.bind(this)}/>
       </View>

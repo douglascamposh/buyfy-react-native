@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { productUpdateForm } from '../actions';
+import { productUpdateForm } from '../../actions';
 import { View } from 'react-native';
-import { CardSection, Input, ImagePicker } from './common';
+import { CardSection, Input, ImagePicker } from '../common';
 import * as ExpoImagePicker from 'expo-image-picker';
 
 class ProductForm extends Component {

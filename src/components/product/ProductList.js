@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList } from 'react-native';
-import { productsFetch, productsFetchByStoreId } from '../actions';
+import { ScrollView, FlatList } from 'react-native';
+import { productsFetch, productsFetchByStoreId } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer } from './common';
+import { Explorer, Card } from '../common';
 
 class ProductList extends Component {
   componentWillMount() {
@@ -26,15 +26,17 @@ class ProductList extends Component {
 
   render() {
     return (
-      <View>
-        <Explorer data={this.props.products}/>
+      <ScrollView>
+        <Card>
+          <Explorer data={this.props.products}/>
+        </Card>
         <FlatList
           enableEmptySections
           renderItem={this.renderItem}
           data={this.props.products}
           keyExtractor={({uid}) => String(uid)}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

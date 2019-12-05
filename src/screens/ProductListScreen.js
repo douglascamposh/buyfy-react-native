@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
-import ProductList from '../components/ProductList';
+import ProductList from '../components/product/ProductList';
 
 class ProductListScreen extends Component {
   static navigationOptions = ({ navigation }) => {
