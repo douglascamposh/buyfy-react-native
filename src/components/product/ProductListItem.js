@@ -12,21 +12,23 @@ class ProductListItem extends Component {
     const {name, description, price, imageName} = this.props.product;
     const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
     return(
-      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
-        <View>
-          <CardSection>
+      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}> 
+        <CardSection style={styles.cardSectionStyle}>
+          <View style={styles.containerLeft}>
             <Text style={styles.titleStyle}>
               {name}
             </Text>
-            <Text style={styles.titleStyle}>
+            <Text style={styles.contentStyle}>
               {description}
             </Text>
             <Text style={styles.titleStyle}>
-              {price}
+              Bs. {price}
             </Text>
-            <AsyncImage image={imageRoute} style={{width: '100%', height: 50, resizeMode: 'contain'}} ></AsyncImage>
-          </CardSection>
-        </View>
+          </View>
+          <View style={styles.containerRigth}>
+            <AsyncImage image={imageRoute} style={{ flex: 1, resizeMode: 'contain' }} ></AsyncImage>
+          </View>
+        </CardSection>
       </TouchableWithoutFeedback>
     );
   }
@@ -34,8 +36,28 @@ class ProductListItem extends Component {
 
 const styles = {
   titleStyle: {
-    fontSize: 18,
-    paddingLeft: 15
+    fontSize: 14,
+    paddingLeft: 15,
+    marginTop: 10,
+    flex: 1,
+    fontWeight: 'bold',
+  },
+  contentStyle: {
+    fontSize: 14,
+    paddingLeft: 15,
+    marginTop: 10,
+    flex: 1,
+  },
+  cardSectionStyle: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  containerLeft: {
+    flex: 2
+  },
+  containerRigth: {
+    flex: 1
   }
 };
 
