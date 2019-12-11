@@ -4,9 +4,9 @@ import ProductList from '../components/product/ProductList';
 
 class ProductListScreen extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { uid: storeId } = navigation.getParam('store', {});
+    const { uid: storeId, name } = navigation.getParam('store', {});
     return {
-      headerTitle: 'Productos',
+      headerTitle: name,
       headerRight: () => (
         <Icon
           name='ios-add-circle-outline'
@@ -17,12 +17,8 @@ class ProductListScreen extends Component {
     }
   }
 
-  navigateTo = (route) => {
-    this.props.navigation.navigate(route);
-  }
-
   render() {
-    return <ProductList navigation={this.props.navigation} navigateTo={this.navigateTo}/>;
+    return <ProductList navigation={this.props.navigation} />;
   }
 }
 
