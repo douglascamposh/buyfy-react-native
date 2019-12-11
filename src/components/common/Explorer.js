@@ -33,7 +33,14 @@ const renderItems = (items) => {
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     >
-      {items.map(item => <ExplorerItem key={item.uid} label={item.name} image={item.imageName}/>)}
+      {items.map( item => <ExplorerItem
+        key={item.uid}
+        title={item.name}
+        description={item.description}
+        footer={`Bs. ${item.price}`}
+        image={item.imageName}
+        />)
+      }
     </ScrollView>
   )
 }
@@ -45,7 +52,7 @@ const styles = {
     paddingHorizontal: 20
   },
   containerStyle: {
-    height:130,
+    height:170,
     marginTop: 20,
     marginBottom: 20
   }

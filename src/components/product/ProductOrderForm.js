@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { Card, CardSection } from '../common';
 import { Text, Input } from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input';
+import { FontWeight, Size } from '../../constants/Styles';
 
 class ProductOrderForm extends Component {
 
@@ -13,7 +14,7 @@ class ProductOrderForm extends Component {
       <View>
         <Card>
           <CardSection>
-            <Text style={{ fontWeight: 'bold' }}>
+            <Text style={{ fontWeight: FontWeight.titleCard, fontSize: Size.titleCard }}>
               Unidades
             </Text>
           </CardSection>
@@ -43,7 +44,7 @@ class ProductOrderForm extends Component {
         </Card>
         <Card>
           <CardSection>
-            <Text style={{ fontWeight: 'bold' }}>
+            <Text style={styles.titleStyle}>
               ¿Quieres aclarar algo?
             </Text>
           </CardSection>
@@ -59,6 +60,14 @@ class ProductOrderForm extends Component {
     );
   }
 }
+
+const styles = {
+  titleStyle: {
+    fontWeight: FontWeight.titleStyle,
+    fontSize: Size.titleStyle,
+    marginBottom: 10
+  }
+};
 
 const mapStateToProps = (state) => {
   const { quantity, notes } = state.productOrderForm;

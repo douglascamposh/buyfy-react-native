@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
-import { CardSection, AsyncImage} from '../common';
+import { CardSection, AsyncImage } from '../common';
+import { FontWeight, Size } from '../../constants/Styles';
 
 class ProductListItem extends Component {
 
@@ -12,23 +13,25 @@ class ProductListItem extends Component {
     const {name, description, price, imageName} = this.props.product;
     const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
     return(
-      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}> 
-        <CardSection style={styles.cardSectionStyle}>
-          <View style={styles.containerLeft}>
-            <Text style={styles.titleStyle}>
-              {name}
-            </Text>
-            <Text style={styles.contentStyle}>
-              {description}
-            </Text>
-            <Text style={styles.titleStyle}>
-              Bs. {price}
-            </Text>
-          </View>
-          <View style={styles.containerRigth}>
-            <AsyncImage image={imageRoute} style={{ flex: 1, resizeMode: 'contain' }} ></AsyncImage>
-          </View>
-        </CardSection>
+      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
+        <View>
+          <CardSection style={styles.cardSectionStyle}>
+            <View style={styles.containerLeft}>
+              <Text style={styles.titleStyle}>
+                {name}
+              </Text>
+              <Text numberOfLines={2} style={styles.descriptionStyle}>
+                {description}
+              </Text>
+              <Text style={styles.titleStyle}>
+                Bs. {price}
+              </Text>
+            </View>
+            <View style={styles.containerRigth}>
+              <AsyncImage image={imageRoute} style={styles.imageStyle} ></AsyncImage>
+            </View>
+          </CardSection>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -36,17 +39,18 @@ class ProductListItem extends Component {
 
 const styles = {
   titleStyle: {
-    fontSize: 14,
+    fontSize: Size.titleCard,
     paddingLeft: 15,
     marginTop: 10,
     flex: 1,
-    fontWeight: 'bold',
+    fontWeight: FontWeight.titleCard,
   },
-  contentStyle: {
-    fontSize: 14,
+  descriptionStyle: {
+    fontSize: Size.descriptionCard,
     paddingLeft: 15,
     marginTop: 10,
     flex: 1,
+    fontWeight: FontWeight.descriptionCard,
   },
   cardSectionStyle: {
     flexDirection: 'row',
@@ -58,6 +62,11 @@ const styles = {
   },
   containerRigth: {
     flex: 1
+  },
+  imageStyle: {
+    flex: 1,
+    borderRadius: 5,
+    overflow: 'hidden'
   }
 };
 

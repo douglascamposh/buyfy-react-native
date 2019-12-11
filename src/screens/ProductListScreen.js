@@ -17,8 +17,12 @@ class ProductListScreen extends Component {
     }
   }
 
+  navigateTo = (route) => {
+    this.props.navigation.navigate(route);
+  }
+
   render() {
-    return <ProductList navigation={this.props.navigation}/>;
+    return <ProductList navigation={this.props.navigation} navigateTo={this.navigateTo}/>;
   }
 }
 

@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, FlatList } from 'react-native';
+import { ScrollView, FlatList, View } from 'react-native';
 import { productsFetch, productsFetchByStoreId } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card } from '../common';
+import { Explorer, Card, FloatButton } from '../common';
 
 class ProductList extends Component {
   componentWillMount() {
@@ -24,8 +24,13 @@ class ProductList extends Component {
     return <ProductListItem product={product} productDetailOnClick={this.productDetailOnClick}/>
   }
 
+  viewOrder() {
+    this.props.navigateTo('orderList');
+  }
+
   render() {
     return (
+      <View style={styles.container}>
       <ScrollView>
         <Card>
           <Explorer data={this.props.products}/>
@@ -37,8 +42,18 @@ class ProductList extends Component {
           keyExtractor={({uid}) => String(uid)}
         />
       </ScrollView>
+      <FloatButton text={'Mi pedido'} onPress={this.viewOrder.bind(this)} />
+      </View>
     );
   }
+}
+
+const styles = {
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
 }
 
 const mapStateToProps = state => {

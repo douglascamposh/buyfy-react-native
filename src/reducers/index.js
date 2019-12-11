@@ -4,11 +4,13 @@ import ProductFormReducer from './ProductFormReducer';
 import ProductOrderForm from './ProductOrderFormReducer';
 import StoreReducer from './StoreReducer';
 import StoreFormReducer from './StoreFormReducer';
+import OrderReducer from './OrderReducer';
 
 export default combineReducers({
     products: ProductReducer,
     productForm: ProductFormReducer,
     productOrderForm: ProductOrderForm,
     stores: StoreReducer,
-    storeForm: StoreFormReducer
+    storeForm: StoreFormReducer,
+    orders: OrderReducer
 });

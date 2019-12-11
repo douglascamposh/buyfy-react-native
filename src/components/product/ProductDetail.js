@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, AsyncTile, FloatButton } from '../common';
-import { Dimensions, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Text } from 'react-native-elements';
 import ProductOrderForm from './ProductOrderForm';
 import { productOrderCreate } from '../../actions';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
-const deviceWidth = Dimensions.get('window').width;
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { FontWeight, Size } from '../../constants/Styles';
 
 class ProductDetail extends Component {
 
@@ -16,7 +15,7 @@ class ProductDetail extends Component {
     const {quantity, notes} = this.props;
     this.props.productOrderCreate({quantity, notes, price, productId});
     this.props.navigateTo('productList');
-  } 
+  }
 
   render() {
     const { product } = this.props;
@@ -39,7 +38,7 @@ class ProductDetail extends Component {
           <ProductOrderForm {...this.props}/>
           </KeyboardAwareScrollView>
         </ScrollView>
-        <FloatButton text={'Agregar a pedido'} onPress={this.addToOrder.bind(this)}/>
+        <FloatButton text={'Mi pedido'} onPress={this.addToOrder.bind(this)}/>
       </View>
     );
   }
@@ -52,7 +51,8 @@ const styles = {
     flexWrap: 'wrap'
   },
   textStyle: {
-    fontWeight: 'bold',
+    fontWeight: FontWeight.footerTile,
+    fontSize: Size.footerTile,
     marginBottom: 10
   }
 };

@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { AsyncImage } from './AsyncImage';
 
 const ExplorerItem = (props) => {
-  const { boxStyle, imageStyle, labelStyle } = styles;
+  const { boxStyle, imageStyle, labelStyle, titleStyle, descriptionStyle } = styles;
   const imageRoute = props.image ? `images/${props.image}` : 'regalo.jpg';
   return (
     <View style={ boxStyle }>
@@ -14,7 +14,9 @@ const ExplorerItem = (props) => {
         />
       </View>
       <View style={ labelStyle }>
-        <Text>{props.label}</Text>
+        <Text style={titleStyle}>{props.title}</Text>
+        <Text numberOfLines={2} style={descriptionStyle}>{props.description}</Text>
+        <Text style={titleStyle}>{props.footer}</Text>
       </View>
     </View>
   );
@@ -25,19 +27,25 @@ const styles = {
     height: 130,
     width: 130,
     marginLeft: 20,
-    borderWidth: 0.5,
-    borderColor: '#dddddd'
   },
   imageStyle: {
     flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
+    borderRadius: 5,
+    overflow: 'hidden'
   },
   labelStyle: {
     flex: 1,
     paddingLeft: 10,
     paddingTop: 10
+  },
+  titleStyle: {
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  descriptionStyle: {
+    fontSize: 14,
+    fontWeight: '300',
   }
 };
 

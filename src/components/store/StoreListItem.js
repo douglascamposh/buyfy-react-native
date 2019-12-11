@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements'
 import { CardSection, AsyncImage} from '../common';
+import { FontWeight, Size } from '../../constants/Styles';
 
 class StoreListItem extends Component {
 
@@ -15,14 +15,18 @@ class StoreListItem extends Component {
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
         <View>
-          <CardSection>
-            <Text style={styles.titleStyle}>
-              {name}
-            </Text>
-            <Text style={styles.titleStyle}>
-              {deliveryTime} min - Bs. {deliveryPrice} envio
-            </Text>
-            <AsyncImage image={imageRoute} style={{width: '100%', height: 50, resizeMode: 'contain'}} ></AsyncImage>
+          <CardSection style={styles.cardSectionStyle}>
+            <View style={styles.containerLeft}>
+              <Text style={styles.titleStyle}>
+                {name}
+              </Text>
+              <Text numberOfLines={2} style={styles.descriptionStyle}>
+                {deliveryTime} min - Bs. {deliveryPrice} envio
+              </Text>
+            </View>
+            <View style={styles.containerRigth}>
+              <AsyncImage image={imageRoute} style={styles.imageStyle}></AsyncImage>
+            </View>
           </CardSection>
         </View>
       </TouchableWithoutFeedback>
@@ -32,8 +36,34 @@ class StoreListItem extends Component {
 
 const styles = {
   titleStyle: {
-    fontSize: 18,
-    paddingLeft: 15
+    fontSize: Size.titleCard,
+    paddingLeft: 15,
+    marginTop: 10,
+    flex: 1,
+    fontWeight: FontWeight.titleCard,
+  },
+  descriptionStyle: {
+    fontSize: Size.descriptionCard,
+    paddingLeft: 15,
+    marginTop: 10,
+    flex: 1,
+    fontWeight: FontWeight.descriptionCard,
+  },
+  cardSectionStyle: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  containerLeft: {
+    flex: 2
+  },
+  containerRigth: {
+    flex: 1
+  },
+  imageStyle: {
+    flex: 1,
+    borderRadius: 5,
+    overflow: 'hidden'
   }
 };
 
