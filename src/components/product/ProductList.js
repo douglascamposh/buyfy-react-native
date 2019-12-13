@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, FlatList, View, Text } from 'react-native';
-import { productsFetch, productsFetchByStoreId } from '../../actions';
+import { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreId } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Explorer, Card, FloatButton, AsyncTile } from '../common';
 
@@ -11,13 +11,15 @@ class ProductList extends Component {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     this.props.productsFetchByStoreId(store.uid);
+    this.props.orderFetchByUserIdAndStoreId(store.uid);
   }
 
   componentWillReceiveProps(nextProps) {
   }
 
   productDetailOnClick = (product) => {
-    this.props.navigation.navigate('productDetail', { product });
+    const {order} = this.props;
+    this.props.navigation.navigate('productDetail', { product, order });
   }
 
   renderItem = ({item: product}) => {
@@ -25,7 +27,8 @@ class ProductList extends Component {
   }
 
   viewOrder() {
-    this.props.navigation.navigate('orderList');
+    const { uid: orderId } = this.props.order;
+    this.props.navigation.navigate('orderList', { orderId });
   }
 
   render() {
@@ -55,7 +58,9 @@ class ProductList extends Component {
             keyExtractor={({uid}) => String(uid)}
           />
         </ScrollView>
-        <FloatButton text={'Mi pedido'} onPress={this.viewOrder.bind(this)} />
+        {Boolean(this.props.order) && (
+          <FloatButton text={'Mi pedido'} onPress={this.viewOrder.bind(this)}/>
+        )}
       </View>
     );
   }
@@ -73,7 +78,20 @@ const mapStateToProps = state => {
   const products = _.map(state.products, (val, uid) => {
     return {...val, uid};
   });
-  return {products};
+  const orders = _.map(state.order, (val, uid) => {
+    return { ...val, uid };
+  });
+  let order = null;
+  if (orders.length) {
+    const orderItem = _.last(orders);
+    const { storeId, products, uid } = orderItem;
+    const productOrders = _.map(products, (val, uid) => {
+      return { ...val, uid };
+    });
+    order = { uid, storeId, products: productOrders };
+  }  
+
+  return { products, order };
 };
 
-export default connect(mapStateToProps, {productsFetch, productsFetchByStoreId})(ProductList);
+export default connect(mapStateToProps, { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreId})(ProductList);

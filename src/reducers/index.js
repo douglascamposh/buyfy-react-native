@@ -12,5 +12,5 @@ export default combineReducers({
     productOrderForm: ProductOrderForm,
     stores: StoreReducer,
     storeForm: StoreFormReducer,
-    orders: OrderReducer
+    order: OrderReducer
 });

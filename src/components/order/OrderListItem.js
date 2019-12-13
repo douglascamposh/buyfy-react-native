@@ -10,16 +10,16 @@ class OrderListItem extends Component {
   }
 
   render() {
-    const { price, quantity } = this.props.order;
+    const { price, quantity, name, description } = this.props.product;
     return (
       <View>
         <CardSection style={styles.cardSectionStyle}>
           <View style={styles.containerLeft}>
             <Text style={styles.titleStyle}>
-              Tacos
+              {name}
             </Text>
             <Text numberOfLines={2} style={styles.descriptionStyle}>
-              Contiene tomate, carne y palta
+              {description}
             </Text>
           </View>
           <View style={styles.containerRigth}>

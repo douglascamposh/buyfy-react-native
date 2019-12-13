@@ -10,7 +10,8 @@ class OrderListScreen extends Component {
   }
 
   render() {
-    return <OrderList navigation={this.props.navigation} />;
+    const orderId = this.props.navigation.getParam('orderId', {});
+    return <OrderList navigation={this.props.navigation} orderId={orderId}/>;
   }
 }
 

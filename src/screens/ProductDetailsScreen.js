@@ -15,7 +15,8 @@ class ProductDetailScreen extends Component {
 
   render() {
     const product = this.props.navigation.getParam('product', {});
-    return <ProductDetail navigateTo={this.navigateTo} product={product}/>;
+    const order = this.props.navigation.getParam('order', {});
+    return <ProductDetail navigateTo={this.navigateTo} product={product} order={order}/>;
   }
 }
 

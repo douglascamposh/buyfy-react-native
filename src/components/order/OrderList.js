@@ -2,21 +2,21 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, FlatList, View } from 'react-native';
-import { ordersFetchByUserId } from '../../actions';
+import { orderFetchByOrderId } from '../../actions';
 import OrderListItem from './OrderListItem';
 
 class OrderList extends Component {
   componentWillMount() {
-    const { navigation } = this.props;
-    //const userId = navigation.getParam('userId', {});
-    this.props.ordersFetchByUserId();
+    const { navigation, orderId } = this.props;
+    //const userId = navigation.getParam('userId', {})
+    this.props.orderFetchByOrderId(orderId);
   }
 
-  removeProductOrderOnClick = (orderId) => {
+  removeProductOrderOnClick = (productId) => {
   }
 
-  renderItem = ({ item: order }) => {
-    return <OrderListItem order={order} removeProductOrderOnClick={this.removeProductOrderOnClick} />
+  renderItem = ({ item: product }) => {
+    return <OrderListItem product={product} removeProductOrderOnClick={this.removeProductOrderOnClick} />
   }
 
   render() {
@@ -25,7 +25,7 @@ class OrderList extends Component {
         <FlatList
           enableEmptySections
           renderItem={this.renderItem}
-          data={this.props.orders}
+          data={this.props.order.products}
           keyExtractor={({ uid }) => String(uid)}
         />
       </ScrollView>
@@ -34,10 +34,12 @@ class OrderList extends Component {
 }
 
 const mapStateToProps = state => {
-  const orders = _.map(state.orders, (val, uid) => {
+  const { storeId } = state.order;
+  const products = _.map(state.order.products, (val, uid) => {
     return { ...val, uid };
   });
-  return { orders };
+  const order = { storeId, products: products};
+  return { order };
 };
 
-export default connect(mapStateToProps, { ordersFetchByUserId })(OrderList);
+export default connect(mapStateToProps, { orderFetchByOrderId })(OrderList);
