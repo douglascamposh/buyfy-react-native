@@ -12,16 +12,8 @@ class ProductDetail extends Component {
 
   addToOrder() {
     const { uid: productId, price, storeId, name, description } = this.props.product;
-    const { quantity, notes, order } = this.props;
-    if (Boolean(order)) {
-      const { uid: orderId } = order;
-      delete order.uid;
-      order.products[productId] = { price, quantity, notes, name, description };
-      console.info('Order create:', order);
-      this.props.productOrderUpdate(orderId, order); //add async and loading
-    } else {
-      this.props.productOrderCreate({ products: { [productId]: { quantity, notes, price, name, description }}, storeId });
-    }
+    const { quantity, notes } = this.props;
+    this.props.productOrderCreate({ productId, quantity, notes, price, name, description, storeId });
     this.props.navigateTo('productList');
   }
 
@@ -46,7 +38,7 @@ class ProductDetail extends Component {
           <ProductOrderForm {...this.props}/>
           </KeyboardAwareScrollView>
         </ScrollView>
-        <FloatButton text={'Mi pedido'} onPress={this.addToOrder.bind(this)}/>
+        <FloatButton text={'Agregar a mi pedido'} onPress={this.addToOrder.bind(this)}/>
       </View>
     );
   }

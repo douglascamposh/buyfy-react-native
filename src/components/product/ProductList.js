@@ -14,12 +14,8 @@ class ProductList extends Component {
     this.props.orderFetchByUserIdAndStoreId(store.uid);
   }
 
-  componentWillReceiveProps(nextProps) {
-  }
-
   productDetailOnClick = (product) => {
-    const {order} = this.props;
-    this.props.navigation.navigate('productDetail', { product, order });
+    this.props.navigation.navigate('productDetail', { product });
   }
 
   renderItem = ({item: product}) => {
@@ -27,8 +23,9 @@ class ProductList extends Component {
   }
 
   viewOrder() {
-    const { uid: orderId } = this.props.order;
-    this.props.navigation.navigate('orderList', { orderId });
+    //const { uid: orderId } = this.props.order;
+    const { storeId } = _.last(this.props.products)
+    this.props.navigation.navigate('orderList', { storeId });
   }
 
   render() {
@@ -58,8 +55,8 @@ class ProductList extends Component {
             keyExtractor={({uid}) => String(uid)}
           />
         </ScrollView>
-        {Boolean(this.props.order) && (
-          <FloatButton text={'Mi pedido'} onPress={this.viewOrder.bind(this)}/>
+        { Boolean(this.props.orders.length) && (
+          <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)}/>
         )}
       </View>
     );
@@ -81,17 +78,8 @@ const mapStateToProps = state => {
   const orders = _.map(state.order, (val, uid) => {
     return { ...val, uid };
   });
-  let order = null;
-  if (orders.length) {
-    const orderItem = _.last(orders);
-    const { storeId, products, uid } = orderItem;
-    const productOrders = _.map(products, (val, uid) => {
-      return { ...val, uid };
-    });
-    order = { uid, storeId, products: productOrders };
-  }  
 
-  return { products, order };
+  return { products, orders };
 };
 
 export default connect(mapStateToProps, { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreId})(ProductList);
