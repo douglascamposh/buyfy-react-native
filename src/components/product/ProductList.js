@@ -5,8 +5,10 @@ import { ScrollView, FlatList, View, Text } from 'react-native';
 import { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreId } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Explorer, Card, FloatButton, AsyncTile } from '../common';
+import { FontWeight, Size, Colors } from '../../constants/Styles';
 
 class ProductList extends Component {
+
   componentWillMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
@@ -37,7 +39,7 @@ class ProductList extends Component {
         <ScrollView>
           <Card>
             <AsyncTile image={imageRoute} title={store.name}>
-              <Text style={{ marginBottom: 10 }}>
+              <Text style={styles.textStyle}>
                 Tiempo de entrega aproximado {store.deliveryTime}
               </Text>
               <Text style={styles.textStyle}>
@@ -69,6 +71,12 @@ const styles = {
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
+  textStyle: {
+    fontSize: Size.descriptionCard,
+    marginTop: 10,
+    fontWeight: FontWeight.descriptionCard,
+    color: Colors.secondaryText
+  }
 }
 
 const mapStateToProps = state => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import { CardSection, AsyncImage } from '../common';
-import { FontWeight, Size } from '../../constants/Styles';
+import { FontWeight, Size, Colors } from '../../constants/Styles';
 
 class ProductListItem extends Component {
 
@@ -51,6 +51,7 @@ const styles = {
     marginTop: 10,
     flex: 1,
     fontWeight: FontWeight.descriptionCard,
+    color: Colors.secondaryText
   },
   cardSectionStyle: {
     flexDirection: 'row',

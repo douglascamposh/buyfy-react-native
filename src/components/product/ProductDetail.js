@@ -6,7 +6,7 @@ import { Text } from 'react-native-elements';
 import ProductOrderForm from './ProductOrderForm';
 import { productOrderCreate, productOrderUpdate } from '../../actions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { FontWeight, Size } from '../../constants/Styles';
+import { FontWeight, Size, Colors } from '../../constants/Styles';
 
 class ProductDetail extends Component {
 
@@ -27,7 +27,7 @@ class ProductDetail extends Component {
           <KeyboardAwareScrollView>
           <Card>
             <AsyncTile image={imageRoute} title={name}>
-              <Text style={{marginBottom: 10}}>
+              <Text style={styles.descriptionStyle}>
                 {description}
               </Text>
               <Text style={styles.textStyle}>
@@ -54,6 +54,10 @@ const styles = {
     fontWeight: FontWeight.footerTile,
     fontSize: Size.footerTile,
     marginBottom: 10
+  },
+  descriptionStyle: {
+    marginBottom: 10,
+    color: Colors.secondaryText
   }
 };
 

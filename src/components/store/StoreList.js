@@ -6,6 +6,7 @@ import { storesFetch } from '../../actions';
 import StoreListItem from './StoreListItem';
 
 class StoreList extends Component {
+
   componentWillMount() {
     this.props.storesFetch();
   }

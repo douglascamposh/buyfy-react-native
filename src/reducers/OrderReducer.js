@@ -1,4 +1,4 @@
-import { ORDER_FETCH_SUCCESS, ORDERS_FETCH_SUCCESS } from '../actions/types';
+import { ORDER_FETCH_SUCCESS, ORDERS_FETCH_SUCCESS, ORDER_DELETED_SUCCESS } from '../actions/types';
 
 const INITIAL_STATE = {};
 

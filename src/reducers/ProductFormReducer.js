@@ -6,7 +6,7 @@ import {
 const INITIAL_STATE = {
   name: '',
   description: '',
-  price: '',
+  price: 0,
   imageName: ''
 };
 

@@ -1,11 +1,7 @@
 export const Colors = {
-  tabIconDefault: '#959292',
-  tabBar: '#fefefe',
-  errorBackground: 'red',
-  errorText: '#fff',
-  warningBackground: '#EAEB5E',
-  warningText: '#666804',
-  noticeText: '#fff'
+  primaryRed: '#cc0000',
+  primaryText: '#000000',
+  secondaryText: '#595959'
 };
 
 export const Size = {

@@ -36,9 +36,9 @@ class ProductForm extends Component {
         <CardSection>
           <Input
             label="Precio"
-            placeholder="0.00 Bs."
             value={this.props.price}
             onChangeText={value => this.props.productUpdateForm({prop: 'price', value})}
+            numeric
           />
         </CardSection>
         <CardSection>

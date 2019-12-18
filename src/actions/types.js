@@ -12,3 +12,4 @@ export const STORE_UPDATE_FORM = 'store_update_form';
 
 export const ORDERS_FETCH_SUCCESS = 'orders_fetch_success';
 export const ORDER_FETCH_SUCCESS = 'order_fetch_success';
+export const ORDER_DELETED_SUCCESS = 'order_deleted_success';
