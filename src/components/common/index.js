@@ -10,3 +10,5 @@ export * from './AsyncImage';
 export * from './Explorer';
 export * from './AsyncTile';
 export * from './FloatButton';
+export * from './Title';
+export * from './Content';

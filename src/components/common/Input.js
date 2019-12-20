@@ -1,6 +1,8 @@
 import React from 'react';
 import {TextInput, View, Text} from 'react-native';
 import NumericInput from 'react-native-numeric-input';
+import { FontWeight, Size, Colors } from '../../constants/Styles';
+import { Title } from './Title';
 
 const Input = ({label, value, onChangeText, placeholder, secureTextEntry, numeric = false}) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
@@ -26,7 +28,7 @@ const Input = ({label, value, onChangeText, placeholder, secureTextEntry, numeri
   );
   return (
     <View style={containerStyle}>
-      <Text style={labelStyle}>{label}</Text>
+      <Title>{label}</Title>
       {input}
     </View>
   );
@@ -34,23 +36,17 @@ const Input = ({label, value, onChangeText, placeholder, secureTextEntry, numeri
 
 const styles = {
   inputStyle: {
-    color: '#000',
-    paddingRight: 5,
-    paddingLeft: 5,
-    fontSize: 18,
-    lineHeight: 23,
-    flex: 2
-  },
-  labelStyle: {
-    paddingLeft: 20,
-    fontSize: 18,
-    flex: 1
+    fontSize: Size.descriptionCard,
+    paddingLeft: 15,
+    marginTop: 10,
+    flex: 2,
+    fontWeight: FontWeight.descriptionCard,
+    color: Colors.secondaryText
   },
   containerStyle: {
-    height: 40,
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    flex: 1,
+    justifyContent: 'space-between',
   }
 };
 export {Input};
