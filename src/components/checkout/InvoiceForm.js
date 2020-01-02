@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { invoiceUpdateForm } from '../../actions';
 import { CardSection, Input, Card, Title, Content } from '../common';
-import { FontWeight, Size, Colors } from '../../constants/Styles';
 
 class InvoiceForm extends Component {
 
@@ -67,8 +66,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { deliveryAddress, nit, orders, deliveryPrice } = state.invoiceForm;
-  return { deliveryAddress, nit, orders, deliveryPrice };
+  const { deliveryAddress, nit, deliveryPrice } = state.invoiceForm;
+  return { deliveryAddress, nit, deliveryPrice };
 }
 
 export default connect(mapStateToProps, { invoiceUpdateForm })(InvoiceForm);

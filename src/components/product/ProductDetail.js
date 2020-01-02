@@ -4,7 +4,7 @@ import { Card, AsyncTile, FloatButton } from '../common';
 import { View, ScrollView } from 'react-native';
 import { Text } from 'react-native-elements';
 import ProductOrderForm from './ProductOrderForm';
-import { productOrderCreate, productOrderUpdate } from '../../actions';
+import { orderCreate } from '../../actions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FontWeight, Size, Colors } from '../../constants/Styles';
 
@@ -13,7 +13,7 @@ class ProductDetail extends Component {
   addToOrder() {
     const { uid: productId, price, storeId, name, description } = this.props.product;
     const { quantity, notes } = this.props;
-    this.props.productOrderCreate({ productId, quantity, notes, price, name, description, storeId });
+    this.props.orderCreate({ productId, quantity, notes, price, name, description, storeId });
     this.props.navigateTo('productList');
   }
 
@@ -66,4 +66,4 @@ const mapStateToProps = (state) => {
   return { quantity, notes };
 }
 
-export default connect(mapStateToProps, { productOrderCreate, productOrderUpdate })(ProductDetail);
+export default connect(mapStateToProps, { orderCreate })(ProductDetail);

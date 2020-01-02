@@ -1,5 +1,11 @@
 import firebase from 'firebase';
-import { ORDERS_FETCH_SUCCESS, ORDER_FETCH_SUCCESS, ORDER_DELETED_SUCCESS } from './types';
+import {
+  ORDERS_FETCH_SUCCESS,
+  ORDER_FETCH_SUCCESS,
+  ORDER_DELETED_SUCCESS,
+  PRODUCT_CREATE_ORDER,
+  PRODUCT_UPDATE_ORDER } from './types';
+import { orderStates } from '../constants/Enum';
 
 export const orderFetchByUserIdAndStoreId = (storeId) => {
   return (dispatch) => {
@@ -29,6 +35,35 @@ export const deleteOrder = (orderId) => {
       })
       .catch(error => {
         console.warn("Error at remove the Order", error);
+      });
+  };
+};
+
+export const orderCreate = (order) => {
+  order.state = orderStates.draft;
+  return (dispatch) => {
+    firebase.database().ref(`/orders`)
+      .push(order) //filter should by storeId and UserId
+      .then(() => {
+        console.info(`Order Created`);
+        dispatch({ type: PRODUCT_CREATE_ORDER });
+      })
+      .catch(error => {
+        console.warn("It was not add the order", error);
+      });
+  };
+};
+
+export const orderUpdate = (orderId, { ...order }) => {
+  return (dispatch) => {
+    firebase.database().ref(`/orders/${orderId}`)
+      .set(order)
+      .then(() => {
+        console.info(`Updated order, orderId: ${orderId}`);
+        dispatch({ type: PRODUCT_UPDATE_ORDER });
+      })
+      .catch(error => {
+        console.warn("Error at update the Order", error);
       });
   };
 };

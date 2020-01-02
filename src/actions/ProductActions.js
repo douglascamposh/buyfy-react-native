@@ -4,8 +4,6 @@ import {
   PRODUCT_FETCH_SUCCESS,
   PRODUCT_CREATE,
   PRODUCT_UPDATE_FORM,
-  PRODUCT_CREATE_ORDER,
-  PRODUCT_UPDATE_ORDER
 } from './types';
 
 export const productsFetch = () => {
@@ -59,32 +57,4 @@ export const productUpdateForm = ({prop, value}) => {
     type: PRODUCT_UPDATE_FORM,
     payload: {prop, value}
   }
-};
-
-export const productOrderCreate = (order) => {
-  return (dispatch) => {
-    firebase.database().ref(`/orders`)
-      .push(order) //filter should by storeId and UserId
-    .then(() => {
-      console.info(`Order Created`);
-      dispatch({type: PRODUCT_CREATE_ORDER});
-    })
-    .catch(error => {
-      console.warn("It was not add the order", error);
-    });
-  };
-};
-
-export const productOrderUpdate = (orderId, { ...order }) => {
-  return (dispatch) => {
-    firebase.database().ref(`/orders/${orderId}`)
-      .set(order)
-      .then(() => {
-        console.info(`Updated order, orderId: ${orderId}`);
-        dispatch({ type: PRODUCT_UPDATE_ORDER });
-      })
-      .catch(error => {
-        console.warn("Error at update the Order", error);
-      });
-  };
 };
