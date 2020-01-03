@@ -4,47 +4,47 @@ import { Spinner } from './Spinner';
 import firebase from 'firebase';
 
 class AsyncImage extends Component {
-
+  
+  _isMounted = false;
+  
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      mounted: true,
       image: "",
       url: ""
     }
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.getAndLoadHttpUrl();
   }
 
-  async getAndLoadHttpUrl() {
-    if (this.state.mounted) {
-      const ref = firebase.storage().ref(this.props.image);
-      ref.getDownloadURL().then(data => {
-        this.setState({ url: data, loading: false, mounted: true });
-      }).catch(error => {
-        this.setState({ url: "regalo.jpg", loading: false });
-      })
-    }
+  
+  getAndLoadHttpUrl() {
+    const ref = firebase.storage().ref(this.props.image);
+    ref.getDownloadURL().then(data => {
+      if (this._isMounted) {
+        this.setState({ url: data, loading: false });
+      }
+    }).catch(error => {
+      this.setState({ url: "regalo.jpg", loading: false });
+    });
   }
 
   componentWillUnmount() {
-    this.setState({ isMounted: false });
+    this._isMounted = false;
   }
 
   render() {
-    if (this.state.mounted) {
-      if (this.state.loading) {
-        return <Spinner size="large"/>;
-      }
-      return (
-        <Image style={this.props.style} source={{uri: this.state.url}} />
-      );
+    if (this.state.loading) {
+      return <Spinner size="large"/>;
     }
-    return null;
+    return (
+      <Image style={this.props.style} source={{uri: this.state.url}} />
+    );
   }
 }
 
-export {AsyncImage};
+export { AsyncImage };
