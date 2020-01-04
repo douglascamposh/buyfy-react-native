@@ -3,15 +3,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, FlatList, Text, View } from 'react-native';
 import { Card, CardSection, FloatButton } from '../common';
-import { orderFetchByUserIdAndStoreId, deleteOrder } from '../../actions';
+import { orderFetchByUserIdAndStoreIdAndState, deleteOrder } from '../../actions';
 import OrderListItem from './OrderListItem';
 import { FontWeight, Size } from '../../constants/Styles';
+import { orderStates } from './../../constants/Enum';
 
 class OrderList extends Component {
   componentWillMount() {
     const { navigation, storeId } = this.props;
     //const userId = navigation.getParam('userId', {})
-    this.props.orderFetchByUserIdAndStoreId(storeId);
+    this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
   }
 
   deleteProductOrderOnClick = (orderId) => {
@@ -83,4 +84,4 @@ const mapStateToProps = state => {
   return { orders, total };
 };
 
-export default connect(mapStateToProps, { orderFetchByUserIdAndStoreId, deleteOrder })(OrderList);
+export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, deleteOrder })(OrderList);

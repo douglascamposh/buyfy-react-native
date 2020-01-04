@@ -2,10 +2,11 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, FlatList, View, Text } from 'react-native';
-import { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreId } from '../../actions';
+import { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Explorer, Card, FloatButton, AsyncTile } from '../common';
 import { FontWeight, Size, Colors } from '../../constants/Styles';
+import { orderStates } from './../../constants/Enum';
 
 class ProductList extends Component {
 
@@ -13,7 +14,7 @@ class ProductList extends Component {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     this.props.productsFetchByStoreId(store.uid);
-    this.props.orderFetchByUserIdAndStoreId(store.uid);
+    this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
   }
 
   productDetailOnClick = (product) => {
@@ -90,4 +91,4 @@ const mapStateToProps = state => {
   return { products, orders };
 };
 
-export default connect(mapStateToProps, { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreId})(ProductList);
+export default connect(mapStateToProps, { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState})(ProductList);

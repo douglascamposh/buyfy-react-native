@@ -4,5 +4,6 @@ export const orderStates = {
   "received": 3,
   "processed": 4,
   "delivered": 5,
-  "rejected": 6
+  "rejected": 6,
+  "deleted": 7
 }

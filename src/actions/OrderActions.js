@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import _ from 'lodash';
 import {
   ORDERS_FETCH_SUCCESS,
   ORDER_FETCH_SUCCESS,
@@ -7,11 +8,21 @@ import {
   PRODUCT_UPDATE_ORDER } from './types';
 import { orderStates } from '../constants/Enum';
 
-export const orderFetchByUserIdAndStoreId = (storeId) => {
+export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
   return (dispatch) => {
-    firebase.database().ref(`/orders`).orderByChild('storeId').equalTo(storeId) //Todo filter by userId and state too
+    firebase.database().ref(`/orders`).orderByChild('storeId').equalTo(storeId) 
       .on('value', snapshot => {
-        dispatch({ type: ORDERS_FETCH_SUCCESS, payload: snapshot.val() });
+        //Todo filter by userId and state in backend because is not possible in the client
+        const orders = _.map(snapshot.val(), (val, uid) => {
+          return { ...val, uid };
+        });
+        const filteredOrders = orders.filter(order => order.state === state);
+        const ordersObj = {};
+        for (const order of filteredOrders) {
+          ordersObj[order.uid] = order;
+        }
+
+        dispatch({ type: ORDERS_FETCH_SUCCESS, payload: ordersObj });
       });
   };
 };

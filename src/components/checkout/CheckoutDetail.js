@@ -3,16 +3,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { Title, Card, CardSection, FloatButton } from '../common';
-import { orderFetchByUserIdAndStoreId, invoiceCreate } from '../../actions';
+import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate } from '../../actions';
 import InvoiceForm from './InvoiceForm';
 import Invoice from './Invoice';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { orderStates } from './../../constants/Enum';
 
 class CheckoutDetail extends Component {
 
   componentWillMount() {
     const { storeId } = this.props;
-    this.props.orderFetchByUserIdAndStoreId(storeId);
+    this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
   }
 
   confirmOrder = () => {
@@ -70,4 +71,4 @@ const mapStateToProps = state => {
   return { total, deliveryAddress, nit, orders, deliveryPrice };
 };
 
-export default connect(mapStateToProps, { orderFetchByUserIdAndStoreId, invoiceCreate })(CheckoutDetail);
+export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, invoiceCreate })(CheckoutDetail);
