@@ -2,14 +2,23 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
-import { Title, Card, CardSection, FloatButton } from '../common';
+import { Title, Card, CardSection, FloatButton, Button } from '../common';
 import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate } from '../../actions';
 import InvoiceForm from './InvoiceForm';
 import Invoice from './Invoice';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { orderStates } from './../../constants/Enum';
-
+import { Overlay } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
+import { Colors } from '../../constants/Styles';
 class CheckoutDetail extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+    }
+  }
 
   componentWillMount() {
     const { storeId } = this.props;
@@ -18,8 +27,37 @@ class CheckoutDetail extends Component {
 
   confirmOrder = () => {
     const { deliveryAddress, nit, orders, deliveryPrice = 10 } = this.props;// get delivery price from the store or calculate
-    this.props.invoiceCreate({ deliveryAddress, nit, orders, deliveryPrice });
+    //this.props.invoiceCreate({ deliveryAddress, nit, orders, deliveryPrice });
+    this.setState({ isVisible: true });
+  }
+
+  navigateToProductList = () => {
+    this.setState({ isVisible: false });
     this.props.navigation.navigate('productList');
+  }
+
+  //TODO move this modal to components use Modal instead of Overlay component
+  renderModal() {
+    return (
+      <Overlay
+        isVisible={this.state.isVisible}
+        onBackdropPress={this.navigateToProductList}
+      >
+        <View style={styles.modalStyle}>
+          <Icon
+            name='ios-checkmark-circle-outline'
+            type='ionicon'
+            color={Colors.primaryGreen}
+            size={200}
+          />
+          <Title style={[styles.titleStyle, styles.centerContent]}>Orden recibida!</Title>
+          <Title style={styles.centerContent}>Vamos a procesar tu pedido.</Title>
+          <CardSection>
+            <Button style={styles.modalButtonStyle} onPress={this.navigateToProductList}>Ver mi pedido</Button>
+          </CardSection>
+        </View>
+      </Overlay>
+    );
   }
 
   render() {
@@ -29,7 +67,7 @@ class CheckoutDetail extends Component {
           <KeyboardAwareScrollView>
             <Card>
               <CardSection style={styles.cardSectionStyle}>
-                <Title style={styles.titleStyle}>
+                <Title>
                   Pollos Pacocabana
                 </Title>
               </CardSection>
@@ -41,6 +79,7 @@ class CheckoutDetail extends Component {
           </KeyboardAwareScrollView>
         </ScrollView>
         <FloatButton text={'Enviar mi pedido'} onPress={this.confirmOrder} />
+        {this.renderModal()}
       </View>
     );
   }
@@ -56,6 +95,22 @@ const styles = {
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'space-between',
+  },
+  titleStyle: {
+    fontSize: 25,
+    marginTop: 10,
+    color: Colors.primaryText
+  },
+  centerContent: {
+    textAlign: 'center',
+    paddingLeft: 0
+  },
+  modalStyle: {
+    justifyContent: 'center',
+    flex: 1
+  },
+  modalButtonStyle: {
+    color: Colors.primaryRed
   }
 }
 

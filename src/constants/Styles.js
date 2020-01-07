@@ -1,7 +1,8 @@
 export const Colors = {
   primaryRed: '#cc0000',
   primaryText: '#000000',
-  secondaryText: '#595959'
+  secondaryText: '#595959',
+  primaryGreen: '#00b359'
 };
 
 export const Size = {
