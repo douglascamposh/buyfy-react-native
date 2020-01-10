@@ -52,7 +52,7 @@ const styles = {
     paddingHorizontal: 20
   },
   containerStyle: {
-    height:170,
+    height:190,
     marginTop: 20,
     marginBottom: 20
   }

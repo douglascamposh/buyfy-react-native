@@ -2,7 +2,9 @@ export const Colors = {
   primaryRed: '#cc0000',
   primaryText: '#000000',
   secondaryText: '#595959',
-  primaryGreen: '#00b359'
+  primaryGreen: '#00b359',
+  primaryBlue: '#4da6ff',
+  disable: '#595959'
 };
 
 export const Size = {

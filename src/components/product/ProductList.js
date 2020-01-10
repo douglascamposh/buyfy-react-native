@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, FlatList, View, Text } from 'react-native';
+import { ScrollView, FlatList, View } from 'react-native';
 import { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card, FloatButton, AsyncTile } from '../common';
+import { Explorer, Card, FloatButton, AsyncTile, CardSection, Title, Content } from '../common';
 import { FontWeight, Size, Colors } from '../../constants/Styles';
 import { orderStates } from './../../constants/Enum';
+import { Icon } from 'react-native-elements';
 
 class ProductList extends Component {
 
@@ -40,16 +41,31 @@ class ProductList extends Component {
         <ScrollView>
           <Card>
             <AsyncTile image={imageRoute} title={store.name}>
-              <Text style={styles.textStyle}>
+              <Content>
                 Tiempo de entrega aproximado {store.deliveryTime}
-              </Text>
-              <Text style={styles.textStyle}>
+              </Content>
+              <Content>
                 Costo de envio {store.deliveryPrice}
-              </Text>
+              </Content>
             </AsyncTile>
           </Card>
           <Card>
             <Explorer data={this.props.products}/>
+          </Card>
+          <Card>
+            <CardSection>
+              <View>
+                <Title>Estamos procesando tu pedido</Title>
+                <Content>Direccion de pollos pacocabana</Content>
+              </View>
+            </CardSection>
+            <CardSection>
+              <Icon
+                name='ios-timer'
+                type='ionicon'
+              />
+              <Content>20:15 - 22:30</Content>
+            </CardSection>
           </Card>
           <FlatList
             enableEmptySections
@@ -71,12 +87,6 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap'
-  },
-  textStyle: {
-    fontSize: Size.descriptionCard,
-    marginTop: 10,
-    fontWeight: FontWeight.descriptionCard,
-    color: Colors.secondaryText
   }
 }
 

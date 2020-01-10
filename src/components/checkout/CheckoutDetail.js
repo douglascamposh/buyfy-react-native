@@ -36,7 +36,12 @@ class CheckoutDetail extends Component {
     this.props.navigation.navigate('productList');
   }
 
-  //TODO move this modal to components use Modal instead of Overlay component
+  navigateToCurrentProduct = () => {
+    this.setState({ isVisible: false });
+    this.props.navigation.navigate('currentOrder');
+  }
+
+  //TODO move this modal to a screen instead of use Modal
   renderModal() {
     return (
       <Overlay
@@ -53,7 +58,7 @@ class CheckoutDetail extends Component {
           <Title style={[styles.titleStyle, styles.centerContent]}>Orden recibida!</Title>
           <Title style={styles.centerContent}>Vamos a procesar tu pedido.</Title>
           <CardSection>
-            <Button style={styles.modalButtonStyle} onPress={this.navigateToProductList}>Ver mi pedido</Button>
+            <Button style={styles.modalButtonStyle} onPress={this.navigateToCurrentProduct}>Ver mi pedido</Button>
           </CardSection>
         </View>
       </Overlay>

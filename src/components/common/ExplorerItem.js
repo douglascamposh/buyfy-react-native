@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { AsyncImage } from './AsyncImage';
+import { Title } from './Title';
+import { Content } from './Content';
 
 const ExplorerItem = (props) => {
   const { boxStyle, imageStyle, labelStyle, titleStyle, descriptionStyle } = styles;
@@ -14,9 +16,9 @@ const ExplorerItem = (props) => {
         />
       </View>
       <View style={ labelStyle }>
-        <Text style={titleStyle}>{props.title}</Text>
-        <Text numberOfLines={2} style={descriptionStyle}>{props.description}</Text>
-        <Text style={titleStyle}>{props.footer}</Text>
+        <Title style={titleStyle}>{props.title}</Title>
+        <Content numberOfLines={2} style={descriptionStyle}>{props.description}</Content>
+        <Title style={titleStyle}>{props.footer}</Title>
       </View>
     </View>
   );
@@ -24,8 +26,8 @@ const ExplorerItem = (props) => {
 
 const styles = {
   boxStyle: {
-    height: 130,
-    width: 130,
+    height: 160,
+    width: 160,
     marginLeft: 20,
   },
   imageStyle: {
@@ -40,12 +42,12 @@ const styles = {
     paddingTop: 10
   },
   titleStyle: {
-    fontWeight: '600',
-    fontSize: 14,
+    paddingLeft: 0,
+    marginTop: 0,
   },
   descriptionStyle: {
-    fontSize: 14,
-    fontWeight: '300',
+    paddingLeft: 0,
+    marginTop: 0
   }
 };
 
