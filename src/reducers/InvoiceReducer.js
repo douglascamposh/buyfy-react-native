@@ -1,21 +1,11 @@
-import {
-  INVOICE_CREATE,
-  INVOICE_UPDATE_FORM
-} from '../actions/types';
+import { INVOICE_FETCH_SUCCESS } from '../actions/types';
 
-const INITIAL_STATE = {
-  deliveryAddress: '',
-  nit: '',
-  orders: {},
-  deliveryPrice: 0
-};
+const INITIAL_STATE = {};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case INVOICE_CREATE:
-      return INITIAL_STATE;
-    case INVOICE_UPDATE_FORM:
-      return { ...state, [action.payload.prop]: action.payload.value }
+    case INVOICE_FETCH_SUCCESS:
+      return action.payload;
     default:
       return state;
   }

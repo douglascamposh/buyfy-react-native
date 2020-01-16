@@ -2,10 +2,10 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, FlatList, View } from 'react-native';
-import { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
+import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Explorer, Card, FloatButton, AsyncTile, CardSection, Title, Content } from '../common';
-import { FontWeight, Size, Colors } from '../../constants/Styles';
+import InvoiceCard from '../checkout/InvoiceCard';
 import { orderStates } from './../../constants/Enum';
 import { Icon } from 'react-native-elements';
 
@@ -20,6 +20,10 @@ class ProductList extends Component {
 
   productDetailOnClick = (product) => {
     this.props.navigation.navigate('productDetail', { product });
+  }
+
+  invoiceCardOnClick = (invoiceId) => {
+    this.props.navigation.navigate('currentOrder', { invoiceId });
   }
 
   renderItem = ({item: product}) => {
@@ -52,21 +56,9 @@ class ProductList extends Component {
           <Card>
             <Explorer data={this.props.products}/>
           </Card>
-          <Card>
-            <CardSection>
-              <View>
-                <Title>Estamos procesando tu pedido</Title>
-                <Content>Direccion de pollos pacocabana</Content>
-              </View>
-            </CardSection>
-            <CardSection>
-              <Icon
-                name='ios-timer'
-                type='ionicon'
-              />
-              <Content>20:15 - 22:30</Content>
-            </CardSection>
-          </Card>
+          <InvoiceCard
+            onInvoiceCardClick={this.invoiceCardOnClick}
+          />
           <FlatList
             enableEmptySections
             renderItem={this.renderItem}
@@ -101,4 +93,4 @@ const mapStateToProps = state => {
   return { products, orders };
 };
 
-export default connect(mapStateToProps, { productsFetch, productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState})(ProductList);
+export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState})(ProductList);

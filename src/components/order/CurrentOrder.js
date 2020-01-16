@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import { Colors } from '../../constants/Styles';
 
 
-const CurrentOrder = ({  }) => {
+const CurrentOrder = ({ invoice }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -75,7 +75,7 @@ const CurrentOrder = ({  }) => {
               color={Colors.disable}
               iconStyle={styles.iconStyle}
             />
-            <Content style={styles.contentStyle}>Bs. 39</Content>
+            <Content style={styles.contentStyle}>Bs. {invoice.subTotal + invoice.deliveryPrice}</Content>
           </CardSection>
         </Card>
       </ScrollView>

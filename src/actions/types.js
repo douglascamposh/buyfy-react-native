@@ -16,3 +16,4 @@ export const ORDER_DELETED_SUCCESS = 'order_deleted_success';
 
 export const INVOICE_CREATE = 'invoice_create_success';
 export const INVOICE_UPDATE_FORM = 'invoice_update_form';
+export const INVOICE_FETCH_SUCCESS = 'invoice_fetch_success';

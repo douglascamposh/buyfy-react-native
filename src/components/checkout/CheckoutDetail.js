@@ -26,8 +26,8 @@ class CheckoutDetail extends Component {
   }
 
   confirmOrder = () => {
-    const { deliveryAddress, nit, orders, deliveryPrice = 10 } = this.props;// get delivery price from the store or calculate
-    //this.props.invoiceCreate({ deliveryAddress, nit, orders, deliveryPrice });
+    const { deliveryAddress, nit, orders, deliveryPrice = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate
+    this.props.invoiceCreate({ deliveryAddress, nit, orders, deliveryPrice, subTotal, storeId });
     this.setState({ isVisible: true });
   }
 
@@ -38,7 +38,8 @@ class CheckoutDetail extends Component {
 
   navigateToCurrentProduct = () => {
     this.setState({ isVisible: false });
-    this.props.navigation.navigate('currentOrder');
+    const invoiceId = this.props.invoiceId;
+    this.props.navigation.navigate('currentOrder', { invoiceId });
   }
 
   //TODO move this modal to a screen instead of use Modal
@@ -124,11 +125,11 @@ const mapStateToProps = state => {
     return { ...val, uid };
   });
   const orders = _.mapValues(state.order, 'name');
-  const total = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
+  const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
 
-  const { deliveryAddress, nit, deliveryPrice } = state.invoiceForm;
+  const { deliveryAddress, nit, deliveryPrice, invoiceId } = state.invoiceForm;
 
-  return { total, deliveryAddress, nit, orders, deliveryPrice };
+  return { totalOrders, deliveryAddress, nit, orders, deliveryPrice, invoiceId };
 };
 
 export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, invoiceCreate })(CheckoutDetail);

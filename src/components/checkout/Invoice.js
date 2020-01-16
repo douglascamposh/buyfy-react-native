@@ -11,7 +11,7 @@ const Invoice = (props) => {
           Subtotal
         </Title>
         <Title>
-          Bs. {props.total}
+          Bs. {props.totalOrders}
         </Title>
       </CardSection>
       <CardSection style={styles.cardSectionStyle}>
@@ -27,7 +27,7 @@ const Invoice = (props) => {
           Total
         </Title>
         <Title>
-          Bs. {props.total + 10}
+          Bs. {props.totalOrders + 10}
         </Title>
       </CardSection>
     </View>

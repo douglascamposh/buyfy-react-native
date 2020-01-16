@@ -46,7 +46,7 @@ class OrderList extends Component {
                 Subtotal
               </Text>
               <Text style={styles.titleStyle}>
-                Bs. {this.props.total}
+                Bs. {this.props.totalOrders}
               </Text>
             </CardSection>
           </Card>
@@ -80,8 +80,8 @@ const mapStateToProps = state => {
   const orders = _.map(state.order, (val, uid) => {
     return { ...val, uid };
   });
-  const total = _.sumBy(orders, (order) => (order.price * order.quantity) );
-  return { orders, total };
+  const totalOrders = _.sumBy(orders, (order) => (order.price * order.quantity) );
+  return { orders, totalOrders };
 };
 
 export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, deleteOrder })(OrderList);

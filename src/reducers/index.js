@@ -5,7 +5,8 @@ import ProductOrderForm from './ProductOrderFormReducer';
 import StoreReducer from './StoreReducer';
 import StoreFormReducer from './StoreFormReducer';
 import OrderReducer from './OrderReducer';
-import InvoiceReducer from './InvoiceReducer';
+import InvoiceFormReducer from './InvoiceFormReducer';
+import InvoiceReducer from './InvoiceReducer'
 
 export default combineReducers({
     products: ProductReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     stores: StoreReducer,
     storeForm: StoreFormReducer,
     order: OrderReducer,
-    invoiceForm: InvoiceReducer
+    invoiceForm: InvoiceFormReducer,
+    invoices: InvoiceReducer
 });
