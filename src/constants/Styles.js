@@ -14,7 +14,8 @@ export const Size = {
   titleTile: 20,
   descriptiontile: 14,
   footerTile: 16,
-  button: 18
+  button: 18,
+  header: 24
 };
 
 export const FontWeight = {
@@ -24,5 +25,6 @@ export const FontWeight = {
   titleTile: '500',
   descriptiontile: '400',
   footerTile: '500',
-  button: '500'
+  button: '500',
+  header: '700'
 }

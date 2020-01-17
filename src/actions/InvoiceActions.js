@@ -1,5 +1,10 @@
 import firebase from 'firebase';
-import { INVOICE_CREATE, INVOICE_UPDATE_FORM, INVOICE_FETCH_SUCCESS } from './types';
+import {
+  INVOICE_CREATE,
+  INVOICE_UPDATE_FORM,
+  INVOICES_FETCH_SUCCESS,
+  INVOICE_FETCH_SUCCESS
+} from './types';
 import _ from 'lodash';
 import { orderStates, invoiceStates } from '../constants/Enum';
 
@@ -24,7 +29,6 @@ export const invoiceCreate = (invoice) => {
           .catch(error => {
             console.warn('The orders was not updated', error);
           });;
-        console.log("entra aqui????")
         dispatch({ type: INVOICE_CREATE, payload: { invoiceId } });
       })
       .catch(error => {
@@ -37,7 +41,7 @@ export const invoiceFetchByUserId = () => {
   return (dispatch) => {
     firebase.database().ref(`/invoices`)
       .on('value', snapshot => {
-        dispatch({ type: INVOICE_FETCH_SUCCESS, payload: snapshot.val() });
+        dispatch({ type: INVOICES_FETCH_SUCCESS, payload: snapshot.val() });
       });
   };
 };

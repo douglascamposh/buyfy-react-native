@@ -12,3 +12,4 @@ export * from './AsyncTile';
 export * from './FloatButton';
 export * from './Title';
 export * from './Content';
+export * from './Carrousel';
