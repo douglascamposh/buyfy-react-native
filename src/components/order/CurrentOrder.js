@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import { Colors } from '../../constants/Styles';
 import { connect } from 'react-redux';
 import { invoiceFetchById } from '../../actions';
+import { invoiceStates } from '../../constants/Enum';
 import _ from 'lodash';
 
 class CurrentOrder extends Component {
@@ -12,6 +13,21 @@ class CurrentOrder extends Component {
   componentWillMount() {
     const invoiceId = this.props.navigation.getParam('invoiceId', {});
     this.props.invoiceFetchById(invoiceId);
+  }
+
+  getColorByState = (state) => {
+    return { color: this.getColor(state)};
+  }
+  
+  getColor = (state) => {
+    currentState = this.props.invoice.state;
+    if (currentState > state) {
+      return Colors.primaryGreen;
+    }
+    if (currentState == state) {
+      return Colors.primaryBlue;
+    }
+    return Colors.disable;
   }
 
   render() {
@@ -27,37 +43,45 @@ class CurrentOrder extends Component {
               <Icon
                 name='ios-sync'
                 type='ionicon'
-                color={Colors.primaryGreen}
+                color={this.getColor(invoiceStates.created)}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.contentStyle}>Estamos procesando tu pedido</Content>
+              <Content style={[styles.contentStyle, this.getColorByState(invoiceStates.created)]}>
+                Estamos procesando tu pedido
+              </Content>
             </CardSection>
             <CardSection style={styles.cardSectionStyle}>
               <Icon
                 name='ios-home'
                 type='ionicon'
-                color={Colors.primaryBlue}
+                color={this.getColor(invoiceStates.received)}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.contentStyle}>El Local esta preparando tu pedido</Content>
+              <Content style={[styles.contentStyle, this.getColorByState(invoiceStates.received)]}>
+                El Local esta preparando tu pedido
+              </Content>
             </CardSection>
             <CardSection style={styles.cardSectionStyle}>
               <Icon
                 name='ios-bicycle'
                 type='ionicon'
-                color={Colors.disable}
+                color={this.getColor(invoiceStates.processed)}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.contentStyle}>El repartidor esta en camino</Content>
+              <Content style={[styles.contentStyle, this.getColorByState(invoiceStates.processed)]}>
+                El repartidor esta en camino
+              </Content>
             </CardSection>
             <CardSection style={styles.cardSectionStyle}>
               <Icon
                 name='ios-gift'
                 type='ionicon'
-                color={Colors.disable}
+                color={this.getColor(invoiceStates.delivered)}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.contentStyle}>El pedido ya llego</Content>
+              <Content style={[styles.contentStyle, this.getColorByState(invoiceStates.delivered)]}>
+                El pedido ya llego
+                </Content>
             </CardSection>
           </Card>
           <Card>
