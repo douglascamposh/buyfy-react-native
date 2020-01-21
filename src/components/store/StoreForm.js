@@ -34,6 +34,38 @@ class StoreForm extends Component {
           />
         </CardSection>
         <CardSection>
+          <Input
+            label="Direccion"
+            placeholder="Direccion de la tienda"
+            value={this.props.address}
+            onChangeText={value => this.props.storeUpdateForm({ prop: 'address', value })}
+          />
+        </CardSection>
+        <CardSection>
+          <Input
+            label="Tiempo estimado de entrega"
+            value={this.props.price}
+            onChangeText={value => this.props.productUpdateForm({ prop: 'deliveryTime', value })}
+            numeric
+          />
+        </CardSection>
+        <CardSection>
+          <Input
+            label="Costo de envio"
+            value={this.props.deliveryPrice}
+            onChangeText={value => this.props.productUpdateForm({ prop: 'deliveryPrice', value })}
+            numeric
+          />
+        </CardSection>
+        <CardSection>
+          <Input
+            label="Categoria"
+            placeholder="Seleccione una categoria"
+            value={this.props.address}
+            onChangeText={value => this.props.storeUpdateForm({ prop: 'category', value })}
+          />
+        </CardSection>
+        <CardSection>
           <ImagePicker
             onPress={this.onChooseImagePress}
             image={this.props.image}
@@ -47,8 +79,8 @@ class StoreForm extends Component {
 
 
 const mapStateToProps = (state) => {
-  const { name, description, image } = state.storeForm;
-  return { name, description, image };
+  const { name, description, image, address, deliveryTime, deliveryPrice, category } = state.storeForm;
+  return { name, description, image, address, deliveryTime, deliveryPrice, category };
 }
 
 export default connect(mapStateToProps, {storeUpdateForm})(StoreForm);

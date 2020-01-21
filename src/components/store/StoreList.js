@@ -2,9 +2,11 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, ScrollView } from 'react-native';
-import { storesFetch, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
+import { storesFetch } from '../../actions';
 import StoreListItem from './StoreListItem';
 import InvoiceCard from '../checkout/InvoiceCard';
+import { Card } from '../common';
+import RecomendedStores from './RecomendedStores';
 
 class StoreList extends Component {
 
@@ -27,9 +29,14 @@ class StoreList extends Component {
   render() {
     return (
       <ScrollView>
-        <InvoiceCard
-          onInvoiceCardClick={this.invoiceCardOnClick}
-        />
+        <Card>
+          <RecomendedStores stores={this.props.stores}/>
+        </Card>
+        <Card>
+          <InvoiceCard
+            onInvoiceCardClick={this.invoiceCardOnClick}
+          />
+        </Card>
         <FlatList
           enableEmptySections
           renderItem={this.renderItem}

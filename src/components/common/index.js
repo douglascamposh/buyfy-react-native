@@ -13,3 +13,4 @@ export * from './FloatButton';
 export * from './Title';
 export * from './Content';
 export * from './Carrousel';
+export * from './ExplorerItem';

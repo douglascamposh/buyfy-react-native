@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import { invoiceFetchByUserId } from '../../actions';
 import { Card, CardSection, Title, Content, Carrousel } from '../common';
@@ -19,20 +19,24 @@ class InvoiceCard extends Component {
   renderItem = (item) => {
     const onPress = () => this.invoiceOnPress(item);
     return (
-      <Card style={styles.cardStyle} onPress={onPress}>
-        <CardSection>
+      <Card style={styles.cardStyle}>
+        <TouchableWithoutFeedback onPress={onPress}>
           <View>
-            <Title>Estamos procesando tu pedido</Title>
-            <Content>Direccion de pollos pacocabana</Content>
+            <CardSection>
+              <View>
+                <Title>Estamos procesando tu pedido</Title>
+                <Content>Direccion de pollos pacocabana</Content>
+              </View>
+            </CardSection>
+            <CardSection style={styles.cardSectionStyle}>
+              <Icon
+                name='ios-timer'
+                type='ionicon'
+              />
+              <Content>20:15 - 22:30</Content>
+            </CardSection>
           </View>
-        </CardSection>
-        <CardSection style={styles.cardSectionStyle}>
-          <Icon
-            name='ios-timer'
-            type='ionicon'
-          />
-          <Content>20:15 - 22:30</Content>
-        </CardSection>
+        </TouchableWithoutFeedback>
       </Card>
     );
   }

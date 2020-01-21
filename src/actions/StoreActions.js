@@ -32,6 +32,13 @@ export const storeCreate = ({name, description, image}) => {
   };
 };
 
+const uploadImage = async (image, imageName) => {
+  const response = await fetch(image);
+  const blob = await response.blob();
+  const ref = firebase.storage().ref().child(`images/${imageName}`);
+  return ref.put(blob);
+}
+
 export const storeUpdateForm = ({prop, value}) => {
   return {
     type: STORE_UPDATE_FORM,

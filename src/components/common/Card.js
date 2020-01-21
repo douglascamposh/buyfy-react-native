@@ -3,11 +3,9 @@ import { View, TouchableWithoutFeedback } from 'react-native';
 
 const Card = (props) => {
   return (
-    <TouchableWithoutFeedback onPress={props.onPress}>
-      <View style={[styles.containerStyle, props.style]}>
-        {props.children}
-      </View>
-    </TouchableWithoutFeedback>
+    <View style={[styles.containerStyle, props.style]}>
+      {props.children}
+    </View>
   );
 };
 
