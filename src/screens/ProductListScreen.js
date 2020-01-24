@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon } from 'react-native-elements';
+import { HeaderButton } from '../components/common';
 import ProductList from '../components/product/ProductList';
 
 class ProductListScreen extends Component {
@@ -8,11 +8,7 @@ class ProductListScreen extends Component {
     return {
       headerTitle: name,
       headerRight: () => (
-        <Icon
-          name='ios-add-circle-outline'
-          type='ionicon'
-          color='#517fa4'
-          onPress={() => navigation.navigate('createProduct', { storeId })} />
+        <HeaderButton icon='ios-add-circle-outline' onPress={() => navigation.navigate('createProduct', { storeId })} />
       )
     }
   }

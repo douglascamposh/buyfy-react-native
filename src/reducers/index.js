@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import ProductReducer from './ProductReducer';
 import ProductFormReducer from './ProductFormReducer';
 import ProductOrderForm from './ProductOrderFormReducer';
+import StoresReducer from './StoresReducer';
 import StoreReducer from './StoreReducer';
 import StoreFormReducer from './StoreFormReducer';
 import OrderReducer from './OrderReducer';
@@ -13,7 +14,8 @@ export default combineReducers({
     products: ProductReducer,
     productForm: ProductFormReducer,
     productOrderForm: ProductOrderForm,
-    stores: StoreReducer,
+    stores: StoresReducer,
+    store: StoreReducer,
     storeForm: StoreFormReducer,
     order: OrderReducer,
     invoiceForm: InvoiceFormReducer,

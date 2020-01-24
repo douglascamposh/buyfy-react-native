@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FlatList, ScrollView } from 'react-native';
 import { storesFetch } from '../../actions';
 import StoreListItem from './StoreListItem';
-import InvoiceCard from '../checkout/InvoiceCard';
+import InvoiceCards from '../checkout/InvoiceCards';
 import { Card } from '../common';
 import RecomendedStores from './RecomendedStores';
 
@@ -33,7 +33,7 @@ class StoreList extends Component {
           <RecomendedStores stores={this.props.stores}/>
         </Card>
         <Card>
-          <InvoiceCard
+          <InvoiceCards
             onInvoiceCardClick={this.invoiceCardOnClick}
           />
         </Card>

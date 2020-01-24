@@ -28,3 +28,9 @@ export const FontWeight = {
   button: '500',
   header: '700'
 }
+
+export const Padding = {
+  headerLeft: 5,
+  headerRight: 5,
+  headerTop: 5
+}
