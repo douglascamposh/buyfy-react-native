@@ -1,20 +1,19 @@
 import React from 'react';
-import { Text, View, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { Padding } from '../../constants/Styles';
-import { Content } from './Content';
+import { Padding, Size, Colors } from '../../constants/Styles';
 
-const HeaderButton = ({ headerText, icon, onPress }) => {
+const HeaderButton = ({ icon, onPress }) => {
   const { viewStyle } = styles;
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={viewStyle}>
-        <Icon
+        {icon && <Icon
           name={icon}
           type='ionicon'
-          color='#517fa4'
-        />
-        <Content>{headerText}</Content>
+          color={Colors.headerBlue}
+          size={Size.iconHeader}
+        />}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -23,7 +22,8 @@ const HeaderButton = ({ headerText, icon, onPress }) => {
 const styles = {
   viewStyle: {
     paddingLeft: Padding.headerLeft,
-    paddingRight: Padding.headerRight
+    paddingRight: Padding.headerRight,
+    paddingTop: Padding.headerTop
   }
 };
 

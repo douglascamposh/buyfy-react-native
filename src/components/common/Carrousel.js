@@ -11,9 +11,10 @@ const Carrousel = ({ title, data, renderItem, keyExtractor, style }) => {
       scrollEventThrottle={16}
     >
       <View>
-        <Title style={titleStyle}>
-          { title }
+        { title && <Title style={titleStyle}>
+          {title}
         </Title>
+        }
         <View style={[styles.containerStyle, style]}>
           <ScrollView
             horizontal={true}

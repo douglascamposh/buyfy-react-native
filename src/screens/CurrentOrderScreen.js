@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import CurrentOrder from '../components/order/CurrentOrder';
-import { Text, TouchableWithoutFeedback } from 'react-native';
 import { HeaderButton } from '../components/common';
 
 class CurrentOrderScreen extends Component {
@@ -8,7 +7,7 @@ class CurrentOrderScreen extends Component {
     return {
       headerTitle: 'Tu pedido',
       headerLeft: () => (
-        <HeaderButton headerText={'Restaurantes'} onPress={() => navigation.navigate('storeList')} />
+        <HeaderButton icon={'ios-arrow-back'} onPress={() => navigation.navigate('storeList')} />
       )
     }
   }

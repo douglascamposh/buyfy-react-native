@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { HeaderButton } from '../components/common';
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -9,13 +8,7 @@ class NavigationDrawerStructure extends Component {
 
   render() {
     return (
-      <View style={{ flexDirection: 'row' }}>
-        <Icon
-          name='ios-menu'
-          type='ionicon'
-          onPress={this.toggleDrawer.bind(this)}
-        />
-      </View>
+      <HeaderButton icon='ios-menu' onPress={this.toggleDrawer.bind(this)} />
     );
   }
 }

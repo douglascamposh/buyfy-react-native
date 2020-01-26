@@ -1,9 +1,10 @@
 export const Colors = {
-  primaryRed: '#cc0000',
   primaryText: '#000000',
   secondaryText: '#595959',
+  primaryRed: '#cc0000',
   primaryGreen: '#00b359',
   primaryBlue: '#4da6ff',
+  headerBlue: '#0587ff',
   disable: '#595959'
 };
 
@@ -15,7 +16,9 @@ export const Size = {
   descriptiontile: 14,
   footerTile: 16,
   button: 18,
-  header: 24
+  header: 24,
+  iconHeader: 30,
+  textHeader: 16
 };
 
 export const FontWeight = {
@@ -30,7 +33,7 @@ export const FontWeight = {
 }
 
 export const Padding = {
-  headerLeft: 5,
-  headerRight: 5,
-  headerTop: 5
+  headerLeft: 10,
+  headerRight: 10,
+  headerTop: 10
 }
