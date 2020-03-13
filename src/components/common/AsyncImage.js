@@ -17,6 +17,7 @@ class AsyncImage extends Component {
   }
 
   componentDidMount() {
+    console.log("entraaaqa");
     this._isMounted = true;
     this.getAndLoadHttpUrl();
   }
@@ -29,6 +30,7 @@ class AsyncImage extends Component {
         this.setState({ url: data, loading: false });
       }
     }).catch(error => {
+      console.log("AsyncImage > getAndLoadHttpUrl", error);
       this.setState({ url: "regalo.jpg", loading: false });
     });
   }

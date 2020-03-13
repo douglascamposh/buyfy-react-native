@@ -28,6 +28,7 @@ class AsyncTile extends Component {
         this.setState({ url: data, loading: false });
       }
     }).catch(error => {
+      console.log("AsyncTile > getAndLoadHttpUrl", error);
       this.setState({ url: "regalo.jpg", loading: false });
     })
   }
