@@ -20,8 +20,21 @@ class App extends Component {
       appId: "1:490218052808:web:a8d021f6c084695de819fd",
       measurementId: "G-7BSLRN0X6M"
     };
+    const googleAuthConfig = {
+      webClientId: '490218052808-9l5t3quf72ce2c23seocq3elf10dm0g0.apps.googleusercontent.com',
+      secretKey: 'mxbj77NMV1HxNKC2Lyy7Lnbd'
+    };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+
+    auth
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ loggedIn: true })
+      } else {
+        this.setState({ loggedIn: false })
+      }
+    });
   }
 
   async componentDidMount() {

@@ -14,6 +14,7 @@ import StoreCreateScreen from '../screens/StoreCreateScreen';
 import OrderListScreen from '../screens/OrderListScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import CurrentOrderScreen from '../screens/CurrentOrderScreen';
+import AuthenticationScreen from '../screens/AuthenticationScreen';
 
 // const product_StackNavigator = createStackNavigator({
 //   productList: {
@@ -30,7 +31,10 @@ import CurrentOrderScreen from '../screens/CurrentOrderScreen';
 //   }
 // });
 
-const store_StackNavigator = createStackNavigator({
+const store_StackNavigator = createStackNavigator({ // the first page should be the authentication page
+  // authentication: {
+  //   screen: AuthenticationScreen,
+  // },
   storeList: {
     screen: StoreListScreen,
     navigationOptions: ({ navigation }) => ({
