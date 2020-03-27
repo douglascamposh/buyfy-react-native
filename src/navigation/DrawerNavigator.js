@@ -15,6 +15,7 @@ import OrderListScreen from '../screens/OrderListScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import CurrentOrderScreen from '../screens/CurrentOrderScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
+import LoadingScreen from '../screens/auth/LoadingScreen';
 
 // const product_StackNavigator = createStackNavigator({
 //   productList: {
@@ -69,8 +70,17 @@ const store_StackNavigator = createStackNavigator({
 
 const DrawerNavigator = createDrawerNavigator(
   {
+    loading: {
+      screen: LoadingScreen,
+      navigationOptions: {
+        drawerLabel: () => null
+      }
+    },
     auth: {
       screen: AuthScreen,
+      navigationOptions: {
+        drawerLabel: () => null
+      }
     },
     store: {
       screen: store_StackNavigator,

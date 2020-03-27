@@ -5,7 +5,7 @@ import { Spinner } from '../../components/common';
 class LoadingScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'Iniciar sesion'
+      headerTitle: 'Espere por favor'
     }
   }
 

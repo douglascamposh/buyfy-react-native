@@ -5,7 +5,7 @@ class AuthScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: 'Iniciar sesion',
-      title: 'Iniciar sesion',
+      title: null,
     }
   }
 
