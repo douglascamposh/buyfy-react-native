@@ -6,6 +6,7 @@ class StoreListScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: 'Restaurantes',
+      headerTruncatedBackTitle: 'Atras',
       headerRight: () => (
         <HeaderButton icon='ios-add-circle-outline' onPress={() => navigation.navigate('createStore')}/>
       )

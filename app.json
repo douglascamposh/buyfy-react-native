@@ -24,7 +24,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.buyfy.all",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.347797334825-nj4fi4us4n547n36apv91f189b4ka44q"
+        }
+      }
     }
   }
 }

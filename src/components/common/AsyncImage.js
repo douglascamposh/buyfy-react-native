@@ -17,7 +17,6 @@ class AsyncImage extends Component {
   }
 
   componentDidMount() {
-    console.log("entraaaqa");
     this._isMounted = true;
     this.getAndLoadHttpUrl();
   }
