@@ -8,6 +8,17 @@ import firebase from 'firebase';
 import * as Permissions from 'expo-permissions';
 import { firebaseConfig } from './TokenConfig';
 
+//temp fix, know issue only for android
+import { YellowBox } from 'react-native';
+import _ from 'lodash';
+
+YellowBox.ignoreWarnings(['Setting a timer']);
+const _console = _.clone(console);
+console.warn = message => {
+  if (message.indexOf('Setting a timer') <= -1) {
+    _console.warn(message);
+  }
+};
 class App extends Component {
   
   componentWillMount(){

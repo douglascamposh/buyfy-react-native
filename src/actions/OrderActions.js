@@ -10,13 +10,15 @@ import { orderStates } from '../constants/Enum';
 
 export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
   return (dispatch) => {
-    firebase.database().ref(`/orders`).orderByChild('storeId').equalTo(storeId) 
+    const user = firebase.auth().currentUser;
+    const userId = user ? user.uid : '';
+    firebase.database().ref(`/orders`).orderByChild('userId').equalTo(userId)
       .on('value', snapshot => {
         //Todo filter by userId and state in backend because is not possible in the client
         const orders = _.map(snapshot.val(), (val, uid) => {
           return { ...val, uid };
         });
-        const filteredOrders = orders.filter(order => order.state === state);
+        const filteredOrders = orders.filter(order => order.state === state && order.storeId === storeId);
         const ordersObj = {};
         for (const order of filteredOrders) {
           ordersObj[order.uid] = order;
@@ -53,6 +55,8 @@ export const deleteOrder = (orderId) => {
 export const orderCreate = (order) => {
   order.state = orderStates.draft;
   return (dispatch) => {
+    const user = firebase.auth().currentUser;
+    order.userId = user ? user.uid : '';
     firebase.database().ref(`/orders`)
       .push(order) //filter should by storeId and UserId
       .then(() => {
