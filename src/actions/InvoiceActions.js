@@ -10,8 +10,11 @@ import { orderStates, invoiceStates } from '../constants/Enum';
 
 export const invoiceCreate = (invoice) => {
   return (dispatch) => {
+    const user = firebase.auth().currentUser;
+    invoice.userId = user ? user.uid : '';
     invoice.created_at = Date.now();
     invoice.state = invoiceStates.created;
+
     firebase.database().ref(`/invoices`)
       .push(invoice)
       .then((response) => {
@@ -38,8 +41,10 @@ export const invoiceCreate = (invoice) => {
 };
 
 export const invoiceFetchByUserId = () => {
+  const user = firebase.auth().currentUser;
+  const userId = user ? user.uid : '';
   return (dispatch) => {
-    firebase.database().ref(`/invoices`)
+    firebase.database().ref(`/invoices`).orderByChild('userId').equalTo(userId)
       .on('value', snapshot => {
         dispatch({ type: INVOICES_FETCH_SUCCESS, payload: snapshot.val() });
       });
