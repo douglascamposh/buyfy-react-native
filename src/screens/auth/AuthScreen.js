@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Login from '../../components/auth/Login';
+import Auth from '../../components/auth/Auth';
 
 class AuthScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -14,7 +14,7 @@ class AuthScreen extends Component {
   }
 
   render() {
-    return <Login navigateTo={this.navigateTo}/>;
+    return <Auth navigateTo={this.navigateTo}/>
   }
 }
 

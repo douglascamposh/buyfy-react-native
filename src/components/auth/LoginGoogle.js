@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { Card, CardSection, Button } from '../common';
+import { Button } from '../common';
+import { Icon } from 'react-native-elements'
+import { Size, Colors, Padding } from '../../constants/Styles';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import { iosClientId, androidClientId } from '../../../TokenConfig';
 
-class Login extends Component {
+class LoginGoogle extends Component {
 
   isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
-      var providerData = firebaseUser.providerData;
-      for (var i = 0; i < providerData.length; i++) {
+      const providerData = firebaseUser.providerData;
+      for (const i = 0; i < providerData.length; i++) {
         if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
             String(providerData[i].uid) === String(googleUser.user.id)) {
           // We don't need to reauth the Firebase connection.
@@ -22,12 +24,12 @@ class Login extends Component {
 
   onSignIn = (googleUser) => {
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-    var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
+    const unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
       unsubscribe();
       // Check if we are already signed-in Firebase with the correct user.
       if (!this.isUserEqual(googleUser, firebaseUser)) {
         // Build Firebase credential with the Google ID token.
-        var credential = firebase.auth.GoogleAuthProvider.credential(
+        const credential = firebase.auth.GoogleAuthProvider.credential(
           googleUser.idToken,
           googleUser.accessToken
         );
@@ -67,12 +69,12 @@ class Login extends Component {
         })
         .catch(function(error) {
           // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
+          const errorCode = error.code;
+          const errorMessage = error.message;
           // The email of the user's account used.
-          var email = error.email;
+          const email = error.email;
           // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
+          const credential = error.credential;
           console.log('error firebase credentials', error)
         });
       } else {
@@ -92,7 +94,7 @@ class Login extends Component {
       if (result.type === 'success') {
         console.log("Login.js | ", result.user.givenName);
         this.onSignIn(result);
-        this.props.navigateTo(); //after Google login redirect to Profile
+        this.props.navigateTo(); //ToDo: check if we need to pass the route, to be more flexible
         return result.accessToken;
       } else {
         return { cancelled: true };
@@ -105,16 +107,41 @@ class Login extends Component {
 
   render() {
     return (
-      <Card>
-        <CardSection></CardSection>
-        <CardSection>
-          <Button onPress={() => this.signInWithGoogleAsync()}>
-            Iniciar sesion con Google
-          </Button>
-        </CardSection>
-      </Card>
+      <Button
+        style={styles.googleBtn}
+        onPress={() => this.signInWithGoogleAsync()}
+        icon={
+          <Icon
+            name='logo-google'
+            type='ionicon'
+            size={Size.iconInput}
+            color={Colors.primaryBlue}
+            iconStyle={styles.iconStyle}
+          />
+        }  
+      >
+        Continuar con Google
+      </Button>
     );
   }
 }
 
-export default Login;
+const styles = {
+  googleBtn: {
+    width: "80%",
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#007aff',
+    flex: 'none',
+  },
+  iconStyle: {
+    paddingRight: Padding.headerLeft
+  }
+}
+
+export default LoginGoogle;
