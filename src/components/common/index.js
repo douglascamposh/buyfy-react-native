@@ -15,3 +15,4 @@ export * from './Content';
 export * from './Carrousel';
 export * from './ExplorerItem';
 export * from './HeaderButton';
+export * from './GoogleMap';

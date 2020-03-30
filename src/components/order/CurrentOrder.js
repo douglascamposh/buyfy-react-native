@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { CardSection, Title, Card, Content } from '../common';
 import { Icon } from 'react-native-elements';
 import { Colors } from '../../constants/Styles';
@@ -28,6 +28,10 @@ class CurrentOrder extends Component {
       return Colors.primaryBlue;
     }
     return Colors.disable;
+  }
+
+  viewMyOrderPosition = () => {
+    this.props.navigation.navigate('map')
   }
 
   render() {
@@ -95,7 +99,10 @@ class CurrentOrder extends Component {
                 color={Colors.disable}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.contentStyle}>Ver en el mapa</Content>
+              {/* Todo: verify if the rider is delivering */}
+              <TouchableOpacity onPress={this.viewMyOrderPosition}>
+                <Content style={styles.contentStyle}>Ver en el mapa</Content>
+              </TouchableOpacity>
             </CardSection>
           </Card>
           <Card>
