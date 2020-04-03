@@ -16,6 +16,7 @@ import CheckoutScreen from '../screens/CheckoutScreen';
 import CurrentOrderScreen from '../screens/CurrentOrderScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
 import LoadingScreen from '../screens/auth/LoadingScreen';
+import MapScreen from '../screens/MapScreen';
 
 // const product_StackNavigator = createStackNavigator({
 //   productList: {
@@ -65,6 +66,9 @@ const store_StackNavigator = createStackNavigator({
   },
   currentOrder: {
     screen: CurrentOrderScreen
+  },
+  map: {
+    screen: MapScreen
   }
 });
 

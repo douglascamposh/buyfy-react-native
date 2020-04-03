@@ -28,6 +28,7 @@ class App extends Component {
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    await Permissions.askAsync(Permissions.LOCATION);
   }
 
   render() {
