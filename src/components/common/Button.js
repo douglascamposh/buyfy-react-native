@@ -6,26 +6,28 @@ import { Colors, Padding } from '../../constants/Styles';
 const Button = (props) => {
     const styles = {
         textStyle: {
-            alignSelf: 'center',
-            color: Colors.primaryBlue,
-            paddingTop: Padding.buttonTop,
-            paddingBottom: Padding.buttonBottom,
-            paddingLeft: 0,
-            marginTop: 0
+          alignSelf: 'center',
+          color: Colors.primaryBlue,
+          paddingTop: Padding.buttonTop,
+          paddingBottom: Padding.buttonBottom,
+          paddingLeft: 0,
+          marginTop: 0
         },
         buttonStyle: {
-            flex: 1, // flex ocupa toda la pantalla, y hay algunos problemas con otros componentes q no usan card y card section
-            // alignSelf: 'stretch',
-            backgroundColor: '#fff',
-            borderRadius: 5,
-            borderWidth: 1,
-            borderColor: Colors.primaryBlue,
-            marginLeft: 5,
-            marginRight: 5
+          flex: 1, // flex ocupa toda la pantalla, y hay algunos problemas con otros componentes q no usan card y card section
+          // alignSelf: 'stretch',
+          backgroundColor: '#fff',
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: Colors.primaryBlue,
+          marginLeft: 5,
+          marginRight: 5
         },
         containerStyle: {
           flexDirection: 'row',
-          alignItems: 'center'
+          alignItems: 'center',
+          justifyContent: 'center',
+          
         }
     };
     

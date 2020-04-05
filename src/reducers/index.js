@@ -9,6 +9,8 @@ import OrderReducer from './OrderReducer';
 import InvoiceFormReducer from './InvoiceFormReducer';
 import InvoicesReducer from './InvoicesReducer';
 import InvoiceReducer from './InvoiceReducer';
+import AddressReducer from './AddressReducer';
+import AddressFormReducer from './AddressFormReducer';
 
 export default combineReducers({
     products: ProductReducer,
@@ -20,5 +22,7 @@ export default combineReducers({
     order: OrderReducer,
     invoiceForm: InvoiceFormReducer,
     invoices: InvoicesReducer,
-    invoice: InvoiceReducer
+    invoice: InvoiceReducer,
+    addresses: AddressReducer,
+    addressForm: AddressFormReducer
 });
