@@ -1,10 +1,10 @@
 import {
     ADDRESS_CREATE,
-    ADDRESS_UPDATE,
-    ADDRESS_UPDATE_FORM
+    ADDRESS_UPDATE
   } from '../actions/types';
   
   const INITIAL_STATE = {
+    name: '',
     street: '',
     numberStreet: '',
     departmentNumber: '',
@@ -22,8 +22,6 @@ import {
         return { ...INITIAL_STATE }
       case ADDRESS_UPDATE:
         return { ...INITIAL_STATE }
-      case ADDRESS_UPDATE_FORM:
-        return { ...state, [action.payload.prop]: action.payload.value }
       default:
         return state;
     }

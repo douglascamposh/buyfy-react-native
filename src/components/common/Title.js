@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { FontWeight, Size, Colors } from '../../constants/Styles';
+import { FontWeight, Size, Colors, Padding } from '../../constants/Styles';
 
 const Title = (props) => {
   const { titleStyle } = styles;
@@ -12,7 +12,6 @@ const Title = (props) => {
 const styles = {
   titleStyle: {
     fontSize: Size.titleCard,
-    paddingLeft: 15,
     marginTop: 10,
     fontWeight: FontWeight.titleCard,
     color: Colors.primaryText

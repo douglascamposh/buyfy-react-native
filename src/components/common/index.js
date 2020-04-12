@@ -16,4 +16,5 @@ export * from './Carrousel';
 export * from './ExplorerItem';
 export * from './HeaderButton';
 export * from './GoogleMap';
-export * from './InputText';
+export * from './TextInput';
+export * from './AppleStyleSwipeableRow';

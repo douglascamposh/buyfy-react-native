@@ -5,12 +5,13 @@ import {
   ADDRESS_CREATE,
   ADDRESS_UPDATE
 } from './types';
+import { USERS, ADDRESSES } from './resources';
 
 export const addressFetchByUserId = () => {
   return (dispatch) => {
     const user = firebase.auth().currentUser;
     const userId = user ? user.uid : '';
-    firebase.database().ref(`/addresses`).orderByChild('userId').equalTo(userId)
+    firebase.database().ref(`${USERS}/${userId}${ADDRESSES}`)
       .on('value', snapshot => {
         dispatch({ type: ADDRESS_FETCH_SUCCESS, payload: snapshot.val() });
       });
@@ -22,7 +23,7 @@ export const addressCreate = (address) => {
   const userId = user ? user.uid : '';
   address.userId = userId;
   return (dispatch) => {
-    firebase.database().ref(`/addresses`)
+    firebase.database().ref(`${USERS}/${userId}${ADDRESSES}`)
       .push(address)
       .then(() => {
         console.info(`Address Created`);
@@ -38,15 +39,27 @@ export const addressUpdate = ({ street, numberStreet, departmentNumber, city, to
   const {currentUser} = firebase.auth();
   const userId = currentUser ? currentUser.uid : '';
   return (dispatch) => {
-    firebase.database().ref(`/addresses/${uid}`)
+    firebase.database().ref(`${USERS}/${userId}${ADDRESSES}/${uid}`)
     .set({ street, numberStreet, departmentNumber, city, town, streetReference, phone, userId })
     .then(() => {
       console.info(`Address updated`);
       dispatch({type: ADDRESS_UPDATE});
-      Actions.pop();
     }).catch(error => {
       console.info("there was an error at update the address, error:", error);
     });
+  };
+};
+
+export const deleteAddress = (addressId) => {
+  return (dispatch) => {
+    firebase.database().ref(`${USERS}/${userId}${ADDRESSES}/${addressId}`)
+      .set(null)
+      .then(() => {
+        console.info(`Removed address with addressId: ${addressId}`);
+      })
+      .catch(error => {
+        console.warn("Error at remove the Address", error);
+      });
   };
 };
 

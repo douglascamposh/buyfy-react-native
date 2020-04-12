@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import AddressForm from './AddressForm';
-import { addressCreate, addressUpdateForm, addressUpdate } from '../../actions';
+import { addressCreate, addressUpdate } from '../../actions';
 // import { ScrollView } from 'react-native-gesture-handler';
 
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, SafeAreaView } from 'react-native';
 import { Title, CardSection, Button } from '../common';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Overlay, Icon } from 'react-native-elements';
 import { Size, FontWeight, Colors } from '../../constants/Styles';
 
-class AddressCreate extends Component {
+class AddressCreateUpdate extends Component {
 
   constructor(props) {
     super(props);
@@ -20,20 +20,9 @@ class AddressCreate extends Component {
     }
   }
 
-  componentWillMount() {
-    if(this.props.address) {
-      console.log('componentWillMount',this.props.address.uid);
-      _.each(this.props.address, (value, prop) => {
-        this.props.addressUpdateForm({prop, value});
-      });
-    }    
-  }
-
-  saveAddress = () => {
-    const { street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props;
-    console.log('uid', uid);
-    !uid ? this.props.addressCreate({ street, numberStreet, departmentNumber, city, town, streetReference, phone }) :
-      this.props.addressUpdate({ street, numberStreet, departmentNumber, city, town, streetReference, phone, uid });
+  saveAddress = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid }) => {
+    !uid ? this.props.addressCreate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone }) :
+      this.props.addressUpdate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid });
     this.setState({ isVisible: true });
   }
 
@@ -66,29 +55,37 @@ class AddressCreate extends Component {
   }
 
   render() {
+    const { street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props.address ? this.props.address : this.props;
+    const address = { street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
     return (
-      <View>
+      <SafeAreaView style={styles.container}>
         <ScrollView>
           <KeyboardAwareScrollView>
             <Title style={styles.titleStyleHeader}>
               {this.props.title}
             </Title>
-            <AddressForm/>
+            <AddressForm
+              address={address}
+              saveAddress={this.saveAddress}
+            />
             {this.renderModal()}
-            <Button style={styles.modalButtonStyle} onPress={this.saveAddress}>Guardar</Button>
           </KeyboardAwareScrollView>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = state.addressForm;
-  return { street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
+  const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = state.addressForm;
+  return { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
 };
 
 const styles = {
+  container: {
+    flex: 1,
+    marginLeft: 15
+  },
   titleStyleHeader: {
     fontSize: Size.header,
     fontWeight: FontWeight.header
@@ -111,4 +108,4 @@ const styles = {
   }
 }
 
-export default connect(mapStateToProps, { addressCreate, addressUpdate, addressUpdateForm })(AddressCreate);
+export default connect(mapStateToProps, { addressCreate, addressUpdate })(AddressCreateUpdate);

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Input } from 'react-native-elements';
 import { FontWeight, Size, Colors } from '../../constants/Styles';
 
-const InputText = (props) => {
+const TextInput = (props) => {
   return (
     <View style={[props.containerStyle, styles.containerStyle]}>
       <Input
@@ -19,6 +19,7 @@ const InputText = (props) => {
         onChangeText={props.onChangeText}
         onBlur={props.onBlur}
         onFocus={props.onFocus}
+        keyboardType={props.keyboardType}
       />
     </View>
   );
@@ -41,4 +42,4 @@ const styles = {
     color: Colors.primaryText
   }
 };
-export {InputText};
+export { TextInput };

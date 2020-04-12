@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { addressFetchByUserId } from '../../actions';
+import { addressFetchByUserId, deleteAddress } from '../../actions';
 import AddressListItem from './AddressListItem';
 import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { AppleStyleSwipeableRow, RightActions } from '../common/index';
+import { Colors, Size, FontWeight } from '../../constants/Styles';
+import { Icon } from 'react-native-elements';
 
 class AddressList extends Component {
 
@@ -16,8 +19,47 @@ class AddressList extends Component {
     this.props.navigation.navigate('editAddress', { address });
   }
 
+  addressDeleteOnClick = (address) => {
+    this.props.deleteAddress(address.uid);
+  }
+
+  renderRightActions = (progress, item) => {
+    const buttonActions = [
+      { onPress: this.addressDetailOnClick, color: Colors.primaryBlue, item: item,
+        icon: (
+          <Icon
+            name='ios-create'
+            type='ionicon'
+            size={Size.iconButton}
+            color={Colors.primaryTextInverse }
+            iconStyle={styles.iconStyle}
+          />
+        )
+      },
+      { onPress: this.addressDeleteOnClick, color: Colors.primaryRed, item: item,
+        icon: (
+          <Icon
+            name='ios-trash'
+            type='ionicon'
+            size={Size.iconButton}
+            color={Colors.primaryTextInverse}
+            iconStyle={styles.iconStyle}
+          />
+        )
+      }
+    ];
+    return (
+      <RightActions progress={progress} buttonActions={buttonActions}/>
+  )};
+
   renderItem = ({item: address}) => {
-    return <AddressListItem address={address} addressDetailOnClick={this.addressDetailOnClick}/>
+    return (
+      <AppleStyleSwipeableRow
+        renderRightActions={this.renderRightActions}
+        item={address}>
+        <AddressListItem address={address} addressDetailOnClick={this.addressDetailOnClick} />
+      </AppleStyleSwipeableRow>
+    );
   }
   
   render() {
@@ -41,6 +83,9 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  iconStyle: {
+    fontWeight: FontWeight.button
+  }
 };
 
 const mapStateToProps = state => {
@@ -49,4 +94,4 @@ const mapStateToProps = state => {
   });
   return { addresses };
 };
-export default connect(mapStateToProps, { addressFetchByUserId })(AddressList);
+export default connect(mapStateToProps, { addressFetchByUserId, deleteAddress })(AddressList);

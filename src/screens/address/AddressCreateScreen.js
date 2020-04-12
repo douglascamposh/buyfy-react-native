@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AddressCreate from '../../components/address/AddressCreate';
+import AddressCreateUpdate from '../../components/address/AddressCreateUpdate';
 
 class AddressCreateScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -10,7 +10,7 @@ class AddressCreateScreen extends Component {
   }
 
   render() {
-    return <AddressCreate navigation={this.props.navigation} title={'Agregar Dirección'}/>;
+    return <AddressCreateUpdate navigation={this.props.navigation} title={'Agregar Dirección'}/>;
   }
 }
 

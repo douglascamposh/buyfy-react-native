@@ -9,11 +9,12 @@ class AddressListItem extends Component {
   }
 
   render() {
-    const { street, numberStreet, departmentNumber, streetReference, phone } = this.props.address;
+    const { name, street, numberStreet, departmentNumber, streetReference, phone } = this.props.address;
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
         <View>
           <CardSection style={styles.cardSectionStyle}>
+            <Title>{name}</Title>
             <Content>{`${street} ${numberStreet} ${streetReference} ${departmentNumber || ''} ${phone}`}</Content>
           </CardSection>
         </View>
@@ -24,7 +25,7 @@ class AddressListItem extends Component {
 
 const styles = {
   cardSectionStyle: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   }
 };
 
