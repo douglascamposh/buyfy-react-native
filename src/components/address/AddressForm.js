@@ -4,30 +4,60 @@ import { View } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
+import { setLocale } from 'yup';
+
+setLocale({
+  mixed: {
+    default: 'No es valido',
+  },
+  number: {
+    min: 'Debe ser mayor a ${min}',
+  },
+  string: {
+    min: 'Ingrese al menos ${min} caracteres'
+  }
+});
+
 const AddressSchema = yup.object({
   name: yup.string()
-    .required()
-    .min(3),
+    .label('Nombre')
+    .required('Debes ingresar el ${label}.')
+    .min(3)
+    .trim(),
   street: yup.string()
-    .required()
-    .min(3),
+    .label('Dirección')
+    .required('Debes ingresar el ${label}.')
+    .min(3)
+    .trim('trimeando'),
   streetReference: yup.string()
-    .required()
-    .min(3),
+    .label('Referencia')
+    .required('Debes ingresar una ${label} de tu dirección')
+    .min(3)
+    .trim(),
   numberStreet: yup.string()
-    .required()
-    .min(3),
+    .label('Numero de la casa/edificio')
+    .required('Debes ingresar el ${label}')
+    .min(3)
+    .trim(),
   departmentNumber: yup.string()
-    .min(1),
+    .label('Numero del departamento')
+    .min(1)
+    .trim(),
   city: yup.string()
-    .required()
-    .min(4),
+    .label('Departamento')
+    .required('Debes ingresar el ${label}')
+    .min(4)
+    .trim(),
   town: yup.string()
-    .required()
-    .min(4),
+    .label('Ciudad')
+    .required('Debes ingresar la ${label}')
+    .min(4)
+    .trim(),
   phone: yup.string()
-    .required()
-    .min(2),
+    .label('Telefono/Celular')
+    .required('Debes ingresar tu numero de ${label}')
+    .min(7)
+    .trim(),
 });
 
 const AddressForm = ({ address, saveAddress }) => {

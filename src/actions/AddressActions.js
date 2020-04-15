@@ -35,12 +35,12 @@ export const addressCreate = (address) => {
   };
 };
 
-export const addressUpdate = ({ street, numberStreet, departmentNumber, city, town, streetReference, phone, uid }) => {
+export const addressUpdate = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid }) => {
   const {currentUser} = firebase.auth();
   const userId = currentUser ? currentUser.uid : '';
   return (dispatch) => {
     firebase.database().ref(`${USERS}/${userId}${ADDRESSES}/${uid}`)
-    .set({ street, numberStreet, departmentNumber, city, town, streetReference, phone, userId })
+      .set({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, userId })
     .then(() => {
       console.info(`Address updated`);
       dispatch({type: ADDRESS_UPDATE});
@@ -51,6 +51,8 @@ export const addressUpdate = ({ street, numberStreet, departmentNumber, city, to
 };
 
 export const deleteAddress = (addressId) => {
+  const { currentUser } = firebase.auth();
+  const userId = currentUser ? currentUser.uid : '';
   return (dispatch) => {
     firebase.database().ref(`${USERS}/${userId}${ADDRESSES}/${addressId}`)
       .set(null)

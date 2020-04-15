@@ -55,8 +55,8 @@ class AddressCreateUpdate extends Component {
   }
 
   render() {
-    const { street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props.address ? this.props.address : this.props;
-    const address = { street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
+    const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props.address ? this.props.address : this.props;
+    const address = { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
