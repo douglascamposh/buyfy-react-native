@@ -17,6 +17,9 @@ import CurrentOrderScreen from '../screens/CurrentOrderScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
 import LoadingScreen from '../screens/auth/LoadingScreen';
 import MapScreen from '../screens/MapScreen';
+import AddressCreateScreen from '../screens/address/AddressCreateScreen';
+import AddressListScreen from '../screens/address/AddressListScreen';
+import AddressEditScreen from '../screens/address/AddressEditScreen';
 
 // const product_StackNavigator = createStackNavigator({
 //   productList: {
@@ -33,11 +36,20 @@ import MapScreen from '../screens/MapScreen';
 //   }
 // });
 
-// const auth_StackNavigator = createStackNavigator({
-//   login: {
-//     screen: ProductListScreen,
-//   }
-// });
+const address_StackNavigator = createStackNavigator({
+  addressList: {
+    screen: AddressListScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
+    })
+  },
+  createAddress: {
+    screen: AddressCreateScreen
+  },
+  editAddress: {
+    screen: AddressEditScreen
+  }
+});
 
 const store_StackNavigator = createStackNavigator({
   storeList: {
@@ -90,6 +102,12 @@ const DrawerNavigator = createDrawerNavigator(
       screen: store_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Restaurantes'
+      }
+    },
+    address: {
+      screen: address_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Mis direcciones'
       }
     }
   }

@@ -21,7 +21,8 @@ export const Size = {
   header: 24,
   iconHeader: 30,
   textHeader: 16,
-  iconInput: 20
+  iconInput: 20,
+  iconButton: 30
 };
 
 export const FontWeight = {

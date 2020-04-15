@@ -14,7 +14,6 @@ export const invoiceCreate = (invoice) => {
     invoice.userId = user ? user.uid : '';
     invoice.created_at = Date.now();
     invoice.state = invoiceStates.created;
-
     firebase.database().ref(`/invoices`)
       .push(invoice)
       .then((response) => {

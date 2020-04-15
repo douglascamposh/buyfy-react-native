@@ -16,7 +16,7 @@ class InvoiceForm extends Component {
         <CardSection style={styles.cardSectionStyle}>
           <Input
             label="Direccion"
-            placeholder="calle man cesped edif. patmos 6f"
+            placeholder={this.props.userAddress.address || 'Ingresa tu direccion'}
             value={this.props.deliveryAddress}
             onChangeText={value => this.props.invoiceUpdateForm({ prop: 'deliveryAddress', value })}
           />

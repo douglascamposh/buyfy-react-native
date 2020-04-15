@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { Title, Card, CardSection, FloatButton, Button } from '../common';
-import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate } from '../../actions';
+import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate, addressFetchByUserId } from '../../actions';
 import InvoiceForm from './InvoiceForm';
 import Invoice from './Invoice';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,6 +23,7 @@ class CheckoutDetail extends Component {
   componentWillMount() {
     const { storeId } = this.props;
     this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
+    this.props.addressFetchByUserId();
   }
 
   confirmOrder = () => {
@@ -124,12 +125,16 @@ const mapStateToProps = state => {
   const ordersProducts = _.map(state.order, (val, uid) => {
     return { ...val, uid };
   });
+  const userAddress = _.last(_.map(state.addresses, (val, uid) => {
+    return { ...val, uid };
+  })) || { address: '', phone: '' };
+
   const orders = _.mapValues(state.order, 'name');
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
 
-  const { deliveryAddress, nit, deliveryPrice, invoiceId } = state.invoiceForm;
-
-  return { totalOrders, deliveryAddress, nit, orders, deliveryPrice, invoiceId };
+  const { deliveryAddress: newAddress, nit, deliveryPrice, invoiceId } = state.invoiceForm;
+  const deliveryAddress = newAddress || userAddress.address;
+  return { totalOrders, deliveryAddress, nit, orders, deliveryPrice, invoiceId, userAddress };
 };
 
-export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, invoiceCreate })(CheckoutDetail);
+export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, addressFetchByUserId, invoiceCreate })(CheckoutDetail);
