@@ -32,11 +32,9 @@ class StoreList extends Component {
         <Card>
           <RecomendedStores stores={this.props.stores}/>
         </Card>
-        <Card>
-          <InvoiceCards
-            onInvoiceCardClick={this.invoiceCardOnClick}
-          />
-        </Card>
+        <InvoiceCards
+          onInvoiceCardClick={this.invoiceCardOnClick}
+        />
         <FlatList
           enableEmptySections
           renderItem={this.renderItem}

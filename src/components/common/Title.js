@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { FontWeight, Size, Colors, Padding } from '../../constants/Styles';
+import { FontWeight, Size, Colors } from '../../constants/Styles';
 
 const Title = (props) => {
   const { titleStyle } = styles;

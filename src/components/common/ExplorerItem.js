@@ -26,8 +26,8 @@ const ExplorerItem = (props) => {
 
 const styles = {
   boxStyle: {
-    height: 160,
-    width: 160,
+    height: 220,
+    width: 220,
     marginLeft: 20,
   },
   imageStyle: {

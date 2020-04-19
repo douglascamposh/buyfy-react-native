@@ -23,21 +23,23 @@ class ProductDetail extends Component {
     const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <KeyboardAwareScrollView>
-          <Card>
-            <AsyncTile image={imageRoute} title={name}>
-              <Text style={styles.descriptionStyle}>
-                {description}
-              </Text>
-              <Text style={styles.textStyle}>
-                {price} Bs.
-              </Text>
-            </AsyncTile>
-          </Card>
-          <ProductOrderForm {...this.props}/>
-          </KeyboardAwareScrollView>
-        </ScrollView>
+        <View style={styles.containerDetail}>
+          <ScrollView>
+            <KeyboardAwareScrollView>
+            <Card>
+              <AsyncTile image={imageRoute} title={name}>
+                <Text style={styles.descriptionStyle}>
+                  {description}
+                </Text>
+                <Text style={styles.textStyle}>
+                  {price} Bs.
+                </Text>
+              </AsyncTile>
+            </Card>
+            <ProductOrderForm {...this.props}/>
+            </KeyboardAwareScrollView>
+          </ScrollView>
+        </View>
         <FloatButton text={'Agregar a mi pedido'} onPress={this.addToOrder.bind(this)}/>
       </View>
     );
@@ -46,7 +48,10 @@ class ProductDetail extends Component {
 
 const styles = {
   container: {
-    flex: 1,
+    flex: 1
+  },
+  containerDetail: {
+    height: '90%',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },

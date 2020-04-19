@@ -7,7 +7,6 @@ const Content = (props) => {
   const styles = {
     contentStyle: {
       fontSize: Size.descriptionCard,
-      paddingLeft: 15,
       marginTop: 10,
       fontWeight: FontWeight.descriptionCard,
       color: Colors.secondaryText
@@ -16,7 +15,7 @@ const Content = (props) => {
 
   const { contentStyle } = styles;
   return (
-    <Text style={[contentStyle, props.style]}>{props.children}</Text>
+    <Text numberOfLines={props.numberOfLines} style={[contentStyle, props.style]}>{props.children}</Text>
   );
 };
 

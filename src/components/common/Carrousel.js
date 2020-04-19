@@ -15,7 +15,7 @@ const Carrousel = ({ title, data, renderItem, keyExtractor, style }) => {
           {title}
         </Title>
         }
-        <View style={[styles.containerStyle, style]}>
+        <View style={[containerStyle, style]}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -43,10 +43,11 @@ const renderItems = (items, renderItem, keyExtractor) => {
 const styles = {
   titleStyle: {
     fontSize: Size.header,
-    fontWeight: FontWeight.header
+    fontWeight: FontWeight.header,
+    marginLeft: 10
   },
   containerStyle: {
-    height: 190,
+    height: 220,
     marginTop: 20,
     marginBottom: 20
   }

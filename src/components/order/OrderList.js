@@ -31,26 +31,28 @@ class OrderList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <Card>
-            <FlatList
-              enableEmptySections
-              renderItem={this.renderItem}
-              data={this.props.orders}
-              keyExtractor={({ uid }) => String(uid)}
-            />
-          </Card>
-          <Card>
-            <CardSection style={styles.cardSectionStyle}>
-              <Text style={styles.titleStyle}>
-                Subtotal
-              </Text>
-              <Text style={styles.titleStyle}>
-                Bs. {this.props.totalOrders}
-              </Text>
-            </CardSection>
-          </Card>
-        </ScrollView>
+        <View style={styles.containerDetail}>
+          <ScrollView>
+            <Card>
+              <FlatList
+                enableEmptySections
+                renderItem={this.renderItem}
+                data={this.props.orders}
+                keyExtractor={({ uid }) => String(uid)}
+              />
+            </Card>
+            <Card>
+              <CardSection style={styles.cardSectionStyle}>
+                <Text style={styles.titleStyle}>
+                  Subtotal
+                </Text>
+                <Text style={styles.titleStyle}>
+                  Bs. {this.props.totalOrders}
+                </Text>
+              </CardSection>
+            </Card>
+          </ScrollView>
+        </View>
         <FloatButton text={'Confirmar pedido'} onPress={this.confirmOrder} />
       </View>
     );
@@ -59,7 +61,10 @@ class OrderList extends Component {
 
 const styles = {
   container: {
-    flex: 1,
+    flex: 1
+  },
+  containerDetail: {
+    height: '90%',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },

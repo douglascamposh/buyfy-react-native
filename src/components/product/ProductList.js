@@ -35,29 +35,31 @@ class ProductList extends Component {
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <Card>
-            <AsyncTile image={imageRoute} title={store.name}>
-              <Content>
-                Tiempo de entrega aproximado {store.deliveryTime}
-              </Content>
-              <Content>
-                Costo de envio {store.deliveryPrice}
-              </Content>
-            </AsyncTile>
-          </Card>
-          <Card>
-            <Explorer data={this.props.products}/>
-          </Card>
-          <FlatList
-            enableEmptySections
-            renderItem={this.renderItem}
-            data={this.props.products}
-            keyExtractor={({ uid }) => String(uid)}
-          />
-        </ScrollView>
-        { Boolean(this.props.orders.length) && (
-          <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)}/>
+        <View style={this.props.orders.length ? styles.containerProduct : styles.container}>
+          <ScrollView>
+            <Card>
+              <AsyncTile image={imageRoute} title={store.name}>
+                <Content>
+                  Tiempo de entrega aproximado {store.deliveryTime}
+                </Content>
+                <Content>
+                  Costo de envio {store.deliveryPrice}
+                </Content>
+              </AsyncTile>
+            </Card>
+            <Card>
+              <Explorer data={this.props.products}/>
+            </Card>
+            <FlatList
+              enableEmptySections
+              renderItem={this.renderItem}
+              data={this.props.products}
+              keyExtractor={({ uid }) => String(uid)}
+            />
+          </ScrollView>
+        </View>
+        {Boolean(this.props.orders.length) && (
+          <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)} />
         )}
       </View>
     );
@@ -65,10 +67,13 @@ class ProductList extends Component {
 }
 
 const styles = {
-  container: {
-    flex: 1,
+  containerProduct: {
+    height: '90%',
     flexDirection: 'row',
     flexWrap: 'wrap'
+  },
+  container: {
+    flex: 1
   }
 }
 
