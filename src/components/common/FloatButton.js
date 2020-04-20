@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import { Content } from './Content';
 
 const FloatButton = ({text, onPress}) => {
   return (
     <View style={styles.bottomView}>
       <TouchableOpacity style={styles.buttonStyle} onPress={onPress}>
-        <Text style={styles.textStyle}>{text}</Text>
+        <Content style={styles.textStyle}>{text}</Content>
       </TouchableOpacity>
     </View>
   );

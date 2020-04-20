@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { productUpdateForm } from '../../actions';
 import { View } from 'react-native';
-import { Card, CardSection } from '../common';
-import { Text, Input } from 'react-native-elements';
+import { Card, CardSection, Title } from '../common';
+import { Input } from 'react-native-elements';
 import NumericInput from 'react-native-numeric-input';
 import { FontWeight, Size } from '../../constants/Styles';
 
@@ -14,9 +14,9 @@ class ProductOrderForm extends Component {
       <View>
         <Card>
           <CardSection>
-            <Text style={{ fontWeight: FontWeight.titleCard, fontSize: Size.titleCard }}>
+            <Title>
               Unidades
-            </Text>
+            </Title>
           </CardSection>
           <CardSection style={{
             justifyContent: 'center',
@@ -44,9 +44,9 @@ class ProductOrderForm extends Component {
         </Card>
         <Card>
           <CardSection>
-            <Text style={styles.titleStyle}>
+            <Title style={styles.titleStyle}>
               ¿Quieres aclarar algo?
-            </Text>
+            </Title>
           </CardSection>
           <CardSection>
             <Input
@@ -63,8 +63,6 @@ class ProductOrderForm extends Component {
 
 const styles = {
   titleStyle: {
-    fontWeight: FontWeight.titleStyle,
-    fontSize: Size.titleStyle,
     marginBottom: 10
   }
 };

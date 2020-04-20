@@ -1,11 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, FlatList, Text, View } from 'react-native';
-import { Card, CardSection, FloatButton } from '../common';
+import { ScrollView, FlatList, View } from 'react-native';
+import { Card, CardSection, FloatButton, Title } from '../common';
 import { orderFetchByUserIdAndStoreIdAndState, deleteOrder } from '../../actions';
 import OrderListItem from './OrderListItem';
-import { FontWeight, Size } from '../../constants/Styles';
 import { orderStates } from './../../constants/Enum';
 
 class OrderList extends Component {
@@ -43,12 +42,12 @@ class OrderList extends Component {
             </Card>
             <Card>
               <CardSection style={styles.cardSectionStyle}>
-                <Text style={styles.titleStyle}>
+                <Title style={styles.titleStyle}>
                   Subtotal
-                </Text>
-                <Text style={styles.titleStyle}>
+                </Title>
+                <Title style={styles.titleStyle}>
                   Bs. {this.props.totalOrders}
-                </Text>
+                </Title>
               </CardSection>
             </Card>
           </ScrollView>
@@ -69,10 +68,7 @@ const styles = {
     flexWrap: 'wrap'
   },
   titleStyle: {
-    fontSize: Size.titleCard,
     paddingLeft: 15,
-    marginTop: 10,
-    fontWeight: FontWeight.titleCard,
   },
   cardSectionStyle: {
     flexDirection: 'row',

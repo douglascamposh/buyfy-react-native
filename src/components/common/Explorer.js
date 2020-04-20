@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { Title } from './Title';
+import { View, ScrollView } from 'react-native';
 import { ExplorerItem } from './ExplorerItem';
 
 const Explorer = (props) => {
@@ -10,9 +11,9 @@ const Explorer = (props) => {
       scrollEventThrottle={16}
     >
       <View>
-        <Text style={titleStyle}>
+        <Title style={titleStyle}>
           Productos Recomendados
-        </Text>
+        </Title>
         <View style={containerStyle}>
           <ScrollView
             horizontal={true}
@@ -39,6 +40,8 @@ const renderItems = (items) => {
         description={item.description}
         footer={`Bs. ${item.price}`}
         image={item.imageName}
+        containerImage={styles.containerImage}
+        containerLabel={styles.containerLabel}
         />)
       }
     </ScrollView>
@@ -48,14 +51,20 @@ const renderItems = (items) => {
 const styles = {
   titleStyle: {
     fontSize: 24,
-    fontWeight: '700',
-    paddingHorizontal: 20
+    fontFamily: 'SanFrancisco-Bold',
+    paddingLeft: 10
   },
   containerStyle: {
     height:220,
     marginTop: 20,
     marginBottom: 20
-  }
+  },
+  containerImage: {
+    height: '60%'
+  },
+  containerLabel: {
+    height: '40%'
+  },
 };
 
 export {Explorer};

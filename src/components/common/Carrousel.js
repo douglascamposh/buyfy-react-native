@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import { FontWeight, Size } from '../../constants/Styles';
+import { View, ScrollView } from 'react-native';
+import { Size } from '../../constants/Styles';
 import { Title } from './Title';
 
 const Carrousel = ({ title, data, renderItem, keyExtractor, style }) => {
@@ -43,8 +43,8 @@ const renderItems = (items, renderItem, keyExtractor) => {
 const styles = {
   titleStyle: {
     fontSize: Size.header,
-    fontWeight: FontWeight.header,
-    marginLeft: 10
+    marginLeft: 10,
+    fontFamily: 'SanFrancisco-Bold'
   },
   containerStyle: {
     height: 220,

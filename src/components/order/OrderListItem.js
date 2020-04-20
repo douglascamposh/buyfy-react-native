@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { CardSection } from '../common';
+import { CardSection, Title, Content } from '../common';
 import { FontWeight, Size, Colors } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
 
@@ -17,22 +17,22 @@ class OrderListItem extends Component {
       <View>
         <CardSection style={styles.cardSectionStyle}>
           <View style={styles.containerLeft}>
-            <Text style={styles.descriptionStyle}>
+            <Content style={styles.descriptionStyle}>
               {quantity}x
-            </Text>
+            </Content>
           </View>
           <View style={styles.containerCenter}>
-            <Text style={styles.titleStyle}>
+            <Title style={styles.titleStyle}>
               {name}
-            </Text>
-            <Text numberOfLines={2} style={styles.descriptionStyle}>
+            </Title>
+            <Content numberOfLines={2} style={styles.descriptionStyle}>
               {description}
-            </Text>
+            </Content>
           </View>
           <View style={styles.containerRigth}>
-            <Text style={styles.descriptionStyle}>
+            <Content style={styles.descriptionStyle}>
               Bs. {Number(price) * Number(quantity)}
-            </Text>
+            </Content>
           </View>
           <View>
             <Icon
@@ -49,19 +49,12 @@ class OrderListItem extends Component {
 
 const styles = {
   titleStyle: {
-    fontSize: Size.titleCard,
     paddingLeft: 15,
-    marginTop: 10,
     flex: 1,
-    fontWeight: FontWeight.titleCard,
   },
   descriptionStyle: {
-    fontSize: Size.descriptionCard,
     paddingLeft: 15,
-    marginTop: 10,
     flex: 1,
-    fontWeight: FontWeight.descriptionCard,
-    color: Colors.secondaryText
   },
   cardSectionStyle: {
     flexDirection: 'row',

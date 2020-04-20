@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, AsyncTile, FloatButton } from '../common';
+import { Card, AsyncTile, FloatButton, Title, Content } from '../common';
 import { View, ScrollView } from 'react-native';
-import { Text } from 'react-native-elements';
 import ProductOrderForm from './ProductOrderForm';
 import { orderCreate } from '../../actions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { FontWeight, Size, Colors } from '../../constants/Styles';
 
 class ProductDetail extends Component {
 
@@ -28,12 +26,12 @@ class ProductDetail extends Component {
             <KeyboardAwareScrollView>
             <Card>
               <AsyncTile image={imageRoute} title={name}>
-                <Text style={styles.descriptionStyle}>
+                <Content style={styles.descriptionStyle}>
                   {description}
-                </Text>
-                <Text style={styles.textStyle}>
+                </Content>
+                <Title>
                   {price} Bs.
-                </Text>
+                </Title>
               </AsyncTile>
             </Card>
             <ProductOrderForm {...this.props}/>
@@ -55,14 +53,8 @@ const styles = {
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
-  textStyle: {
-    fontWeight: FontWeight.footerTile,
-    fontSize: Size.footerTile,
-    marginBottom: 10
-  },
   descriptionStyle: {
-    marginBottom: 10,
-    color: Colors.secondaryText
+    marginTop: 0
   }
 };
 

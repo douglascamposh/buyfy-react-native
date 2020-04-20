@@ -40,10 +40,10 @@ class ProductList extends Component {
             <Card>
               <AsyncTile image={imageRoute} title={store.name}>
                 <Content>
-                  Tiempo de entrega aproximado {store.deliveryTime}
+                  Tiempo de entrega aproximado {store.deliveryTime} min.
                 </Content>
                 <Content>
-                  Costo de envio {store.deliveryPrice}
+                  Costo de envio {store.deliveryPrice} Bs.
                 </Content>
               </AsyncTile>
             </Card>

@@ -11,10 +11,11 @@ const Title = (props) => {
 
 const styles = {
   titleStyle: {
-    fontSize: Size.titleCard,
     marginTop: 10,
-    fontWeight: FontWeight.titleCard,
-    color: Colors.primaryText
+    fontSize: Size.titleCard,
+    // fontWeight: FontWeight.titleCard,
+    color: Colors.primaryText,
+    fontFamily: 'San-Francisco-Medium'
   }
 };
 
