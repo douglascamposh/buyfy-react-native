@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { storeFetchById } from '../../actions';
 import { Card, CardSection, Title, Content } from '../common';
 import { Icon } from 'react-native-elements';
+import { Size, Colors, Padding } from '../../constants/Styles';
 
 class InvoiceCardItem extends Component {
 
@@ -46,8 +47,11 @@ class InvoiceCardItem extends Component {
               <Icon
                 name='ios-timer'
                 type='ionicon'
+                size={Size.iconInput}
+                color={Colors.secondaryText}
+                iconStyle={styles.iconStyle}
               />
-              <Content>{`${h}:${m} - ${h2}:${m2}`}</Content>
+              <Content style={styles.textStyle}>{`${h}:${m} - ${h2}:${m2}`}</Content>
             </CardSection>
           </View>
         </TouchableWithoutFeedback>
@@ -60,10 +64,18 @@ const styles = {
   cardStyle: {
     borderBottomWidth: 2,
     borderWidth: 2,
-    borderRadius: 10
+    borderRadius: 10,
+    marginLeft: 10
   },
   cardSectionStyle: {
     borderBottomWidth: 0
+  },
+  iconStyle: {
+    paddingRight: Padding.headerLeft
+  },
+  textStyle: {
+    marginTop: 0,
+    alignSelf: 'center'
   }
 };
 

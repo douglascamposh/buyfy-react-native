@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { invoiceFetchByUserId } from '../../actions';
-import { Carrousel } from '../common';
+import { Carrousel, Card } from '../common';
 import InvoiceCardItem from './InvoiceCardItem';
 
 class InvoiceCards extends Component {
@@ -27,13 +27,15 @@ class InvoiceCards extends Component {
     return (
       <View>
         { Boolean(this.props.invoices.length) && (
-          <Carrousel
-            style={styles.carrouselStyle}
-            data={this.props.invoices}
-            renderItem={this.renderItem}
-            keyExtractor={({ uid }) => String(uid)}
-          />
-        )}
+          <Card>
+            <Carrousel
+              style={styles.carrouselStyle}
+              data={this.props.invoices}
+              renderItem={this.renderItem}
+              keyExtractor={({ uid }) => String(uid)}
+            />
+        </Card>
+      )}
       </View>
     );
   }
@@ -42,8 +44,7 @@ class InvoiceCards extends Component {
 
 const styles = {
   carrouselStyle: {
-    height: 140,
-    paddingLeft: 10
+    height: 140
   }
 };
 

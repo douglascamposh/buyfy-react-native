@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, AsyncTile, FloatButton } from '../common';
+import { Card, AsyncTile, FloatButton, Title, Content } from '../common';
 import { View, ScrollView } from 'react-native';
-import { Text } from 'react-native-elements';
 import ProductOrderForm from './ProductOrderForm';
 import { orderCreate } from '../../actions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { FontWeight, Size, Colors } from '../../constants/Styles';
 
 class ProductDetail extends Component {
 
@@ -23,21 +21,23 @@ class ProductDetail extends Component {
     const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <KeyboardAwareScrollView>
-          <Card>
-            <AsyncTile image={imageRoute} title={name}>
-              <Text style={styles.descriptionStyle}>
-                {description}
-              </Text>
-              <Text style={styles.textStyle}>
-                {price} Bs.
-              </Text>
-            </AsyncTile>
-          </Card>
-          <ProductOrderForm {...this.props}/>
-          </KeyboardAwareScrollView>
-        </ScrollView>
+        <View style={styles.containerDetail}>
+          <ScrollView>
+            <KeyboardAwareScrollView>
+            <Card>
+              <AsyncTile image={imageRoute} title={name}>
+                <Content style={styles.descriptionStyle}>
+                  {description}
+                </Content>
+                <Title>
+                  {price} Bs.
+                </Title>
+              </AsyncTile>
+            </Card>
+            <ProductOrderForm {...this.props}/>
+            </KeyboardAwareScrollView>
+          </ScrollView>
+        </View>
         <FloatButton text={'Agregar a mi pedido'} onPress={this.addToOrder.bind(this)}/>
       </View>
     );
@@ -46,18 +46,15 @@ class ProductDetail extends Component {
 
 const styles = {
   container: {
-    flex: 1,
+    flex: 1
+  },
+  containerDetail: {
+    height: '90%',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
-  textStyle: {
-    fontWeight: FontWeight.footerTile,
-    fontSize: Size.footerTile,
-    marginBottom: 10
-  },
   descriptionStyle: {
-    marginBottom: 10,
-    color: Colors.secondaryText
+    marginTop: 0
   }
 };
 

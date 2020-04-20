@@ -1,11 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, FlatList, Text, View } from 'react-native';
-import { Card, CardSection, FloatButton } from '../common';
+import { ScrollView, FlatList, View } from 'react-native';
+import { Card, CardSection, FloatButton, Title } from '../common';
 import { orderFetchByUserIdAndStoreIdAndState, deleteOrder } from '../../actions';
 import OrderListItem from './OrderListItem';
-import { FontWeight, Size } from '../../constants/Styles';
 import { orderStates } from './../../constants/Enum';
 
 class OrderList extends Component {
@@ -31,26 +30,28 @@ class OrderList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <Card>
-            <FlatList
-              enableEmptySections
-              renderItem={this.renderItem}
-              data={this.props.orders}
-              keyExtractor={({ uid }) => String(uid)}
-            />
-          </Card>
-          <Card>
-            <CardSection style={styles.cardSectionStyle}>
-              <Text style={styles.titleStyle}>
-                Subtotal
-              </Text>
-              <Text style={styles.titleStyle}>
-                Bs. {this.props.totalOrders}
-              </Text>
-            </CardSection>
-          </Card>
-        </ScrollView>
+        <View style={styles.containerDetail}>
+          <ScrollView>
+            <Card>
+              <FlatList
+                enableEmptySections
+                renderItem={this.renderItem}
+                data={this.props.orders}
+                keyExtractor={({ uid }) => String(uid)}
+              />
+            </Card>
+            <Card>
+              <CardSection style={styles.cardSectionStyle}>
+                <Title style={styles.titleStyle}>
+                  Subtotal
+                </Title>
+                <Title style={styles.titleStyle}>
+                  Bs. {this.props.totalOrders}
+                </Title>
+              </CardSection>
+            </Card>
+          </ScrollView>
+        </View>
         <FloatButton text={'Confirmar pedido'} onPress={this.confirmOrder} />
       </View>
     );
@@ -59,15 +60,15 @@ class OrderList extends Component {
 
 const styles = {
   container: {
-    flex: 1,
+    flex: 1
+  },
+  containerDetail: {
+    height: '90%',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
   titleStyle: {
-    fontSize: Size.titleCard,
     paddingLeft: 15,
-    marginTop: 10,
-    fontWeight: FontWeight.titleCard,
   },
   cardSectionStyle: {
     flexDirection: 'row',

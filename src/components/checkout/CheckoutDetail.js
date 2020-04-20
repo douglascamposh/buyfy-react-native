@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { Title, Card, CardSection, FloatButton, Button } from '../common';
-import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate, addressFetchByUserId } from '../../actions';
+import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate, addressFetchByUserId, storeFetchById } from '../../actions';
 import InvoiceForm from './InvoiceForm';
 import Invoice from './Invoice';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -24,6 +24,7 @@ class CheckoutDetail extends Component {
     const { storeId } = this.props;
     this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
     this.props.addressFetchByUserId();
+    this.props.storeFetchById(storeId);
   }
 
   confirmOrder = () => {
@@ -70,21 +71,23 @@ class CheckoutDetail extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <KeyboardAwareScrollView>
-            <Card>
-              <CardSection style={styles.cardSectionStyle}>
-                <Title>
-                  Pollos Pacocabana
-                </Title>
-              </CardSection>
-            </Card>
-            <Card>
-              <Invoice {...this.props}></Invoice>
-            </Card>
-            <InvoiceForm {...this.props}/>
-          </KeyboardAwareScrollView>
-        </ScrollView>
+        <View style={styles.containerDetail}>
+          <ScrollView>
+            <KeyboardAwareScrollView>
+              <Card>
+                <CardSection style={styles.cardSectionStyle}>
+                  <Title>
+                    {this.props.name}
+                  </Title>
+                </CardSection>
+              </Card>
+              <Card>
+                <Invoice {...this.props}></Invoice>
+              </Card>
+              <InvoiceForm {...this.props}/>
+            </KeyboardAwareScrollView>
+          </ScrollView>
+        </View>
         <FloatButton text={'Enviar mi pedido'} onPress={this.confirmOrder} />
         {this.renderModal()}
       </View>
@@ -93,8 +96,11 @@ class CheckoutDetail extends Component {
 }
 
 const styles = {
-  container: {
-    flex: 1,
+  container:{
+    flex: 1
+  },
+  containerDetail: {
+    height: '90%',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
@@ -129,12 +135,19 @@ const mapStateToProps = state => {
     return { ...val, uid };
   })) || { address: '', phone: '' };
 
+  const { name } = state.store;
+
   const orders = _.mapValues(state.order, 'name');
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
 
   const { deliveryAddress: newAddress, nit, deliveryPrice, invoiceId } = state.invoiceForm;
   const deliveryAddress = newAddress || userAddress.address;
-  return { totalOrders, deliveryAddress, nit, orders, deliveryPrice, invoiceId, userAddress };
+  return { totalOrders, deliveryAddress, nit, orders, deliveryPrice, invoiceId, userAddress, name };
 };
 
-export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, addressFetchByUserId, invoiceCreate })(CheckoutDetail);
+export default connect(mapStateToProps, {
+  orderFetchByUserIdAndStoreIdAndState,
+  addressFetchByUserId,
+  invoiceCreate,
+  storeFetchById
+})(CheckoutDetail);

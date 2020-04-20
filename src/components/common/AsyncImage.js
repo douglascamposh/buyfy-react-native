@@ -30,7 +30,7 @@ class AsyncImage extends Component {
       }
     }).catch(error => {
       console.log("AsyncImage > getAndLoadHttpUrl", error);
-      this.setState({ url: "regalo.jpg", loading: false });
+      this.setState({ url: null, loading: false });
     });
   }
 
@@ -42,7 +42,7 @@ class AsyncImage extends Component {
     if (this.state.loading) {
       return <Spinner size="large"/>;
     }
-    return (
+    return ( this.state.url &&
       <Image style={this.props.style} source={{uri: this.state.url}} />
     );
   }

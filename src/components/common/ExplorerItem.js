@@ -5,17 +5,17 @@ import { Title } from './Title';
 import { Content } from './Content';
 
 const ExplorerItem = (props) => {
-  const { boxStyle, imageStyle, labelStyle, titleStyle, descriptionStyle } = styles;
+  const { containerStyle, containerImage, imageStyle, containerLabel, titleStyle, descriptionStyle } = styles;
   const imageRoute = props.image ? `images/${props.image}` : 'regalo.jpg';
   return (
-    <View style={ boxStyle }>
-      <View style={{ flex: 2 }}>
+    <View style={ containerStyle }>
+      <View style={[containerImage, props.containerImage]}>
         <AsyncImage
           image={imageRoute}
           style={ imageStyle }
         />
       </View>
-      <View style={ labelStyle }>
+      <View style={[containerLabel, props.containerLabel]}>
         <Title style={titleStyle}>{props.title}</Title>
         <Content numberOfLines={2} style={descriptionStyle}>{props.description}</Content>
         <Title style={titleStyle}>{props.footer}</Title>
@@ -25,10 +25,12 @@ const ExplorerItem = (props) => {
 };
 
 const styles = {
-  boxStyle: {
-    height: 160,
-    width: 160,
+  containerStyle: {
+    width: 220,
     marginLeft: 20,
+  },
+  containerImage: {
+    height: '75%'
   },
   imageStyle: {
     flex: 1,
@@ -36,17 +38,15 @@ const styles = {
     borderRadius: 5,
     overflow: 'hidden'
   },
-  labelStyle: {
-    flex: 1,
+  containerLabel: {
+    height: '25%',
     paddingLeft: 10,
-    paddingTop: 10
+    marginTop: 10
   },
   titleStyle: {
-    paddingLeft: 0,
     marginTop: 0,
   },
   descriptionStyle: {
-    paddingLeft: 0,
     marginTop: 0
   }
 };

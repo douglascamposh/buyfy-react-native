@@ -29,7 +29,7 @@ class AsyncTile extends Component {
       }
     }).catch(error => {
       console.log("AsyncTile > getAndLoadHttpUrl", error);
-      this.setState({ url: "regalo.jpg", loading: false });
+      this.setState({ url: null, loading: false });
     })
   }
 
@@ -41,7 +41,7 @@ class AsyncTile extends Component {
     if (this.state.loading) {
       return <Spinner size="large"/>;
     }
-    return (
+    return (this.state.url &&
       <Tile
         style={[this.props.style]}
         imageSrc={{uri: this.state.url}}

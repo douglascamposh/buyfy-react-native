@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableWithoutFeedback } from 'react-native';
-import { CardSection, AsyncImage} from '../common';
-import { FontWeight, Size, Colors } from '../../constants/Styles';
+import { View, TouchableWithoutFeedback } from 'react-native';
+import { CardSection, AsyncImage, Title, Content } from '../common';
 
 class StoreListItem extends Component {
 
@@ -11,22 +10,24 @@ class StoreListItem extends Component {
 
   render() {
     const { name, deliveryTime, deliveryPrice, imageName } = this.props.store;
-    const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
+    const imageRoute = imageName ? `images/${imageName}` : null;
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
         <View>
           <CardSection style={styles.cardSectionStyle}>
             <View style={styles.containerLeft}>
-              <Text style={styles.titleStyle}>
+              <Title style={styles.titleStyle}>
                 {name}
-              </Text>
-              <Text numberOfLines={2} style={styles.descriptionStyle}>
+              </Title>
+              <Content numberOfLines={2} style={styles.descriptionStyle}>
                 {deliveryTime} min - Bs. {deliveryPrice} envio
-              </Text>
+              </Content>
             </View>
-            <View style={styles.containerRigth}>
-              <AsyncImage image={imageRoute} style={styles.imageStyle}></AsyncImage>
-            </View>
+            { Boolean(imageRoute) && (
+              <View style={styles.containerRigth}>
+                <AsyncImage image={imageRoute} style={styles.imageStyle}></AsyncImage>
+              </View>
+            )}
           </CardSection>
         </View>
       </TouchableWithoutFeedback>
@@ -36,19 +37,10 @@ class StoreListItem extends Component {
 
 const styles = {
   titleStyle: {
-    fontSize: Size.titleCard,
-    paddingLeft: 15,
-    marginTop: 10,
-    flex: 1,
-    fontWeight: FontWeight.titleCard,
+    flex: 1
   },
   descriptionStyle: {
-    fontSize: Size.descriptionCard,
-    paddingLeft: 15,
-    marginTop: 10,
-    flex: 1,
-    fontWeight: FontWeight.descriptionCard,
-    color: Colors.secondaryText
+    flex: 1
   },
   cardSectionStyle: {
     flexDirection: 'row',
@@ -56,7 +48,8 @@ const styles = {
     justifyContent: 'space-between',
   },
   containerLeft: {
-    flex: 2
+    flex: 2,
+    paddingLeft: 15
   },
   containerRigth: {
     flex: 1

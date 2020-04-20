@@ -15,6 +15,7 @@ const styles = {
     borderColor: '#f2f2f2',
     elevation: 1,
     paddingTop: 5,
+    paddingBotom: 5,
     flex: 1
   }
 };
