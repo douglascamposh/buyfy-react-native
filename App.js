@@ -7,8 +7,7 @@ import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
 import * as Permissions from 'expo-permissions';
 import { firebaseConfig } from './TokenConfig';
-import * as Font from 'expo-font';
-import customFonts from './src/constants/Fonts';
+
 
 //temp fix, know issue only for android
 import { YellowBox } from 'react-native';
@@ -30,7 +29,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await Font.loadAsync(customFonts);
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     await Permissions.askAsync(Permissions.LOCATION);
   }

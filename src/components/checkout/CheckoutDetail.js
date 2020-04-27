@@ -28,8 +28,8 @@ class CheckoutDetail extends Component {
   }
 
   confirmOrder = () => {
-    const { deliveryAddress, nit, orders, deliveryPrice = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate
-    this.props.invoiceCreate({ deliveryAddress, nit, orders, deliveryPrice, subTotal, storeId });
+    const { addressId, nit, orders, deliveryPrice = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate
+    this.props.invoiceCreate({ addressId, nit, orders, deliveryPrice, subTotal, storeId });
     this.setState({ isVisible: true });
   }
 
@@ -131,18 +131,19 @@ const mapStateToProps = state => {
   const ordersProducts = _.map(state.order, (val, uid) => {
     return { ...val, uid };
   });
-  const userAddress = _.last(_.map(state.addresses, (val, uid) => {
+  const userAddresses = _.map(state.addresses, (val, uid) => {
     return { ...val, uid };
-  })) || { address: '', phone: '' };
+  });;
+  const userAddress = _.last(userAddresses) || { uid: '' };
 
   const { name } = state.store;
 
   const orders = _.mapValues(state.order, 'name');
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
 
-  const { deliveryAddress: newAddress, nit, deliveryPrice, invoiceId } = state.invoiceForm;
-  const deliveryAddress = newAddress || userAddress.address;
-  return { totalOrders, deliveryAddress, nit, orders, deliveryPrice, invoiceId, userAddress, name };
+  const { addressId: newAddressId, nit, deliveryPrice, invoiceId } = state.invoiceForm;
+  const addressId = newAddressId || userAddress.uid;
+  return { totalOrders, addressId, nit, orders, deliveryPrice, invoiceId, userAddresses, name };
 };
 
 export default connect(mapStateToProps, {

@@ -21,6 +21,8 @@ import AddressCreateScreen from '../screens/address/AddressCreateScreen';
 import AddressListScreen from '../screens/address/AddressListScreen';
 import AddressEditScreen from '../screens/address/AddressEditScreen';
 
+import LogOutScreen from '../screens/auth/LogOutScreen';
+
 // const product_StackNavigator = createStackNavigator({
 //   productList: {
 //     screen: ProductListScreen,
@@ -108,6 +110,12 @@ const DrawerNavigator = createDrawerNavigator(
       screen: address_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Mis direcciones'
+      }
+    },
+    signOut: {
+      screen: LogOutScreen,
+      navigationOptions: {
+        drawerLabel: 'log out'
       }
     }
   }
