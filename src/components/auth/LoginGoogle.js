@@ -137,7 +137,7 @@ const styles = {
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#007aff',
-    flex: 'none',
+    flex: 0,
   },
   iconStyle: {
     paddingRight: Padding.headerLeft

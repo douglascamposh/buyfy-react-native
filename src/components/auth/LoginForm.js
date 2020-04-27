@@ -127,7 +127,7 @@ const styles = {
     justifyContent: "center",
     marginTop: 40,
     marginBottom: 10,
-    flex: 'none',
+    flex: 0,
     borderColor: Colors.primaryRed
   },
   loginText:{
