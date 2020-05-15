@@ -21,7 +21,7 @@ const ProductSchema = yup.object({
   price: yup.string()
     .label('Precio')
     .required('Debes ingresar el ${label}.')
-    .min(1)
+    .max(6, 'El ${label} debe ser de maximo 6 digitos.')
 });
 
 
