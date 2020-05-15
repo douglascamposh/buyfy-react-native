@@ -9,16 +9,18 @@ const ProductSchema = yup.object({
   name: yup.string()
     .label('Nombre')
     .required('Debes ingresar el ${label}.')
-    .min(3)
+    .min(3, 'El ${label} es muy corto, ingresa minimo 3 caracteres.')
+    .max(30, 'El ${label} es muy largo, ingresa maximo 30 caracteres.')
     .trim(),
   description: yup.string()
     .label('Descripcion')
     .required('Debes ingresar la ${label}.')
-    .min(3)
+    .min(3, 'La ${label} es muy corta, ingresa minimo 3 caracteres.')
+    .max(100, 'La ${label} es muy larga, ingresa maximo 100 caracteres.')
     .trim('description'),
   price: yup.string()
     .label('Precio')
-    .required('Debes ingresar el ${label}')
+    .required('Debes ingresar el ${label}.')
     .min(1)
 });
 

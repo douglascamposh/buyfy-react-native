@@ -33,7 +33,7 @@ class ProductList extends Component {
   renderRightActions = (progress, item, close) => {
     const buttonActions = [
       {
-        onPress: () => { this.productEditOnClick(); close(); }, color: Colors.primaryBlue, item: item,
+        onPress: () => { close(); this.productEditOnClick(item); }, color: Colors.primaryBlue, item: item,
         icon: (
           <Icon
             name='ios-create'
@@ -45,7 +45,7 @@ class ProductList extends Component {
         )
       },
       {
-        onPress: () => { this.productDeleteOnClick(); close(); }, color: Colors.primaryRed, item: item,
+        onPress: () => { this.productDeleteOnClick(item); close(); }, color: Colors.primaryRed, item: item,
         icon: (
           <Icon
             name='ios-trash'

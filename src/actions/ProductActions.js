@@ -66,7 +66,15 @@ export const productUpdate = ({ name, description, price, image, imageName, stor
       .set({ name, description, price: Number(price), imageName: newImageName, storeId })
       .then(() => {
         console.info(`Updated product, productId: ${uid}`);
-        dispatch({ type: PRODUCT_UPDATE });
+        uploadImage(image, newImageName)
+          .then((response) => {
+            console.info("image edit uploaded", imageName);
+            dispatch({ type: PRODUCT_UPDATE });
+          })
+          .catch(error => {
+            console.warn(`It was not possible upload the new image to the product with productId: ${uid}`, error);
+            dispatch({ type: PRODUCT_UPDATE });
+          });
       })
       .catch(error => {
         console.warn("Error at update the Product", error);
