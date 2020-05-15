@@ -7,6 +7,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import NavigationDrawerStructure from './AppNavigator';
 
 import ProductCreateScreen from '../screens/ProductCreateScreen';
+import ProductEditScreen from '../screens/ProductEditScreen'
 import ProductDetailScreen from '../screens/ProductDetailsScreen';
 import ProductListScreen from '../screens/ProductListScreen';
 import StoreListScreen from '../screens/StoreListScreen';
@@ -65,6 +66,9 @@ const store_StackNavigator = createStackNavigator({
   },
   createProduct: {
     screen: ProductCreateScreen
+  },
+  editProduct: {
+    screen: ProductEditScreen
   },
   productDetail: {
     screen: ProductDetailScreen

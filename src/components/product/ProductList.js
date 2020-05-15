@@ -2,10 +2,12 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, FlatList, View } from 'react-native';
-import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
+import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteProduct } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card, FloatButton, AsyncTile, CardSection, Title, Content } from '../common';
+import { Explorer, Card, FloatButton, AsyncTile, Content, AppleStyleSwipeableRow, RightActions } from '../common';
 import { orderStates } from './../../constants/Enum';
+import { Colors, Size } from '../../constants/Styles';
+import { Icon } from 'react-native-elements';
 
 class ProductList extends Component {
 
@@ -20,8 +22,54 @@ class ProductList extends Component {
     this.props.navigation.navigate('productDetail', { product });
   }
 
+  productEditOnClick = (product) => {
+    this.props.navigation.navigate('editProduct', { product });
+  }
+
+  productDeleteOnClick = (product) => {
+    this.props.deleteProduct(product.uid);
+  }
+
+  renderRightActions = (progress, item, close) => {
+    const buttonActions = [
+      {
+        onPress: () => { close(); this.productEditOnClick(item); }, color: Colors.primaryBlue, item: item,
+        icon: (
+          <Icon
+            name='ios-create'
+            type='ionicon'
+            size={Size.iconButton}
+            color={Colors.primaryTextInverse}
+            iconStyle={styles.iconStyle}
+          />
+        )
+      },
+      {
+        onPress: () => { this.productDeleteOnClick(item); close(); }, color: Colors.primaryRed, item: item,
+        icon: (
+          <Icon
+            name='ios-trash'
+            type='ionicon'
+            size={Size.iconButton}
+            color={Colors.primaryTextInverse}
+            iconStyle={styles.iconStyle}
+          />
+        )
+      }
+    ];
+    return (
+      <RightActions progress={progress} buttonActions={buttonActions} />
+    )
+  };
+
   renderItem = ({item: product}) => {
-    return <ProductListItem product={product} productDetailOnClick={this.productDetailOnClick}/>
+    return (
+      <AppleStyleSwipeableRow
+        renderRightActions={this.renderRightActions}
+        item={product}>
+        <ProductListItem product={product} productDetailOnClick={this.productDetailOnClick} />
+      </AppleStyleSwipeableRow>
+    );
   }
 
   viewOrder() {
@@ -88,4 +136,4 @@ const mapStateToProps = state => {
   return { products, orders };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState})(ProductList);
+export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteProduct })(ProductList);

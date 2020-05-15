@@ -1,5 +1,6 @@
 export const PRODUCT_FETCH_SUCCESS = 'product_fetch_success';
 export const PRODUCT_CREATE = 'product_create';
+export const PRODUCT_UPDATE = 'product_update';
 export const PRODUCT_UPDATE_FORM = 'product_update_form';
 export const PRODUCT_CREATE_ORDER = 'product_create_order';
 export const PRODUCT_UPDATE_ORDER = 'product_update_order';

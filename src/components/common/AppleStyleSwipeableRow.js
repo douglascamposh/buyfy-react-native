@@ -14,8 +14,6 @@ class AppleStyleSwipeableRow extends Component {
     this._swipeableRow.close();
   };
 
-  
-
   render() {
     const { renderRightActions = null, renderLeftActions = null, item, children } = this.props;
     return (
@@ -24,9 +22,8 @@ class AppleStyleSwipeableRow extends Component {
         friction={2}
         leftThreshold={30}
         rightThreshold={40}
-        renderLeftActions={renderLeftActions ? (progress) => renderLeftActions(progress, item) : renderLeftActions}
-        renderRightActions={renderRightActions ? (progress) => renderRightActions(progress, item) : renderRightActions}
-        close={this.close}
+        renderLeftActions={renderLeftActions ? (progress) => renderLeftActions(progress, item, this.close) : renderLeftActions}
+        renderRightActions={renderRightActions ? (progress) => renderRightActions(progress, item, this.close) : renderRightActions}
       >
         {children}
       </Swipeable>
