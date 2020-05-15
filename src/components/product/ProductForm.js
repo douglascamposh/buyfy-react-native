@@ -1,60 +1,99 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { productUpdateForm } from '../../actions';
 import { View } from 'react-native';
-import { CardSection, Input, ImagePicker } from '../common';
+import { CardSection, ImagePicker, TextInput, Button } from '../common';
 import * as ExpoImagePicker from 'expo-image-picker';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+
+const ProductSchema = yup.object({
+  name: yup.string()
+    .label('Nombre')
+    .required('Debes ingresar el ${label}.')
+    .min(3)
+    .trim(),
+  description: yup.string()
+    .label('Descripcion')
+    .required('Debes ingresar la ${label}.')
+    .min(3)
+    .trim('description'),
+  price: yup.string()
+    .label('Precio')
+    .required('Debes ingresar el ${label}')
+    .min(1)
+});
+
 
 class ProductForm extends Component {
 
-  onChooseImagePress = async () => {
+  onChooseImagePress = async (props) => {
     let result = await ExpoImagePicker.launchImageLibraryAsync();
     if(!result.cancelled) {
-      this.props.productUpdateForm({prop: 'image', value: result.uri});
+      props.setFieldValue('image', result.uri);
     }
   }
 
   render() {
+    const { product, saveProduct } = this.props;
     return (
       <View>
-        <CardSection>
-          <Input
-            label="Nombre"
-            placeholder="Nombre del producto"
-            value={this.props.name}
-            onChangeText={value => this.props.productUpdateForm({prop: 'name', value})}
-          />
-        </CardSection>
-        <CardSection>
-          <Input
-            label="Descripcion"
-            placeholder="Descripcion del producto"
-            value={this.props.description}
-            onChangeText={value => this.props.productUpdateForm({prop: 'description', value})}
-          />
-        </CardSection>
-        <CardSection>
-          <Input
-            label="Precio"
-            value={this.props.price}
-            onChangeText={value => this.props.productUpdateForm({prop: 'price', value})}
-            numeric
-          />
-        </CardSection>
-        <CardSection>
-          <ImagePicker
-            onPress={this.onChooseImagePress}
-            image={this.props.image}
-          >Elegir Imagen</ImagePicker>
-        </CardSection>
+        <Formik
+          initialValues={{ ...product }}
+          validationSchema={ProductSchema}
+          onSubmit={(values, actions) => {
+            actions.resetForm();
+            saveProduct(values);
+          }}
+        >
+          {(props) => (
+            <View>
+              <CardSection>
+                <TextInput
+                  label="Nombre"
+                  placeholder="Nombre del producto"
+                  value={props.values.name}
+                  onChangeText={props.handleChange('name')}
+                  onBlur={props.handleBlur('name')}
+                  errorMessage={props.touched.name && props.errors.name}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Descripcion"
+                  placeholder="Descripcion del producto"
+                  value={props.values.description}
+                  onChangeText={props.handleChange('description')}
+                  onBlur={props.handleBlur('description')}
+                  errorMessage={props.touched.description && props.errors.description}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Precio"
+                  value={String(props.values.price)}
+                  onChangeText={props.handleChange('price')}
+                  onBlur={props.handleBlur('price')}
+                  numericvalue
+                  keyboardType='numeric'
+                  errorMessage={props.touched.price && props.errors.price}
+                />
+              </CardSection>
+              <CardSection>
+                <ImagePicker
+                  onPress={() => this.onChooseImagePress(props)}
+                  image={props.values.image}
+                >Elegir Imagen</ImagePicker>
+              </CardSection>
+              <CardSection>
+                <Button onPress={props.handleSubmit}>
+                  Guardar
+                </Button>
+              </CardSection>
+            </View>
+          )}
+        </Formik>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const {name, description, price, image} = state.productForm;
-  return {name, description, price, image};
-}
-
-export default connect(mapStateToProps, {productUpdateForm})(ProductForm);
+export default ProductForm;

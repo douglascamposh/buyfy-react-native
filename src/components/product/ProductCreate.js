@@ -1,34 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { productCreate } from '../../actions';
-import { Card, CardSection, Button } from '../common';
+import { productCreate, productUpdate } from '../../actions';
+import { Card } from '../common';
 import ProductForm from './ProductForm';
 
 class ProductCreate extends Component {
   
-  onButtonPress() {
-    const {name, description, price, image, storeId} = this.props;
-    this.props.productCreate({name, description, price, image, storeId});
+  onButtonPress = ({ name, description, price, image, imageName, storeId, uid }) => {
+    !uid ? this.props.productCreate({ name, description, price, image, storeId }) :
+      this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
     this.props.navigateTo('productList');
   }
 
   render() {
+    const { name, description, price, image, imageName, storeId, uid } = this.props.product ? this.props.product : this.props;
     return (
       <Card>
-        <ProductForm {...this.props}/>
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this)}>
-            Create
-          </Button>
-        </CardSection>
+        <ProductForm product={{ name, description, price, image, imageName, storeId, uid }} saveProduct={this.onButtonPress}/>
       </Card>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const {name, description, price, image} = state.productForm;
-  return {name, description, price, image};
+  const { name, description, price, image, imageName, uid} = state.productForm;
+  return { name, description, price, image, imageName, uid};
 }
 
-export default connect(mapStateToProps, {productCreate})(ProductCreate);
+export default connect(mapStateToProps, { productCreate, productUpdate })(ProductCreate);
