@@ -2,10 +2,12 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, ScrollView } from 'react-native';
-import { storesFetch } from '../../actions';
+import { storesFetch, deleteStore } from '../../actions';
 import StoreListItem from './StoreListItem';
 import InvoiceCards from '../checkout/InvoiceCards';
-import { Card } from '../common';
+import { Card, AppleStyleSwipeableRow, RightActions } from '../common';
+import { Colors, Size } from '../../constants/Styles';
+import { Icon } from 'react-native-elements';
 import RecomendedStores from './RecomendedStores';
 
 class StoreList extends Component {
@@ -18,12 +20,56 @@ class StoreList extends Component {
     this.props.navigation.navigate('productList', { store });
   }
 
-  renderItem = ({item: store}) => {
-    return <StoreListItem store={store} storeOnClick={this.storeOnClick} />
-  }
-
   invoiceCardOnClick = (invoiceId) => {
     this.props.navigation.navigate('currentOrder', { invoiceId });
+  }
+
+  storeEditOnClick = (store) => {
+    this.props.navigation.navigate('editStore', { store });
+  }
+
+  storeDeleteOnClick = (store) => {
+    this.props.deleteStore(store.uid);
+  }
+
+  renderRightActions = (progress, item, close) => {
+    const buttonActions = [
+      {
+        onPress: () => { close(); this.storeEditOnClick(item); }, color: Colors.primaryBlue, item: item,
+        icon: (
+          <Icon
+            name='ios-create'
+            type='ionicon'
+            size={Size.iconButton}
+            color={Colors.primaryTextInverse}
+          />
+        )
+      },
+      {
+        onPress: () => { this.storeDeleteOnClick(item); close(); }, color: Colors.primaryRed, item: item,
+        icon: (
+          <Icon
+            name='ios-trash'
+            type='ionicon'
+            size={Size.iconButton}
+            color={Colors.primaryTextInverse}
+          />
+        )
+      }
+    ];
+    return (
+      <RightActions progress={progress} buttonActions={buttonActions} />
+    )
+  };
+
+  renderItem = ({ item: store }) => {
+    return (
+      <AppleStyleSwipeableRow
+        renderRightActions={this.renderRightActions}
+        item={store}>
+        <StoreListItem store={store} storeOnClick={this.storeOnClick} />
+      </AppleStyleSwipeableRow>
+    );
   }
 
   render() {
