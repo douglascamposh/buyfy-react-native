@@ -91,7 +91,7 @@ class ProductList extends Component {
                   Tiempo de entrega aproximado {store.deliveryTime} min.
                 </Content>
                 <Content>
-                  Costo de envio {store.deliveryPrice} Bs.
+                  Costo de envío {store.shippingCost} Bs. - Pedido mínimo {store.minimumCost} Bs.
                 </Content>
               </AsyncTile>
             </Card>

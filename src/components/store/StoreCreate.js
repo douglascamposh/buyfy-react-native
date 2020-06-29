@@ -14,13 +14,14 @@ class StoreCreate extends Component {
   }
 
   render() {
-    const { name, description, address, deliveryTime, shippingCost, category, image, imageName, uid } = this.props.store ? this.props.store : this.props;
+    const { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost,
+      street, numberStreet, departmentNumber, city, town, streetReference, phone } = this.props.store ? this.props.store : this.props;
     return (
       <SafeAreaView>
         <ScrollView>
           <KeyboardAwareScrollView>
             <Card>
-              <StoreForm store={{ name, description, address, deliveryTime, shippingCost, category, image, imageName, uid }} saveStore={this.onButtonPress} />
+              <StoreForm store={{ name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone }} saveStore={this.onButtonPress} />
             </Card>
           </KeyboardAwareScrollView>
         </ScrollView>
@@ -30,8 +31,8 @@ class StoreCreate extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { name, description, address, deliveryTime, shippingCost, category, image, imageName, uid } = state.storeForm;
-  return { name, description, address, deliveryTime, shippingCost, category, image, imageName, uid };
+  const { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone } = state.storeForm;
+  return { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone };
 }
 
 export default connect(mapStateToProps, { storeCreate, storeUpdate })(StoreCreate);

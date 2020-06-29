@@ -8,11 +8,18 @@ import {
     description: '',
     imageName: '',
     image: '',
-    address: '',
     deliveryTime: '',
     shippingCost: '',
     category: '',
-    uid: ''
+    uid: '',
+    minimumCost: '',
+    street: '',
+    numberStreet: '',
+    departmentNumber: '',
+    city: '',
+    town: '',
+    streetReference: '',
+    phone: '',
   };
   
   export default (state = INITIAL_STATE, action) => {

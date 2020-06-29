@@ -116,7 +116,7 @@ class CurrentOrder extends Component {
                 color={Colors.disable}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.contentStyle}>Bs. {invoice.subTotal + invoice.deliveryPrice}</Content>
+              <Content style={styles.contentStyle}>Bs. {invoice.subTotal + invoice.shippingCost}</Content>
             </CardSection>
           </Card>
         </ScrollView>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { CardSection, ImagePicker, TextInput, Button } from '../common';
+import { CardSection, ImagePicker, TextInput, Button, Title } from '../common';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -66,38 +66,41 @@ class StoreForm extends Component {
               </CardSection>
               <CardSection>
                 <TextInput
-                  label="Dirección"
-                  placeholder="Ingrese la dirección"
-                  value={props.values.address}
-                  onChangeText={props.handleChange('address')}
-                  onBlur={props.handleBlur('address')}
-                  errorMessage={props.touched.address && props.errors.address}
-                />
-              </CardSection>
-              <CardSection>
-                <TextInput
                   label="Tiempo promedio de entrega"
-                  label="Ingrese el estimado de entrega"
+                  placeholder="Ingrese el tiempo estimado de entrega"
                   value={props.values.deliveryTime}
                   onChangeText={props.handleChange('deliveryTime')}
                   onBlur={props.handleBlur('deliveryTime')}
                   errorMessage={props.touched.deliveryTime && props.errors.deliveryTime}
+                  keyboardType='numeric'
                 />
               </CardSection>
               <CardSection>
                 <TextInput
                   label="Costo de envío"
-                  label="Costo de envío"
+                  placeholder="Costo de envío"
                   value={props.values.shippingCost}
                   onChangeText={props.handleChange('shippingCost')}
                   onBlur={props.handleBlur('shippingCost')}
                   errorMessage={props.touched.shippingCost && props.errors.shippingCost}
+                  keyboardType='numeric'
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Pedido minimo para envío"
+                  placeholder="Ingrese el pedido minimo para envío"
+                  value={props.values.minimumCost}
+                  onChangeText={props.handleChange('minimumCost')}
+                  onBlur={props.handleBlur('minimumCost')}
+                  errorMessage={props.touched.minimumCost && props.errors.minimumCost}
+                  keyboardType='numeric'
                 />
               </CardSection>
               <CardSection>
                 <TextInput
                   label="Categoria"
-                  label="Ingrese la Categoria"
+                  placeholder="Ingrese la Categoria"
                   value={props.values.category}
                   onChangeText={props.handleChange('category')}
                   onBlur={props.handleBlur('category')}
@@ -108,8 +111,80 @@ class StoreForm extends Component {
                 <ImagePicker
                   onPress={() => this.onChooseImagePress(props)}
                   image={props.values.image}
-                >Elegir Imagen</ImagePicker>
+                >Elegir Logo de la tienda</ImagePicker>
               </CardSection>
+              <Title>Dirección</Title>
+              <CardSection>
+                <TextInput
+                  label="Direccion"
+                  placeholder="Ingrese la calle"
+                  value={props.values.street}
+                  onChangeText={props.handleChange('street')}
+                  errorMessage={props.touched.street && props.errors.street}
+                  onBlur={props.handleBlur('street')}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Referencia"
+                  placeholder="Ingrese la zona, nombre del edificio"
+                  value={props.values.streetReference}
+                  onChangeText={props.handleChange('streetReference')}
+                  errorMessage={props.touched.streetReference && props.errors.streetReference}
+                  onBlur={props.handleBlur('streetReference')}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Numero del Edificio/Casa"
+                  placeholder="Ingrese la numeracion"
+                  value={props.values.numberStreet}
+                  onChangeText={props.handleChange('numberStreet')}
+                  errorMessage={props.touched.numberStreet && props.errors.numberStreet}
+                  onBlur={props.handleBlur('numberStreet')}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Numero del departamento"
+                  placeholder="Ingrese el numero del departamento"
+                  value={props.values.departmentNumber}
+                  onChangeText={props.handleChange('departmentNumber')}
+                  errorMessage={props.touched.departmentNumber && props.errors.departmentNumber}
+                  onBlur={props.handleBlur('departmentNumber')}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Ciudad"
+                  placeholder="Ingrese la ciudad"
+                  value={props.values.city}
+                  onChangeText={props.handleChange('city')}
+                  errorMessage={props.touched.city && props.errors.city}
+                  onBlur={props.handleBlur('city')}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Distrito"
+                  placeholder="Ingrese la distrito"
+                  value={props.values.town}
+                  onChangeText={props.handleChange('town')}
+                  errorMessage={props.touched.town && props.errors.town}
+                  onBlur={props.handleBlur('town')}
+                />
+              </CardSection>
+              <CardSection>
+                <TextInput
+                  label="Numero de telefono"
+                  value={props.values.phone}
+                  onChangeText={props.handleChange('phone')}
+                  keyboardType='phone-pad'
+                  errorMessage={props.touched.phone && props.errors.phone}
+                  onBlur={props.handleBlur('phone')}
+                />
+              </CardSection>
+
               <CardSection>
                 <Button onPress={props.handleSubmit}>
                   Guardar

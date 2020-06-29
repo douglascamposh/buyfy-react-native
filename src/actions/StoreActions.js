@@ -16,11 +16,13 @@ export const storesFetch = () => {
   };
 };
 
-export const storeCreate = ({ name, description, address, deliveryTime, shippingCost, category, image }) => {
+export const storeCreate = ({ name, description, deliveryTime, shippingCost, category, image, minimumCost,
+  street, numberStreet, departmentNumber, city, town, streetReference, phone }) => {
   return (dispatch) => {
     const imageName = image ? uuid() : '';
     firebase.database().ref(`/stores`)
-      .push({ name, description, address, deliveryTime, shippingCost, category, imageName})
+      .push({ name, description, deliveryTime, shippingCost, category, imageName, minimumCost,
+        street, numberStreet, departmentNumber, city, town, streetReference, phone })
     .then((response) => {
       if(image) {
         uploadImage(image, imageName)
@@ -37,17 +39,19 @@ export const storeCreate = ({ name, description, address, deliveryTime, shipping
   };
 };
 
-export const storeUpdate = ({ uid, name, description, address, deliveryTime, shippingCost, category, image, imageName }) => {
+export const storeUpdate = ({ uid, name, description, deliveryTime, shippingCost, category, image, imageName, minimumCost,
+  street, numberStreet, departmentNumber, city, town, streetReference, phone }) => {
   const newImageName = image ? uuid() : imageName;
   return (dispatch) => {
     firebase.database().ref(`/stores/${uid}`) //TODO: Verify if is better upload the image first.
-      .set({ name, description, address, deliveryTime, shippingCost, category, imageName: newImageName })
+      .set({ name, description, deliveryTime, shippingCost, category, imageName: newImageName, minimumCost,
+        street, numberStreet, departmentNumber, city, town, streetReference, phone })
       .then(() => {
         console.info(`Updated Store, storeId: ${uid}`);
         if (image) {
-          uploadImage(image, imageName)
+          uploadImage(image, newImageName)
             .then(response => {
-              console.info("image uploaded", imageName);
+              console.info("image uploaded", newImageName);
               dispatch({ type: STORE_UPDATE });
             })
             .catch(error => {
