@@ -12,6 +12,7 @@ import ProductDetailScreen from '../screens/ProductDetailsScreen';
 import ProductListScreen from '../screens/ProductListScreen';
 import StoreListScreen from '../screens/StoreListScreen';
 import StoreCreateScreen from '../screens/StoreCreateScreen';
+import StoreEditScreen from '../screens/StoreEditScreen';
 import OrderListScreen from '../screens/OrderListScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import CurrentOrderScreen from '../screens/CurrentOrderScreen';
@@ -75,6 +76,9 @@ const store_StackNavigator = createStackNavigator({
   },
   createStore: {
     screen: StoreCreateScreen
+  },
+  editStore: {
+    screen: StoreEditScreen
   },
   orderList: {
     screen: OrderListScreen

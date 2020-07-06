@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   addressId: '',
   nit: '',
   orders: {},
-  deliveryPrice: 0
+  shippingCost: 0
 };
 
 export default (state = INITIAL_STATE, action) => {

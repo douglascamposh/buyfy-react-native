@@ -1,20 +1,36 @@
 import {
     STORE_CREATE,
-    STORE_UPDATE_FORM
+    STORE_UPDATE
   } from '../actions/types';
   
   const INITIAL_STATE = {
     name: '',
     description: '',
-    imageName: ''
+    imageName: '',
+    image: '',
+    deliveryTime: '',
+    shippingCost: '',
+    category: '',
+    uid: '',
+    minimumCost: '',
+    street: '',
+    numberStreet: '',
+    departmentNumber: '',
+    city: '',
+    town: '',
+    streetReference: '',
+    phone: '',
+    latitude: '',
+    longitude: '',
+    userId: ''
   };
   
   export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
       case STORE_CREATE:
         return INITIAL_STATE;
-      case STORE_UPDATE_FORM:
-        return { ...state, [action.payload.prop]: action.payload.value }
+      case STORE_UPDATE:
+        return { ...INITIAL_STATE };
       default:
         return state;
     }

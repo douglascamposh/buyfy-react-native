@@ -138,8 +138,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { addressId, nit, deliveryPrice } = state.invoiceForm;
-  return { addressId, nit, deliveryPrice };
+  const { addressId, nit, shippingCost } = state.invoiceForm;
+  return { addressId, nit, shippingCost };
 }
 
 export default connect(mapStateToProps, { invoiceUpdateForm })(InvoiceForm);

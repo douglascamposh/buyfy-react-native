@@ -9,7 +9,7 @@ class StoreListItem extends Component {
   }
 
   render() {
-    const { name, deliveryTime, deliveryPrice, imageName } = this.props.store;
+    const { name, deliveryTime, shippingCost, imageName } = this.props.store;
     const imageRoute = imageName ? `images/${imageName}` : null;
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
@@ -20,7 +20,7 @@ class StoreListItem extends Component {
                 {name}
               </Title>
               <Content numberOfLines={2} style={styles.descriptionStyle}>
-                {deliveryTime} min - Bs. {deliveryPrice} envio
+                {deliveryTime} min - Bs. {shippingCost} envio
               </Content>
             </View>
             { Boolean(imageRoute) && (

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import StoreCreate from '../components/store/StoreCreate';
 
-class StoreCreateScreen extends Component {
+class StoreEditScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'Crear Tienda',
-      title: 'Nuevo Tienda'
+      headerTitle: 'Editar Tienda'
     }
   }
 
@@ -14,8 +13,9 @@ class StoreCreateScreen extends Component {
   }
 
   render() {
-    return <StoreCreate navigateTo={this.navigateTo} />;
+    const store = this.props.navigation.getParam('store', {});
+    return <StoreCreate navigateTo={this.navigateTo} title={'Editar Tienda'} store={store} />;
   }
 }
 
-export default StoreCreateScreen;
+export default StoreEditScreen;

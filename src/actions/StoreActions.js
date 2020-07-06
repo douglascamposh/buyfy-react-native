@@ -4,7 +4,7 @@ import {
   STORE_FETCH_SUCCESS,
   STORES_FETCH_SUCCESS,
   STORE_CREATE,
-  STORE_UPDATE_FORM
+  STORE_UPDATE
 } from './types';
 
 export const storesFetch = () => {
@@ -16,11 +16,16 @@ export const storesFetch = () => {
   };
 };
 
-export const storeCreate = ({name, description, image}) => {
+export const storeCreate = ({ name, description, deliveryTime, shippingCost, category, image, minimumCost,
+  street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }) => {
+  const user = firebase.auth().currentUser;
+  const userId = user ? user.uid : '';
+  const created_at = updated_at = Date.now();
   return (dispatch) => {
     const imageName = image ? uuid() : '';
     firebase.database().ref(`/stores`)
-    .push({name, description, imageName})
+      .push({ name, description, deliveryTime, shippingCost, category, imageName, minimumCost,
+        street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude, userId, created_at, updated_at })
     .then((response) => {
       if(image) {
         uploadImage(image, imageName)
@@ -37,19 +42,53 @@ export const storeCreate = ({name, description, image}) => {
   };
 };
 
+export const storeUpdate = ({ uid, name, description, deliveryTime, shippingCost, category, image, imageName, minimumCost,
+  street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }) => {
+  const newImageName = image ? uuid() : imageName;
+  const updated_at = Date.now();
+  return (dispatch) => {
+    firebase.database().ref(`/stores/${uid}`) //TODO: Verify if is better upload the image first.
+      .set({ name, description, deliveryTime, shippingCost, category, imageName: newImageName, minimumCost,
+        street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude, updated_at })
+      .then(() => {
+        console.info(`Updated Store, storeId: ${uid}`);
+        if (image) {
+          uploadImage(image, newImageName)
+            .then(response => {
+              console.info("image uploaded", newImageName);
+              dispatch({ type: STORE_UPDATE });
+            })
+            .catch(error => {
+              console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
+              dispatch({ type: STORE_UPDATE });
+            });
+        }
+      })
+      .catch(error => {
+        console.warn("Error at update the Store", error);
+      });
+  };
+};
+
+export const deleteStore = (storeId) => { //TODO just update a delete field instead of delete
+  return (dispatch) => {
+    firebase.database().ref(`/stores/${storeId}`)
+      .set(null)
+      .then(() => {
+        console.info(`Removed store with storeId: ${storeId}`);
+      })
+      .catch(error => {
+        console.warn("Error at remove the Product", error);
+      });
+  };
+};
+
 const uploadImage = async (image, imageName) => {
   const response = await fetch(image);
   const blob = await response.blob();
   const ref = firebase.storage().ref().child(`images/${imageName}`);
   return ref.put(blob);
 }
-
-export const storeUpdateForm = ({prop, value}) => {
-  return {
-    type: STORE_UPDATE_FORM,
-    payload: {prop, value}
-  }
-};
 
 export const storeFetchById = (storeId) => {
   return (dispatch) => {

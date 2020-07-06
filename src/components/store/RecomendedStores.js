@@ -6,7 +6,7 @@ const renderCarrouselItem = (item) => {
   return (
     <ExplorerItem
       title={item.name}
-      description={`${item.deliveryTime}-${item.deliveryTime + 15} min | Bs. ${item.deliveryPrice}`}
+      description={`${item.deliveryTime}-${Number(item.deliveryTime) + 15} min | Bs. ${item.shippingCost}`}
       image={item.imageName}
     />
   );
