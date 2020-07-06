@@ -15,13 +15,13 @@ class StoreCreate extends Component {
 
   render() {
     const { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost,
-      street, numberStreet, departmentNumber, city, town, streetReference, phone } = this.props.store ? this.props.store : this.props;
+      street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude } = this.props.store ? this.props.store : this.props;
     return (
       <SafeAreaView>
         <ScrollView>
           <KeyboardAwareScrollView>
             <Card>
-              <StoreForm store={{ name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone }} saveStore={this.onButtonPress} />
+              <StoreForm store={{ name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }} saveStore={this.onButtonPress} />
             </Card>
           </KeyboardAwareScrollView>
         </ScrollView>
@@ -31,8 +31,8 @@ class StoreCreate extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone } = state.storeForm;
-  return { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone };
+  const { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude } = state.storeForm;
+  return { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude };
 }
 
 export default connect(mapStateToProps, { storeCreate, storeUpdate })(StoreCreate);

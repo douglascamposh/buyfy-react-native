@@ -20,6 +20,9 @@ import {
     town: '',
     streetReference: '',
     phone: '',
+    latitude: '',
+    longitude: '',
+    userId: ''
   };
   
   export default (state = INITIAL_STATE, action) => {

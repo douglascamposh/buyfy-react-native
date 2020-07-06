@@ -17,12 +17,15 @@ export const storesFetch = () => {
 };
 
 export const storeCreate = ({ name, description, deliveryTime, shippingCost, category, image, minimumCost,
-  street, numberStreet, departmentNumber, city, town, streetReference, phone }) => {
+  street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }) => {
+  const user = firebase.auth().currentUser;
+  const userId = user ? user.uid : '';
+  const created_at = updated_at = Date.now();
   return (dispatch) => {
     const imageName = image ? uuid() : '';
     firebase.database().ref(`/stores`)
       .push({ name, description, deliveryTime, shippingCost, category, imageName, minimumCost,
-        street, numberStreet, departmentNumber, city, town, streetReference, phone })
+        street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude, userId, created_at, updated_at })
     .then((response) => {
       if(image) {
         uploadImage(image, imageName)
@@ -40,12 +43,13 @@ export const storeCreate = ({ name, description, deliveryTime, shippingCost, cat
 };
 
 export const storeUpdate = ({ uid, name, description, deliveryTime, shippingCost, category, image, imageName, minimumCost,
-  street, numberStreet, departmentNumber, city, town, streetReference, phone }) => {
+  street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }) => {
   const newImageName = image ? uuid() : imageName;
+  const updated_at = Date.now();
   return (dispatch) => {
     firebase.database().ref(`/stores/${uid}`) //TODO: Verify if is better upload the image first.
       .set({ name, description, deliveryTime, shippingCost, category, imageName: newImageName, minimumCost,
-        street, numberStreet, departmentNumber, city, town, streetReference, phone })
+        street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude, updated_at })
       .then(() => {
         console.info(`Updated Store, storeId: ${uid}`);
         if (image) {

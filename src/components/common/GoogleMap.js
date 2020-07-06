@@ -45,7 +45,17 @@ class GoogleMap extends Component {
     );
   }
 
+  onDragEnd = (event) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    this.setState({ latitude, longitude });
+    const {marker} = this.props;
+    if (marker) {
+      marker.onDragEnd({latitude, longitude});
+    }
+  }
+
   render() {
+    const {marker} = this.props;
     const { latitude, longitude } = this.state;
     if(latitude) {
       return (
@@ -60,7 +70,20 @@ class GoogleMap extends Component {
               longitudeDelta: 0.008866
             }}
             showsCompass={true}
-        />
+          >
+            { marker &&
+              <MapView.Marker
+                draggable
+                coordinate={{
+                  latitude: marker.latitude || latitude,
+                  longitude: marker.longitude || longitude
+                }}
+                title={marker.title}
+                description={marker.description}
+                onDragEnd={this.onDragEnd}
+              />
+            }
+          </MapView>
         </View>
       );
     }
@@ -70,14 +93,14 @@ class GoogleMap extends Component {
 
 const styles = {
   container: {
-    flex: 1,
+    
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    
   },
   mapStyle: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width/2,
+    height: Dimensions.get('window').height/2,
   }
 };
 

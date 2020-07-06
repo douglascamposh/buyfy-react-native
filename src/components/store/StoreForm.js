@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { CardSection, ImagePicker, TextInput, Button, Title } from '../common';
+import { CardSection, ImagePicker, TextInput, Button, Title, GoogleMap } from '../common';
+import { Overlay } from 'react-native-elements';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -21,6 +22,13 @@ const StoreSchema = yup.object({
 });
 
 class StoreForm extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+    }
+  }
 
   // Custom value formik
   onChooseImagePress = async (props) => {
@@ -28,6 +36,40 @@ class StoreForm extends Component {
     if (!result.cancelled) {
       props.setFieldValue('image', result.uri);
     }
+  }
+
+  showModal = () => {
+    this.setState({ isVisible: true });
+  }
+
+  onDragEndMarker = (props, coordinate) => {
+    const { latitude, longitude } = coordinate;
+    props.setFieldValue('latitude', latitude);
+    props.setFieldValue('longitude', longitude);
+  }
+
+  renderModalAddressList = (props) => {
+    return (
+      <Overlay
+        isVisible={this.state.isVisible}
+        onBackdropPress={() => this.setState({ isVisible: false })}
+      >
+        <View>
+          <Title>
+            Arrastra el marcador hasta la dirección de la tienda
+          </Title>
+          <GoogleMap
+            marker={{
+              title: 'Georeferencia tienda',
+              description: 'Arrastre hasta la dirección de la tienda',
+              latitude: props.values.latitude,
+              longitude: props.values.longitude,
+              onDragEnd: (coordinate) => this.onDragEndMarker(props, coordinate)
+            }}
+          />
+        </View>
+      </Overlay>
+    );
   }
 
   render() {
@@ -107,13 +149,16 @@ class StoreForm extends Component {
                   errorMessage={props.touched.category && props.errors.category}
                 />
               </CardSection>
-              <CardSection>
+              
+              <CardSection style={{ flexDirection: 'column' }}>
+                <Title style={{ paddingBottom: 10 }}>
+                  Agregar Logo de la tienda
+                </Title>
                 <ImagePicker
                   onPress={() => this.onChooseImagePress(props)}
                   image={props.values.image}
                 >Elegir Logo de la tienda</ImagePicker>
               </CardSection>
-              <Title>Dirección</Title>
               <CardSection>
                 <TextInput
                   label="Direccion"
@@ -184,6 +229,15 @@ class StoreForm extends Component {
                   onBlur={props.handleBlur('phone')}
                 />
               </CardSection>
+              <CardSection style={{ flexDirection: 'column'}}>
+                <Title style={{paddingBottom: 10}}>
+                  Georeferencia
+                </Title>
+                <Button onPress={this.showModal}>
+                  Mostrar Mapa
+                </Button>
+              </CardSection>
+              {this.renderModalAddressList(props)}
 
               <CardSection>
                 <Button onPress={props.handleSubmit}>
