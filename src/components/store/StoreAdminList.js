@@ -1,27 +1,21 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
+import { AppleStyleSwipeableRow, RightActions } from '../common';
 import { FlatList } from 'react-native';
-import { storesFetch } from '../../actions';
-import StoreListItem from './StoreListItem';
-import InvoiceCards from '../checkout/InvoiceCards';
-import { Card, AppleStyleSwipeableRow, RightActions } from '../common';
+import { storesByUserIdFetch } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
-import RecomendedStores from './RecomendedStores';
+import StoreListItem from './StoreListItem';
 
-class StoreList extends Component {
-
+class StoreAdminList extends Component {
+  
   componentDidMount() {
-    this.props.storesFetch();
+    this.props.storesByUserIdFetch();
   }
 
   storeOnClick = (store) => {
-    this.props.navigation.navigate('productList', { store });
-  }
-
-  invoiceCardOnClick = (invoiceId) => {
-    this.props.navigation.navigate('currentOrder', { invoiceId });
+    this.props.navigation.navigate('productAdminList', { store });
   }
 
   storeEditOnClick = (store) => {
@@ -74,31 +68,22 @@ class StoreList extends Component {
 
   render() {
     return (
-        <FlatList
-          ListHeaderComponent={
-          <>
-            <Card>
-              <RecomendedStores stores={this.props.stores} />
-            </Card>
-            <InvoiceCards
-              onInvoiceCardClick={this.invoiceCardOnClick}
-            />
-          </>}
-          enableEmptySections
-          renderItem={this.renderItem}
-          data={this.props.stores}
-          keyExtractor={({uid}) => String(uid)}
-        />
+      <FlatList
+        enableEmptySections
+        renderItem={this.renderItem}
+        data={this.props.stores}
+        keyExtractor={({ uid }) => String(uid)}
+      />
     );
   }
 }
 
 const mapStateToProps = state => {
   const stores = _.map(state.stores, (val, uid) => {
-    return {...val, uid};
+    return { ...val, uid };
   });
 
   return { stores };
 };
 
-export default connect(mapStateToProps, { storesFetch })(StoreList);
+export default connect(mapStateToProps, { storesByUserIdFetch })(StoreAdminList);

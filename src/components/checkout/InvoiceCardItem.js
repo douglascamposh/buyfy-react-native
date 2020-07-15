@@ -9,7 +9,7 @@ import { Size, Colors, Padding } from '../../constants/Styles';
 
 class InvoiceCardItem extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     const { invoice } = this.props;
     this.props.storeFetchById(invoice.storeId);
   }

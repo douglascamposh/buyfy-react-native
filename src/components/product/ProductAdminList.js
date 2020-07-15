@@ -2,20 +2,27 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteProduct } from '../../actions';
+import { productsFetchByStoreId, deleteProduct, storeUpdateFields } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card, FloatButton, AsyncTile, Content, AppleStyleSwipeableRow, RightActions } from '../common';
-import { orderStates } from './../../constants/Enum';
+import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title } from '../common';
 import { Colors, Size } from '../../constants/Styles';
-import { Icon } from 'react-native-elements';
+import { Overlay, Icon } from 'react-native-elements';
 
-class ProductList extends Component {
+import ScheduleWeek from './ScheduleWeek';
+
+class ProductAdminList extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+    }
+  }
 
   componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     this.props.productsFetchByStoreId(store.uid);
-    this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
   }
 
   productDetailOnClick = (product) => {
@@ -62,7 +69,7 @@ class ProductList extends Component {
     )
   };
 
-  renderItem = ({item: product}) => {
+  renderItem = ({ item: product }) => {
     return (
       <AppleStyleSwipeableRow
         renderRightActions={this.renderRightActions}
@@ -77,47 +84,79 @@ class ProductList extends Component {
     this.props.navigation.navigate('orderList', { storeId });
   }
 
+  showScheduleOnClick = () => {
+    this.setState({ isVisible: true });
+  }
+
+  saveSchedule = (values) => {
+    const { navigation } = this.props;
+    const store = navigation.getParam('store', {});
+    store.schedule = values;
+    this.props.storeUpdateFields({...store})
+    this.setState({isVisible: false});
+  }
+
+  renderModalSchedule(store) {
+    return (
+      <Overlay
+        isVisible={this.state.isVisible}
+        onBackdropPress={() => this.setState({ isVisible: false })}
+      >
+        <View>
+          <Title>
+            Horario de Atención
+          </Title>
+          <ScheduleWeek
+            schedule={{ ...store.schedule }}
+            saveSchedule={this.saveSchedule}
+          />
+        </View>
+      </Overlay>
+    );
+  }
+
   render() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={this.props.orders.length ? styles.containerProduct : styles.container}>
-            <FlatList
-            ListHeaderComponent={
-              <> 
-                <Card>
-                  <AsyncTile image={imageRoute} title={store.name}>
-                    <Content>
-                      Tiempo de entrega aproximado {store.deliveryTime} min.
+      <SafeAreaView style={styles.container}>    
+        <FlatList
+          ListHeaderComponent={
+          <>
+            <Card>
+              <AsyncTile image={imageRoute} title={store.name}>
+                <Content>
+                  Tiempo de entrega aproximado {store.deliveryTime} min.
                 </Content>
-                    <Content>
-                      Costo de envío {store.shippingCost} Bs. - Pedido mínimo {store.minimumCost} Bs.
+                <Content>
+                  Costo de envío {store.shippingCost} Bs. - Pedido mínimo {store.minimumCost} Bs.
                 </Content>
-                  </AsyncTile>
-                </Card>
-                <Card>
-                  <Explorer data={this.props.products} />
-                </Card>
-              </>
-              }
-              enableEmptySections
-              renderItem={this.renderItem}
-              data={this.props.products}
-              keyExtractor={({ uid }) => String(uid)}
-            />
-        </View>
-      {Boolean(this.props.orders.length) && (
-        <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)} />)}
+              </AsyncTile>
+            </Card>
+            <Card>
+              {this.renderModalSchedule(store)}
+            </Card>
+            <Card>
+              <Title>Horario de Atención</Title>
+              <Button onPress={this.showScheduleOnClick}>Configurar Horario</Button>
+            </Card>
+          </>
+          }
+          enableEmptySections
+          renderItem={this.renderItem}
+          data={this.props.products}
+          keyExtractor={({ uid }) => String(uid)} deleteProduct
+        />
       </SafeAreaView>
     );
   }
 }
-
 const styles = {
   containerProduct: {
-    height: '90%'
+    height: '90%',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   container: {
     flex: 1
@@ -126,13 +165,11 @@ const styles = {
 
 const mapStateToProps = state => {
   const products = _.map(state.products, (val, uid) => {
-    return {...val, uid};
-  });
-  const orders = _.map(state.order, (val, uid) => {
     return { ...val, uid };
   });
+  const store = { ...state.store};
 
-  return { products, orders };
+  return { products, store };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteProduct })(ProductList);
+export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct, storeUpdateFields })(ProductAdminList);
