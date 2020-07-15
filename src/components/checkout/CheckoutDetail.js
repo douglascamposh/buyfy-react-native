@@ -20,7 +20,7 @@ class CheckoutDetail extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { storeId } = this.props;
     this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
     this.props.addressFetchByUserId();

@@ -8,7 +8,7 @@ import InvoiceCardItem from './InvoiceCardItem';
 
 class InvoiceCards extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.invoiceFetchByUserId();
   }
 

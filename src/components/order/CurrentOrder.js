@@ -10,7 +10,7 @@ import _ from 'lodash';
 
 class CurrentOrder extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     const invoiceId = this.props.navigation.getParam('invoiceId', {});
     this.props.invoiceFetchById(invoiceId);
   }

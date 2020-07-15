@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, ScrollView } from 'react-native';
-import { storesFetch, deleteStore } from '../../actions';
+import { FlatList } from 'react-native';
+import { storesFetch } from '../../actions';
 import StoreListItem from './StoreListItem';
 import InvoiceCards from '../checkout/InvoiceCards';
 import { Card, AppleStyleSwipeableRow, RightActions } from '../common';
@@ -12,7 +12,7 @@ import RecomendedStores from './RecomendedStores';
 
 class StoreList extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.storesFetch();
   }
 
@@ -74,20 +74,21 @@ class StoreList extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <Card>
-          <RecomendedStores stores={this.props.stores}/>
-        </Card>
-        <InvoiceCards
-          onInvoiceCardClick={this.invoiceCardOnClick}
-        />
         <FlatList
+          ListHeaderComponent={
+          <>
+            <Card>
+              <RecomendedStores stores={this.props.stores} />
+            </Card>
+            <InvoiceCards
+              onInvoiceCardClick={this.invoiceCardOnClick}
+            />
+          </>}
           enableEmptySections
           renderItem={this.renderItem}
           data={this.props.stores}
           keyExtractor={({uid}) => String(uid)}
         />
-      </ScrollView>
     );
   }
 }

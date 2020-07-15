@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, FlatList, View } from 'react-native';
+import { FlatList, View, SafeAreaView } from 'react-native';
 import { productsFetchByStoreId, deleteProduct, storeUpdateFields } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title } from '../common';
@@ -19,7 +19,7 @@ class ProductAdminList extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     this.props.productsFetchByStoreId(store.uid);
@@ -120,9 +120,10 @@ class ProductAdminList extends Component {
     const store = navigation.getParam('store', {});
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     return (
-      <View style={styles.container}>
-        <View style={styles.container}>
-          <ScrollView>
+      <SafeAreaView style={styles.container}>    
+        <FlatList
+          ListHeaderComponent={
+          <>
             <Card>
               <AsyncTile image={imageRoute} title={store.name}>
                 <Content>
@@ -140,15 +141,14 @@ class ProductAdminList extends Component {
               <Title>Horario de Atención</Title>
               <Button onPress={this.showScheduleOnClick}>Configurar Horario</Button>
             </Card>
-            <FlatList
-              enableEmptySections
-              renderItem={this.renderItem}
-              data={this.props.products}
-              keyExtractor={({ uid }) => String(uid)} deleteProduct
-            />
-          </ScrollView>
-        </View>
-      </View>
+          </>
+          }
+          enableEmptySections
+          renderItem={this.renderItem}
+          data={this.props.products}
+          keyExtractor={({ uid }) => String(uid)} deleteProduct
+        />
+      </SafeAreaView>
     );
   }
 }

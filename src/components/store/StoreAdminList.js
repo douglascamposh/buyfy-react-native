@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { AppleStyleSwipeableRow, RightActions } from '../common';
-import { FlatList, ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
 import { storesByUserIdFetch } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
@@ -68,14 +68,12 @@ class StoreAdminList extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <FlatList
-          enableEmptySections
-          renderItem={this.renderItem}
-          data={this.props.stores}
-          keyExtractor={({ uid }) => String(uid)}
-        />
-      </ScrollView>
+      <FlatList
+        enableEmptySections
+        renderItem={this.renderItem}
+        data={this.props.stores}
+        keyExtractor={({ uid }) => String(uid)}
+      />
     );
   }
 }

@@ -22,13 +22,10 @@ console.warn = message => {
 };
 
 class App extends Component {
-  
-  componentWillMount(){
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  }
 
   async componentDidMount() {
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     await Permissions.askAsync(Permissions.LOCATION);
   }

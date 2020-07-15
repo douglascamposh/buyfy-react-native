@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, FlatList, View } from 'react-native';
+import { FlatList, View, SafeAreaView } from 'react-native';
 import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteProduct } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Explorer, Card, FloatButton, AsyncTile, Content, AppleStyleSwipeableRow, RightActions } from '../common';
@@ -11,7 +11,7 @@ import { Icon } from 'react-native-elements';
 
 class ProductList extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     this.props.productsFetchByStoreId(store.uid);
@@ -82,43 +82,42 @@ class ProductList extends Component {
     const store = navigation.getParam('store', {});
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={this.props.orders.length ? styles.containerProduct : styles.container}>
-          <ScrollView>
-            <Card>
-              <AsyncTile image={imageRoute} title={store.name}>
-                <Content>
-                  Tiempo de entrega aproximado {store.deliveryTime} min.
-                </Content>
-                <Content>
-                  Costo de envío {store.shippingCost} Bs. - Pedido mínimo {store.minimumCost} Bs.
-                </Content>
-              </AsyncTile>
-            </Card>
-            <Card>
-              <Explorer data={this.props.products}/>
-            </Card>
             <FlatList
+            ListHeaderComponent={
+              <> 
+                <Card>
+                  <AsyncTile image={imageRoute} title={store.name}>
+                    <Content>
+                      Tiempo de entrega aproximado {store.deliveryTime} min.
+                </Content>
+                    <Content>
+                      Costo de envío {store.shippingCost} Bs. - Pedido mínimo {store.minimumCost} Bs.
+                </Content>
+                  </AsyncTile>
+                </Card>
+                <Card>
+                  <Explorer data={this.props.products} />
+                </Card>
+              </>
+              }
               enableEmptySections
               renderItem={this.renderItem}
               data={this.props.products}
               keyExtractor={({ uid }) => String(uid)}
             />
-          </ScrollView>
         </View>
-        {Boolean(this.props.orders.length) && (
-          <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)} />
-        )}
-      </View>
+      {Boolean(this.props.orders.length) && (
+        <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)} />)}
+      </SafeAreaView>
     );
   }
 }
 
 const styles = {
   containerProduct: {
-    height: '90%',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+    height: '90%'
   },
   container: {
     flex: 1
