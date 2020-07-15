@@ -22,6 +22,8 @@ import MapScreen from '../screens/MapScreen';
 import AddressCreateScreen from '../screens/address/AddressCreateScreen';
 import AddressListScreen from '../screens/address/AddressListScreen';
 import AddressEditScreen from '../screens/address/AddressEditScreen';
+import StoreAdminScreen from '../screens/admin/StoreAdminScreen';
+import ProductAdminScreen from '../screens/admin/ProductAdminScreen';
 
 import LogOutScreen from '../screens/auth/LogOutScreen';
 
@@ -52,6 +54,18 @@ const address_StackNavigator = createStackNavigator({
   },
   editAddress: {
     screen: AddressEditScreen
+  }
+});
+
+const Admin_StackNavigator = createStackNavigator({
+  storeAdminList: {
+    screen: StoreAdminScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
+    })
+  },
+  productAdminList: {
+    screen: ProductAdminScreen
   }
 });
 
@@ -118,6 +132,12 @@ const DrawerNavigator = createDrawerNavigator(
       screen: address_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Mis direcciones'
+      }
+    },
+    admin: {
+      screen: Admin_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Administración'
       }
     },
     signOut: {
