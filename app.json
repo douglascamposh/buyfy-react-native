@@ -3,7 +3,6 @@
     "name": "La Cancha",
     "slug": "buyfy",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android",
