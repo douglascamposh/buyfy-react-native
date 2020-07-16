@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, SafeAreaView } from 'react-native';
+import { FlatList, ScrollView, SafeAreaView } from 'react-native';
 import { productsFetchByStoreId, deleteProduct, storeUpdateFields } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title } from '../common';
@@ -102,7 +102,7 @@ class ProductAdminList extends Component {
         isVisible={this.state.isVisible}
         onBackdropPress={() => this.setState({ isVisible: false })}
       >
-        <View>
+        <ScrollView>
           <Title>
             Horario de Atención
           </Title>
@@ -110,7 +110,7 @@ class ProductAdminList extends Component {
             schedule={{ ...store.schedule }}
             saveSchedule={this.saveSchedule}
           />
-        </View>
+        </ScrollView>
       </Overlay>
     );
   }
