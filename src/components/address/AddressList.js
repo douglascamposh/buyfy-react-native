@@ -11,7 +11,7 @@ import { Icon } from 'react-native-elements';
 
 class AddressList extends Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.addressFetchByUserId();
   }
 

@@ -1,16 +1,15 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, FlatList, View } from 'react-native';
-import { Card, CardSection, FloatButton, Title } from '../common';
+import { SafeAreaView, FlatList, View } from 'react-native';
+import { CardSection, FloatButton, Title } from '../common';
 import { orderFetchByUserIdAndStoreIdAndState, deleteOrder } from '../../actions';
 import OrderListItem from './OrderListItem';
 import { orderStates } from './../../constants/Enum';
 
 class OrderList extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { navigation, storeId } = this.props;
-    //const userId = navigation.getParam('userId', {})
     this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
   }
 
@@ -29,18 +28,15 @@ class OrderList extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.containerDetail}>
-          <ScrollView>
-            <Card>
-              <FlatList
-                enableEmptySections
-                renderItem={this.renderItem}
-                data={this.props.orders}
-                keyExtractor={({ uid }) => String(uid)}
-              />
-            </Card>
-            <Card>
+          <FlatList
+            enableEmptySections
+            renderItem={this.renderItem}
+            data={this.props.orders}
+            keyExtractor={({ uid }) => String(uid)}
+            ListFooterComponent={
+            <>
               <CardSection style={styles.cardSectionStyle}>
                 <Title style={styles.titleStyle}>
                   Subtotal
@@ -49,11 +45,11 @@ class OrderList extends Component {
                   Bs. {this.props.totalOrders}
                 </Title>
               </CardSection>
-            </Card>
-          </ScrollView>
+            </>}
+          />
         </View>
         <FloatButton text={'Confirmar pedido'} onPress={this.confirmOrder} />
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -63,9 +59,7 @@ const styles = {
     flex: 1
   },
   containerDetail: {
-    height: '90%',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+    height: '90%'
   },
   titleStyle: {
     paddingLeft: 15,

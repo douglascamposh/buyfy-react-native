@@ -8,10 +8,6 @@ import { FontWeight, Size, Colors, Padding } from '../../constants/Styles';
 class LoginForm extends Component {
   state = { email: '', password: '', error: '', loading: false };
 
-  componentWillMount() {
-    const { navigation } = this.props;
-  }
-
   onButtonPress() {
     const { email, password } = this.state;
     this.setState({ error: '', loading: true });
