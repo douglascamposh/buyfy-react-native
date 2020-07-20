@@ -74,6 +74,7 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
               is24Hour={true}
               display="default"
               onChange={(e, date) => props.setFieldValue('openAt', date)}
+              style={styles.timePickerStyle}
             />
             <Title>Ingrese la hora de cierre</Title>
             <DateTimePicker
@@ -82,6 +83,7 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
               is24Hour={true}
               display="default"
               onChange={(e, date) => props.setFieldValue('closeAt', date)}
+              style={styles.timePickerStyle}
             />
           <CardSection>
             <Button onPress={props.handleSubmit}>
@@ -92,6 +94,12 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
       )}
     </Formik>
   );
+}
+
+const styles = {
+  timePickerStyle: {
+    height: 116
+  }
 }
 
 export default ScheduleWeek;
