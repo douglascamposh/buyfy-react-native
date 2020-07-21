@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { AppleStyleSwipeableRow, RightActions } from '../common';
 import { FlatList } from 'react-native';
-import { storesByUserIdFetch } from '../../actions';
+import { storesByUserIdFetch, storeUpdateFields } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
 import StoreListItem from './StoreListItem';
@@ -23,7 +23,7 @@ class StoreAdminList extends Component {
   }
 
   storeDeleteOnClick = (store) => {
-    this.props.deleteStore(store.uid);
+    this.props.storeUpdateFields({ ...store, deleted: !store.deleted });
   }
 
   renderRightActions = (progress, item, close) => {
@@ -43,7 +43,7 @@ class StoreAdminList extends Component {
         onPress: () => { this.storeDeleteOnClick(item); close(); }, color: Colors.primaryRed, item: item,
         icon: (
           <Icon
-            name='ios-trash'
+            name={Boolean(item.deleted) ? 'ios-undo' : 'ios-trash'}
             type='ionicon'
             size={Size.iconButton}
             color={Colors.primaryTextInverse}
@@ -79,11 +79,11 @@ class StoreAdminList extends Component {
 }
 
 const mapStateToProps = state => {
-  const stores = _.map(state.stores, (val, uid) => {
+  const stores = _.map(state.adminStores, (val, uid) => {
     return { ...val, uid };
   });
 
   return { stores };
 };
 
-export default connect(mapStateToProps, { storesByUserIdFetch })(StoreAdminList);
+export default connect(mapStateToProps, { storesByUserIdFetch, storeUpdateFields })(StoreAdminList);
