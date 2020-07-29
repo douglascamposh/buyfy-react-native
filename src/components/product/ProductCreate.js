@@ -9,7 +9,7 @@ class ProductCreate extends Component {
   onButtonPress = ({ name, description, price, image, imageName, storeId, uid }) => {
     !uid ? this.props.productCreate({ name, description, price, image, storeId }) :
       this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
-    this.props.navigateTo('productList');
+    this.props.navigateTo('productAdminList');
   }
 
   render() {

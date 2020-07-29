@@ -134,9 +134,7 @@ class ProductAdminList extends Component {
                 </Content>
               </AsyncTile>
             </Card>
-            <Card>
-              {this.renderModalSchedule(store)}
-            </Card>
+            {this.renderModalSchedule(store)}
             <Card>
               <Title>Horario de Atención</Title>
               <Button onPress={this.showScheduleOnClick}>Configurar Horario</Button>

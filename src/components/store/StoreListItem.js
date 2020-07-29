@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, TouchableWithoutFeedback } from 'react-native';
 import { CardSection, AsyncImage, Title, Content } from '../common';
 import { Size, Colors } from '../../constants/Styles';
+import { weekDays } from '../../constants/Enum';
+import { isOpen } from '../../utils/Utils';
 
 class StoreListItem extends Component {
 
@@ -9,8 +11,31 @@ class StoreListItem extends Component {
     this.props.storeOnClick(this.props.store);
   }
 
+  renderScheduleMessage = (schedule={}) => {
+    const currentDate = new Date();
+    const day = weekDays[currentDate.getDay()];
+    if(schedule[day]) {
+      const openDate = new Date (schedule.openAt);
+      const closeDate = new Date(schedule.closeAt);
+      const dateDiff = closeDate.getDay() - openDate.getDate();
+      const openHour = new Date();
+      const closeHour = new Date();
+      openHour.setHours(openDate.getHours(), openDate.getMinutes(), 0);
+      dateDiff == 1 ? closeHour.setHours(closeDate.getHours() + 24, closeDate.getMinutes(), 0) : closeHour.setHours(closeDate.getHours(), closeDate.getMinutes(), 0);
+      if (currentDate >= openHour && currentDate < closeHour) {
+        return;
+      } else {
+        if (currentDate <= openHour) {
+          const minutes = openHour.getMinutes < 10 ? ('0' + openHour.getMinutes()) : openHour.getMinutes();
+          return (<Title style={styles.openStyle}>Abre a las {openHour.getHours()}:{minutes}</Title>);
+        }
+      }
+    }
+    return (<Title style={styles.closedStyle}>Cerrado por hoy </Title>);
+  }
+
   render() {
-    const { name, deliveryTime, shippingCost, imageName, deleted } = this.props.store;
+    const { name, deliveryTime, shippingCost, imageName, deleted, schedule } = this.props.store;
     const imageRoute = imageName ? `images/${imageName}` : null;
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
@@ -18,8 +43,9 @@ class StoreListItem extends Component {
           <CardSection style={styles.cardSectionStyle}>
             <View style={styles.containerLeft}>
               {Boolean(deleted) && (<Title style={styles.closedStyle}>
-                Cerrado
+                Tienda Deshabilitada
               </Title>)}
+              {this.renderScheduleMessage(schedule)}
               <Title style={styles.titleStyle}>
                 {name}
               </Title>
@@ -28,7 +54,7 @@ class StoreListItem extends Component {
               </Content>
             </View>
             {Boolean(imageRoute) && (
-              <View style={Boolean(deleted) ? styles.containerRigthDisable : styles.containerRigth}>
+              <View style={Boolean(deleted) || !isOpen(schedule) ? styles.containerRigthDisable : styles.containerRigth}>
                 <AsyncImage image={imageRoute} style={styles.imageStyle}></AsyncImage>
               </View>
             )}
@@ -43,6 +69,12 @@ const styles = {
   closedStyle: {
     flex: 1,
     color: Colors.primaryRed,
+    marginTop: 5,
+    fontSize: Size.descriptionCard
+  },
+  openStyle: {
+    flex: 1,
+    color: '#ff9900',
     marginTop: 5,
     fontSize: Size.descriptionCard
   },

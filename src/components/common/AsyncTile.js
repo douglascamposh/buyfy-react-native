@@ -44,9 +44,10 @@ class AsyncTile extends Component {
     return (this.state.url &&
       <Tile
         style={[this.props.style]}
+        imageContainerStyle={[this.props.imageContainerStyle]}
         imageSrc={{uri: this.state.url}}
         title={this.props.title}
-        contentContainerStyle={{ flex: 1 }}
+        contentContainerStyle={[this.props.contentContainerStyle]}
       >
         {this.props.children}
       </Tile>

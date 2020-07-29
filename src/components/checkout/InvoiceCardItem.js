@@ -30,7 +30,7 @@ class InvoiceCardItem extends Component {
     const date = new Date(invoice.created_at);
     const h = this.addZero(date.getHours());
     const m = this.addZero(date.getMinutes());
-    const date2 = this.addMinutes(date, store.deliveryTime);
+    const date2 = this.addMinutes(date, Number(store.deliveryTime));
     const h2 = this.addZero(date2.getHours());
     const m2 = this.addZero(date2.getMinutes());
     return (

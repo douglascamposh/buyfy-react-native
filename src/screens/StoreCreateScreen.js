@@ -10,7 +10,7 @@ class StoreCreateScreen extends Component {
   }
 
   navigateTo = () => {
-    this.props.navigation.navigate('storeList');
+    this.props.navigation.navigate('storeAdminList');
   }
 
   render() {
