@@ -11,12 +11,14 @@ import InvoicesReducer from './InvoicesReducer';
 import InvoiceReducer from './InvoiceReducer';
 import AddressReducer from './AddressReducer';
 import AddressFormReducer from './AddressFormReducer';
+import StoresAdminReducer from './StoresAdminReducer';
 
 export default combineReducers({
     products: ProductReducer,
     productForm: ProductFormReducer,
     productOrderForm: ProductOrderForm,
     stores: StoresReducer,
+    adminStores: StoresAdminReducer,
     store: StoreReducer,
     storeForm: StoreFormReducer,
     order: OrderReducer,

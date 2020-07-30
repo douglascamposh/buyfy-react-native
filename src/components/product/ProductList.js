@@ -2,14 +2,22 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteProduct } from '../../actions';
+import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card, FloatButton, AsyncTile, Content, AppleStyleSwipeableRow, RightActions } from '../common';
+import { Explorer, Card, FloatButton, AsyncTile, Content, Title } from '../common';
 import { orderStates } from './../../constants/Enum';
-import { Colors, Size } from '../../constants/Styles';
-import { Icon } from 'react-native-elements';
-
+import { Colors } from '../../constants/Styles';
+import { scheduleMessage } from '../../utils/Utils';
+import { Overlay } from 'react-native-elements';
+import { isOpen } from '../../utils/Utils';
 class ProductList extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+    }
+  }
 
   componentDidMount() {
     const { navigation } = this.props;
@@ -19,56 +27,32 @@ class ProductList extends Component {
   }
 
   productDetailOnClick = (product) => {
-    this.props.navigation.navigate('productDetail', { product });
+    const store = this.props.navigation.getParam('store', {});
+    if(isOpen(store.schedule)) {
+      this.props.navigation.navigate('productDetail', { product });
+    } else {
+      this.setState({ isVisible: true });
+      setTimeout(() => this.setState({ isVisible: false }), 1600);
+    }
   }
-
-  productEditOnClick = (product) => {
-    this.props.navigation.navigate('editProduct', { product });
-  }
-
-  productDeleteOnClick = (product) => {
-    this.props.deleteProduct(product.uid);
-  }
-
-  renderRightActions = (progress, item, close) => {
-    const buttonActions = [
-      {
-        onPress: () => { close(); this.productEditOnClick(item); }, color: Colors.primaryBlue, item: item,
-        icon: (
-          <Icon
-            name='ios-create'
-            type='ionicon'
-            size={Size.iconButton}
-            color={Colors.primaryTextInverse}
-            iconStyle={styles.iconStyle}
-          />
-        )
-      },
-      {
-        onPress: () => { this.productDeleteOnClick(item); close(); }, color: Colors.primaryRed, item: item,
-        icon: (
-          <Icon
-            name='ios-trash'
-            type='ionicon'
-            size={Size.iconButton}
-            color={Colors.primaryTextInverse}
-            iconStyle={styles.iconStyle}
-          />
-        )
-      }
-    ];
-    return (
-      <RightActions progress={progress} buttonActions={buttonActions} />
-    )
-  };
 
   renderItem = ({item: product}) => {
     return (
-      <AppleStyleSwipeableRow
-        renderRightActions={this.renderRightActions}
-        item={product}>
-        <ProductListItem product={product} productDetailOnClick={this.productDetailOnClick} />
-      </AppleStyleSwipeableRow>
+      <ProductListItem product={product} productDetailOnClick={this.productDetailOnClick} />
+    );
+  }
+
+  renderModal() {
+    return (
+      <Overlay
+        isVisible={this.state.isVisible}
+        onBackdropPress={() => this.setState({ isVisible: false })}
+        height="25%"
+      >
+        <View style={styles.modalStyle}>
+          <Title style={[styles.titleStyle, styles.centerContent]}>La tienda esta cerrada</Title>
+        </View>
+      </Overlay>
     );
   }
 
@@ -81,6 +65,7 @@ class ProductList extends Component {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
+    const scheduletext = scheduleMessage(store.schedule);
     return (
       <SafeAreaView style={styles.container}>
         <View style={this.props.orders.length ? styles.containerProduct : styles.container}>
@@ -88,13 +73,18 @@ class ProductList extends Component {
             ListHeaderComponent={
               <> 
                 <Card>
-                  <AsyncTile image={imageRoute} title={store.name}>
+                  <AsyncTile
+                    imageContainerStyle={Boolean(scheduletext) ? styles.disableTileStyle : null}
+                    image={imageRoute}
+                    title={store.name}
+                  >
                     <Content>
                       Tiempo de entrega aproximado {store.deliveryTime} min.
-                </Content>
+                    </Content>
                     <Content>
                       Costo de envío {store.shippingCost} Bs. - Pedido mínimo {store.minimumCost} Bs.
-                </Content>
+                    </Content>
+                    {Boolean(scheduletext) && <Title style={styles.closedStyle}>{scheduletext}</Title>}
                   </AsyncTile>
                 </Card>
                 <Card>
@@ -106,7 +96,9 @@ class ProductList extends Component {
               renderItem={this.renderItem}
               data={this.props.products}
               keyExtractor={({ uid }) => String(uid)}
+            withPointer={false}
             />
+          {this.renderModal()}
         </View>
       {Boolean(this.props.orders.length) && (
         <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)} />)}
@@ -121,6 +113,26 @@ const styles = {
   },
   container: {
     flex: 1
+  },
+  closedStyle: {
+    color: Colors.primaryRed,
+    marginTop: 5
+  },
+  disableTileStyle: {
+    opacity: 0.5
+  },
+  modalStyle: {
+    justifyContent: 'center',
+    flex: 1
+  },
+  titleStyle: {
+    fontSize: 25,
+    marginTop: 10,
+    color: Colors.primaryText
+  },
+  centerContent: {
+    textAlign: 'center',
+    paddingLeft: 0
   }
 }
 
@@ -135,4 +147,4 @@ const mapStateToProps = state => {
   return { products, orders };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteProduct })(ProductList);
+export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState })(ProductList);
