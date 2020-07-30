@@ -8,6 +8,8 @@ import {
     description: '',
     imageName: '',
     image: '',
+    logo: '',
+    logoName: '',
     deliveryTime: '',
     shippingCost: '',
     category: '',

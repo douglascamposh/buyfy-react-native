@@ -30,8 +30,8 @@ class StoreCreate extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude } = state.storeForm;
-  return {storeNew: { name, description, deliveryTime, shippingCost, category, image, imageName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }};
+  const { name, description, deliveryTime, shippingCost, category, image, imageName, logo, logoName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude } = state.storeForm;
+  return { storeNew: { name, description, deliveryTime, shippingCost, category, image, imageName, logo, logoName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }};
 }
 
 export default connect(mapStateToProps, { storeCreate, storeUpdate })(StoreCreate);
