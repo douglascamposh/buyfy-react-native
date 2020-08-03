@@ -27,21 +27,6 @@ import ProductAdminScreen from '../screens/admin/ProductAdminScreen';
 
 import LogOutScreen from '../screens/auth/LogOutScreen';
 
-// const product_StackNavigator = createStackNavigator({
-//   productList: {
-//     screen: ProductListScreen,
-//   },
-//   createProduct: {
-//     screen: ProductCreate,
-//     navigationOptions: ({ navigation }) => ({
-//       title: 'Crear Producto'
-//     })
-//   },
-//   productDetail: {
-//     screen: ProductDetailScreen
-//   }
-// });
-
 const address_StackNavigator = createStackNavigator({
   addressList: {
     screen: AddressListScreen,
@@ -64,9 +49,21 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
     })
   },
+  createStore: {
+    screen: StoreCreateScreen
+  },
+  editStore: {
+    screen: StoreEditScreen
+  },
   productAdminList: {
     screen: ProductAdminScreen
-  }
+  },
+  createProduct: {
+    screen: ProductCreateScreen
+  },
+  editProduct: {
+    screen: ProductEditScreen
+  },
 });
 
 const store_StackNavigator = createStackNavigator({
@@ -79,20 +76,8 @@ const store_StackNavigator = createStackNavigator({
   productList: {
     screen: ProductListScreen,
   },
-  createProduct: {
-    screen: ProductCreateScreen
-  },
-  editProduct: {
-    screen: ProductEditScreen
-  },
   productDetail: {
     screen: ProductDetailScreen
-  },
-  createStore: {
-    screen: StoreCreateScreen
-  },
-  editStore: {
-    screen: StoreEditScreen
   },
   orderList: {
     screen: OrderListScreen

@@ -38,6 +38,13 @@ class StoreForm extends Component {
     }
   }
 
+  onChooseLogoPress = async (props) => {
+    let result = await ExpoImagePicker.launchImageLibraryAsync();
+    if (!result.cancelled) {
+      props.setFieldValue('logo', result.uri);
+    }
+  }
+
   showModal = () => {
     this.setState({ isVisible: true });
   }
@@ -155,9 +162,18 @@ class StoreForm extends Component {
                   Agregar Logo de la tienda
                 </Title>
                 <ImagePicker
+                  onPress={() => this.onChooseLogoPress(props)}
+                  image={props.values.logo}
+                >Elegir Logo de la tienda</ImagePicker>
+              </CardSection>
+              <CardSection style={{ flexDirection: 'column' }}>
+                <Title style={{ paddingBottom: 10 }}>
+                  Agregar foto portada de la tienda
+                </Title>
+                <ImagePicker
                   onPress={() => this.onChooseImagePress(props)}
                   image={props.values.image}
-                >Elegir Logo de la tienda</ImagePicker>
+                >Elegir Portada de la tienda</ImagePicker>
               </CardSection>
               <CardSection>
                 <TextInput

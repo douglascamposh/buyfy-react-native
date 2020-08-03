@@ -29,33 +29,38 @@ export const storesByUserIdFetch = () => {
 };
 
 export const storeCreate = (store) => {
-  const { image } = store;
+  const { image, logo } = store;
   delete store.image;
+  delete store.logo;
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
   const created_at = updated_at = Date.now();
   return (dispatch) => {
+    const images = [];
     const imageName = image ? uuid() : '';
-    if (image) {
-      uploadImage(image, imageName)
+    const logoName = logo ? uuid() : '';
+    image ? images.push({ name: imageName, image: image}) : null;
+    logo ? images.push({ name: logoName, image: logo }) : null;
+    
+    if (images.length) {
+      uploadImages(images)
         .then(response => {
-          console.info("image uploaded", imageName);
-        })
-        .catch(error => {
-          console.warn("It was not possible upload the image", error);
-        }).finally(() => {
+          console.info("images uploaded successfully");
           firebase.database().ref(`/stores`)
-            .push({ ...store, userId, created_at, updated_at })
+            .push({ ...store, imageName: imageName, logoName: logoName ,userId, created_at, updated_at, delete: true })
             .then(() => {
               console.info(`Store Created`);
             })
             .catch(error => {
               console.warn("Error at create the Store", error);
             }).finally(() => dispatch({ type: STORE_CREATE }));
+        })
+        .catch(error => {
+          console.warn("It was not possible upload the images", error);
         });
     } else {
       firebase.database().ref(`/stores`)
-        .push({ ...store, userId, created_at, updated_at })
+        .push({ ...store, userId, created_at, updated_at, delete: true })
         .then(() => {
           console.info(`Store Created`);
         })
@@ -67,35 +72,40 @@ export const storeCreate = (store) => {
 };
 
 export const storeUpdate = (store) => {
-  const { uid, image, imageName } = store;
+  const { uid, image, imageName, logo, logoName } = store;
   delete store.uid;
   delete store.image;
+  delete store.logo;
   const newImageName = image ? uuid() : imageName;
+  const newLogoName = logo ? uuid() : logoName;
+
+  const images = [];
+  image ? images.push({ name: newImageName, image: image }) : null;
+  logo ? images.push({ name: newLogoName, image: logo }) : null;
+  
   const updated_at = Date.now();
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
   return (dispatch) => {
-    if (image) {
-      uploadImage(image, newImageName)
+    if (images.length) {
+      uploadImages(images)
       .then(response => {
-        console.info("image uploaded", newImageName);
-      })
-      .catch(error => {
-        console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
-      })
-      .finally(() => {
+        console.info("images uploaded successfully");
         firebase.database().ref(`/stores/${uid}`)
-          .set({ ...store, imageName: newImageName, updated_at, userId })
+          .set({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
           .then(() => {
             console.info(`Updated Store, storeId: ${uid}`);
           })
           .catch(error => {
             console.warn("Error at update the Store", error);
           }).finally(() => dispatch({ type: STORE_UPDATE }));
-      });
+      })
+      .catch(error => {
+        console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
+      }); //TODO: display error update to UI when an error occurrs
     } else {
       firebase.database().ref(`/stores/${uid}`)
-        .set({ ...store, imageName: newImageName, updated_at, userId })
+        .set({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
         .then(() => {
           console.info(`Updated Store, storeId: ${uid}`);
         })
@@ -135,6 +145,14 @@ export const deleteStore = (storeId) => {
       });
   };
 };
+
+const uploadImages = async (images) => {
+  const promises = [];
+  for(const item of images) {
+    promises.push(uploadImage(item.image, item.name));
+  }
+  return Promise.all(promises)
+}
 
 const uploadImage = async (image, imageName) => {
   const response = await fetch(image);
