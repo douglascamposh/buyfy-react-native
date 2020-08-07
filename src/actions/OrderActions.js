@@ -52,6 +52,14 @@ export const deleteOrder = (orderId) => {
   };
 };
 
+export const deleteOrders = async (orders) => {
+  const promises = [];
+  for (const order of orders) {
+    promises.push(firebase.database().ref(`/orders/${order.uid}`).set(null));//TODO instead of delete add flag deleted or add state deleted
+  }
+  return Promise.all(promises);
+}
+
 export const orderCreate = (order) => {
   order.state = orderStates.draft;
   return (dispatch) => {
