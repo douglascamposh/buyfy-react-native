@@ -2,13 +2,13 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState } from '../../actions';
+import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteOrders } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card, FloatButton, AsyncTile, Content, Title } from '../common';
+import { Explorer, Card, FloatButton, AsyncTile, Content, Title, CardSection, Button } from '../common';
 import { orderStates } from './../../constants/Enum';
 import { Colors } from '../../constants/Styles';
 import { scheduleMessage } from '../../utils/Utils';
-import { Overlay } from 'react-native-elements';
+import { Overlay, Icon } from 'react-native-elements';
 import { isOpen } from '../../utils/Utils';
 class ProductList extends Component {
 
@@ -16,6 +16,7 @@ class ProductList extends Component {
     super(props);
     this.state = {
       isVisible: false,
+      isBackVisible: false
     }
   }
 
@@ -24,6 +25,11 @@ class ProductList extends Component {
     const store = navigation.getParam('store', {});
     this.props.productsFetchByStoreId(store.uid);
     this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
+    if(Boolean(this.props.orders.length)) { //Todo: research if we can add this if sentence after to get orders
+      this.props.navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+    } else {
+      this.props.navigation.setParams({ back: () => this.props.navigation.goBack() });
+    }
   }
 
   productDetailOnClick = (product) => {
@@ -39,6 +45,37 @@ class ProductList extends Component {
   renderItem = ({item: product}) => {
     return (
       <ProductListItem product={product} productDetailOnClick={this.productDetailOnClick} />
+    );
+  }
+
+  renderModalBack() {
+    return (
+      <Overlay
+        isVisible={this.state.isBackVisible}
+        onBackdropPress={() => this.setState({ isBackVisible: false })}
+        height="50%"
+      >
+        <View style={styles.modalStyle}>
+          <Icon
+            name='ios-cart'
+            type='ionicon'
+            color={Colors.primaryRed}
+            size={100}
+          />
+          <Title style={[styles.titleStyle, styles.centerContent]}>¿Quieres salir?</Title>
+          <Content style={styles.centerContent}>Al salir, se elimira tu pedido</Content>
+          <Content style={styles.centerContent}>¿Quieres continuar?</Content>
+          <CardSection style={styles.CardSectionStyle}>
+            <Button style={styles.modalButtonStyle} onPress={() => this.setState({ isBackVisible: false })} >No</Button>
+            <Button style={styles.modalButtonStyle} onPress={() => {
+              deleteOrders(this.props.orders)
+                .then(() => console.info(`Orders removed`))
+                .catch(error => console.warn("Error at remove the Order", error));
+              this.props.navigation.goBack();
+            }}>Sí, salir</Button>
+          </CardSection>
+        </View>
+      </Overlay>
     );
   }
 
@@ -99,6 +136,7 @@ class ProductList extends Component {
             withPointer={false}
             />
           {this.renderModal()}
+          {this.renderModalBack()}
         </View>
       {Boolean(this.props.orders.length) && (
         <FloatButton text={'Ver mi pedido'} onPress={this.viewOrder.bind(this)} />)}
@@ -133,6 +171,12 @@ const styles = {
   centerContent: {
     textAlign: 'center',
     paddingLeft: 0
+  },
+  modalButtonStyle: {
+    color: Colors.primaryRed
+  },
+  CardSectionStyle: {
+    borderBottomWidth: 0
   }
 }
 
