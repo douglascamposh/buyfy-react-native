@@ -29,6 +29,7 @@ class CheckoutDetail extends Component {
 
   confirmOrder = () => {
     const { addressId, nit, orders, shippingCost = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate
+    console.log("shippingCost", shippingCost);
     this.props.invoiceCreate({ addressId, nit, orders, shippingCost, subTotal, storeId });
     this.setState({ isVisible: true });
   }
@@ -136,12 +137,15 @@ const mapStateToProps = state => {
   });;
   const userAddress = _.last(userAddresses) || { uid: '' };
 
-  const { name } = state.store;
+  const { name, shippingCost } = state.store;
 
-  const orders = _.mapValues(state.order, 'name');
+  const orders = _.mapValues(state.order, ({ name, quantity, price }) => {
+    return { name, quantity, price };
+  });
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
 
-  const { addressId: newAddressId, nit, shippingCost, invoiceId } = state.invoiceForm;
+  let { addressId: newAddressId, nit, invoiceId } = state.invoiceForm;
+  
   const addressId = newAddressId || userAddress.uid;
   return { totalOrders, addressId, nit, orders, shippingCost, invoiceId, userAddresses, name };
 };
