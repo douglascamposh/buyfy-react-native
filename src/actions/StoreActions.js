@@ -47,7 +47,7 @@ export const storeCreate = (store) => {
         .then(response => {
           console.info("images uploaded successfully");
           firebase.database().ref(`/stores`)
-            .push({ ...store, imageName: imageName, logoName: logoName ,userId, created_at, updated_at, delete: true })
+            .push({ ...store, imageName: imageName, logoName: logoName ,userId, created_at, updated_at, deleted: false })
             .then(() => {
               console.info(`Store Created`);
             })
@@ -60,7 +60,7 @@ export const storeCreate = (store) => {
         });
     } else {
       firebase.database().ref(`/stores`)
-        .push({ ...store, userId, created_at, updated_at, delete: true })
+        .push({ ...store, userId, created_at, updated_at, deleted: false })
         .then(() => {
           console.info(`Store Created`);
         })
