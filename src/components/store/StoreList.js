@@ -46,7 +46,6 @@ class StoreList extends Component {
 
   renderModal() {
     const store = {...this.state.currentStore};
-    console.log('current store ',store)
     return (
       <Overlay
         isVisible={this.state.isVisible}
