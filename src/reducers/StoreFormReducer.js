@@ -25,7 +25,7 @@ import {
     latitude: '',
     longitude: '',
     userId: '',
-    deleted: true
+    deleted: false
   };
   
   export default (state = INITIAL_STATE, action) => {

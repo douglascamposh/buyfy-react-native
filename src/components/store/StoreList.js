@@ -23,13 +23,7 @@ class StoreList extends Component {
 
   componentDidMount() {
     this.props.storesFetch();
-    const storesFetch = this.props;
-    console.log('DIDMOUNT storefetch verificando...', storesFetch.stores);
   }
-
-  // componentDidUpdate(){
-  //   this.props.storesFetch();
-  // }
 
   storeOnClick = (store) => {
     isOpen(store.schedule) ? this.navigateToProduct(store) : this.setState({ isVisible: true, currentStore: store });
@@ -52,7 +46,6 @@ class StoreList extends Component {
 
   renderModal() {
     const store = {...this.state.currentStore};
-    console.log('current store ',store)
     return (
       <Overlay
         isVisible={this.state.isVisible}
@@ -80,7 +73,6 @@ class StoreList extends Component {
   }
 
   render() {
-    console.log('entrando a la lista de restaurantes usuario final');
     return (
         <FlatList
           ListHeaderComponent={
