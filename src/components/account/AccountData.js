@@ -1,35 +1,39 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import firebase from 'firebase';
-import { Title, CardSection, Button } from '../common';
+import { CardSection, Button } from '../common';
 import { Size, FontWeight, Colors } from '../../constants/Styles';
 
 class AccountData extends Component {
-	onButtonPress() {
-    firebase.auth().signOut();
-	}
 
+	logOutButton(){
+		firebase.auth().signOut();
+		firebase.auth().onAuthStateChanged( user => {
+      if(!user) {
+				this.props.navigation.navigate('storeList');
+      }
+		});
+	}
 	VerifyUser(){
 		let user = firebase.auth().currentUser;
-		if (user != null) {
-			let name = user.email;
-			return <Text style = {styles.emailStyle} >{name}</Text>
-		}
+		let email;
+		user != null ? email = user.email : email = 'Debes inicar sesión';
+		return email;
 	}
-	
+
 	render() {
-		return (
+		return (			
 			<View>
 				<CardSection style = {styles.carsSecction}>
 					<View style = {styles.titleDataStyle}>
 						<Text style = {styles.titleDataTextStyle}>Mis datos</Text>
 					</View>
 					<View style = {styles.emailContent}>
-						{this.VerifyUser()}
+						<Text style = {styles.emailStyle}>{this.VerifyUser()}</Text>
 					</View>
 				</CardSection>
 				<View>
-					<Button style={styles.logOutBtn} textStyle={styles.logOutText} onPress={this.onButtonPress.bind(this)}>Log out</Button>
+					<Button style={styles.logOutBtn} textStyle={styles.logOutText} onPress={()=>this.logOutButton()}>Log out</Button>
 				</View>
 			</View>
 		);

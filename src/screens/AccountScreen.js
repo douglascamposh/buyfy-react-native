@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import AccountData from '../components/account/AccountData';
 
 class AccountScreen extends Component{
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = () => {
     return {
       headerTitle: 'Mi cuenta',
       title: 'Data User'
@@ -11,7 +11,7 @@ class AccountScreen extends Component{
   }
   render(){
     return(
-      <AccountData />
+      <AccountData navigation={this.props.navigation}/>
     )
   }
 }
