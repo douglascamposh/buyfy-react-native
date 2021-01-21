@@ -1,20 +1,33 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import firebase from 'firebase';
-import { CardSection, Button } from '../common';
+import { CardSection, Button, Title } from '../common';
 import { Size, FontWeight, Colors } from '../../constants/Styles';
 
 class AccountData extends Component {
+	state = {
+		email: ''
+	}
 
-	logOutButton(){
+	componentDidMount(){
+		this.setState({
+			email: this.verifyUser()
+		});
+	}
+
+	logOutButton = () => {
 		firebase.auth().signOut();
 		firebase.auth().onAuthStateChanged( user => {
       if(!user) {
+				this.setState({
+					email: this.verifyUser()
+				});
 				this.props.navigation.navigate('storeList');
       }
 		});
 	}
-	VerifyUser(){
+
+	verifyUser = () => {
 		let user = firebase.auth().currentUser;
 		let email;
 		user != null ? email = user.email : email = 'Debes inicar sesión';
@@ -22,18 +35,19 @@ class AccountData extends Component {
 	}
 
 	render() {
-		return (			
+		const { email } = this.state;
+		return (				
 			<View>
-				<CardSection style = {styles.carsSecction}>
-					<View style = {styles.titleDataStyle}>
-						<Text style = {styles.titleDataTextStyle}>Mis datos</Text>
-					</View>
-					<View style = {styles.emailContent}>
-						<Text style = {styles.emailStyle}>{this.VerifyUser()}</Text>
+				<CardSection style={styles.carsSecction}>	
+					<View>
+						<Title style={styles.titleStyleHeader}>Mis datos</Title>					
+					</View>				
+					<View>
+							<Title style={styles.emailStyle}>{email}</Title>
 					</View>
 				</CardSection>
 				<View>
-					<Button style={styles.logOutBtn} textStyle={styles.logOutText} onPress={()=>this.logOutButton()}>Log out</Button>
+					<Button style={styles.logOutBtn} textStyle={styles.logOutTextBtn} onPress={()=>this.logOutButton()}>Log out</Button>
 				</View>
 			</View>
 		);
@@ -44,34 +58,28 @@ const styles = {
 	carsSecction: {
 		flexDirection: 'column'
 	},
-	titleDataStyle:{
-		alignItems: 'center',
-	},
-	titleDataTextStyle: {
+
+	titleStyleHeader: {
+		textAlign: 'center',
 		fontSize: Size.header,
-		fontWeight: FontWeight.header
+    fontWeight: FontWeight.header
 	},
-	emailContent:{
-		alignItems: 'center',
-		marginTop: 30
+
+	emailStyle: {
+		textAlign: 'center',
 	},
-	logOutBtn:{
-		marginLeft:45,
-		marginRight:45,
+
+	logOutBtn: {
+    backgroundColor: Colors.primaryRed,
     borderRadius: 25,
-    marginTop: 40,
-    marginBottom: 10,
+    marginTop: 20,
     flex: 0,
-    borderColor: Colors.primaryRed,
-		backgroundColor: Colors.primaryRed
+    borderColor: Colors.primaryRed
 	},
-	logOutText:{
-		color: Colors.primaryTextInverse,
+
+	logOutTextBtn:{
+		color: Colors.primaryTextInverse
 	},
-	emailStyle:{
-		fontSize: 20,
-		color: Colors.secondaryTextInverse,
-	}
-}
+};
 
 export default AccountData;             
