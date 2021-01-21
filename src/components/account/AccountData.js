@@ -28,10 +28,8 @@ class AccountData extends Component {
 	}
 
 	verifyUser = () => {
-		let user = firebase.auth().currentUser;
-		let email;
-		user != null ? email = user.email : email = 'Debes inicar sesión';
-		return email;
+		const user = firebase.auth().currentUser;
+		return !firebase.auth().currentUser ? 'Debes iniciar sesion' : user.email;
 	}
 
 	render() {
