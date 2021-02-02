@@ -5,7 +5,7 @@ import { USERS } from './resources';
 export const fetchUserData = () => {
   return(dispatch) => {
     const user = firebase.auth().currentUser;
-    const userId = user? user.uid : '';
+    const userId = user ? user.uid : '';
     firebase.database().ref(`${USERS}/${userId}`)
     .on('value', snapshot => {
       dispatch({ type: USER_FETCH_SUCCESS, payload: snapshot.val() })

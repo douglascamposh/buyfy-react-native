@@ -131,16 +131,7 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-	const { user } = state;
-	if(user === null){
-		const user = {
-			firstName: '',
-			lastName: ''
-		}
-		return {user};
-	}
-	else{
-		return {user}
-	}	
+	let { user } = state;
+	if(!user) { user = { firstName: '', lastName:'' }} return {user};
 };
 export default connect(mapStateToProps, { fetchUserData, userDataUpdate })(AccountData);
