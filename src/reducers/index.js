@@ -12,6 +12,7 @@ import InvoiceReducer from './InvoiceReducer';
 import AddressReducer from './AddressReducer';
 import AddressFormReducer from './AddressFormReducer';
 import StoresAdminReducer from './StoresAdminReducer';
+import UserDataReducer from './UserDataReducer';
 
 export default combineReducers({
     products: ProductReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
     invoices: InvoicesReducer,
     invoice: InvoiceReducer,
     addresses: AddressReducer,
-    addressForm: AddressFormReducer
+    addressForm: AddressFormReducer,
+    user: UserDataReducer,
 });
