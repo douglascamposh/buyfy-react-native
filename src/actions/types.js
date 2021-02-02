@@ -25,3 +25,6 @@ export const INVOICE_FETCH_SUCCESS = 'invoice_fetch_success';
 export const ADDRESS_FETCH_SUCCESS = 'addresses_fetch_success';
 export const ADDRESS_CREATE = 'address_create_success';
 export const ADDRESS_UPDATE = 'address_update_success';
+
+export const USER_FETCH_SUCCESS = 'user_fetch_success';
+export const USER_DATA_UPDATE = 'user_data_update';

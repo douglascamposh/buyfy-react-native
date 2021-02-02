@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
+import { fetchUserData, userDataUpdate } from '../../actions';
 import firebase from 'firebase';
+import UserDataForm from './UserDataForm';
 import { CardSection, Button, Title } from '../common';
 import { Size, FontWeight, Colors } from '../../constants/Styles';
 
@@ -13,6 +16,7 @@ class AccountData extends Component {
 	componentDidMount() {
 		const { navigation } = this.props;
 		this.focusListener = navigation.addListener('didFocus', () => {
+			this.props.fetchUserData();
 			this.setState({
 				email: this.verifyUser(),
 				isLogued: Boolean(firebase.auth().currentUser)
@@ -27,10 +31,11 @@ class AccountData extends Component {
 	logInLogOutButton = () => {
 		const { isLogued } = this.state;
 		return isLogued ? (
-			<Button style={styles.logOutBtn} textStyle={styles.logOutTextBtn} onPress={() => this.logOutButton()}>Cerrar sesión</Button>
-		)
-			: (<Button style={styles.logIntBtn} textStyle={styles.logInTextBtn} onPress={this.onButtonPress.bind(this)}>Iniciar sesión</Button>
-		);
+			<View>
+				<UserDataForm userData={this.props.user} updateUser={this.updateUser} />
+				<Button style={styles.logOutBtn} textStyle={styles.logOutTextBtn} onPress={() => this.logOutButton()}>Cerrar sesión</Button>
+			</View>
+		) : (<Button style={styles.logIntBtn} textStyle={styles.logInTextBtn} onPress={this.onButtonPress.bind(this)}>Iniciar sesión</Button>);
 	}
 
 	logOutButton = () => {
@@ -59,6 +64,11 @@ class AccountData extends Component {
 		return !firebase.auth().currentUser ? 'Debes iniciar sesion' : user.email;
 	}
 
+	updateUser = ({ firstName, lastName }) => { 
+		this.props.userDataUpdate({ firstName, lastName }); 
+		this.props.navigation.navigate('storeList');
+	}
+
 	render() {
 		const { email } = this.state;
 		return (
@@ -70,6 +80,7 @@ class AccountData extends Component {
 					<View>
 						<Title style={styles.emailStyle}>{email}</Title>
 					</View>
+				
 				</CardSection>
 				<View>
 					{this.logInLogOutButton()}
@@ -119,4 +130,17 @@ const styles = {
 	}
 };
 
-export default AccountData;
+const mapStateToProps = state => {
+	const { user } = state;
+	if(user === null){
+		const user = {
+			firstName: '',
+			lastName: ''
+		}
+		return {user};
+	}
+	else{
+		return {user}
+	}	
+};
+export default connect(mapStateToProps, { fetchUserData, userDataUpdate })(AccountData);
