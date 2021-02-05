@@ -92,15 +92,14 @@ class GoogleMap extends Component {
 }
 
 const styles = {
-  container: {
-    
+  container: {    
     backgroundColor: '#fff',
-    alignItems: 'center',
-    
+    alignItems: 'center',   
   },
+
   mapStyle: {
-    width: Dimensions.get('window').width/2,
-    height: Dimensions.get('window').height/2,
+    width: Dimensions.get('window').width/1.1,
+    height: Dimensions.get('window').height/1.2
   }
 };
 

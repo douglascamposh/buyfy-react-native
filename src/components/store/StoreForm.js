@@ -58,9 +58,11 @@ class StoreForm extends Component {
   renderModalAddressList = (props) => {
     return (
       <Overlay
-        isVisible={this.state.isVisible}
-        onBackdropPress={() => this.setState({ isVisible: false })}
-      >
+      width="auto"
+      height="90%"
+      isVisible={this.state.isVisible}
+      onBackdropPress={() => this.setState({ isVisible: false })}
+      >        
         <View>
           <Title>
             Arrastra el marcador hasta la dirección de la tienda
