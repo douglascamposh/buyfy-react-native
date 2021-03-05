@@ -45,6 +45,7 @@ class OrdersReceivedStore extends Component {
         />}
         {this.state.selectedIndex == 1 && <InvoiceListAdmin
           invoices={this.props.accepted}
+          showState ={true}
         />}
         {this.state.selectedIndex == 2 && <InvoiceListAdmin
           invoices={this.props.rejected}
@@ -71,7 +72,7 @@ const mapStateToProps = state => {
     return { ...val, uid };
   });
   const pendings = invoices.filter(invoice => invoice.state === invoiceStates.created);
-  const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);
+  const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);//Todo: we should all invoices delivered not only received
   const rejected = invoices.filter(invoice => invoice.state === invoiceStates.rejected);
   return { pendings, accepted, rejected };
 };

@@ -1,12 +1,12 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import OrderReceivedItem from './OrderReceivedItem';
+import InvoiceItemRider from './InvoiceItemRider';
 
-const InvoiceListAdmin = ({ invoices, invoiceButtonOnClick, showState }) => {
+const InvoiceListRider = ({ invoices, invoiceButtonOnClick }) => {
 
   const renderItem = ({ item: invoice }) => {
     return (
-      <OrderReceivedItem invoice={invoice} invoiceOnClick={invoiceButtonOnClick} showState={showState} />
+      <InvoiceItemRider invoice={invoice} invoiceOnClick={invoiceButtonOnClick} />
     );
   }
 
@@ -21,4 +21,4 @@ const InvoiceListAdmin = ({ invoices, invoiceButtonOnClick, showState }) => {
   );
 }
 
-export default InvoiceListAdmin;
+export default InvoiceListRider;

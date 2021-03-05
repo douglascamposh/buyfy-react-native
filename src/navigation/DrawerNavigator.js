@@ -26,6 +26,7 @@ import StoreAdminScreen from '../screens/admin/StoreAdminScreen';
 import ProductAdminScreen from '../screens/admin/ProductAdminScreen';
 import StoreOrderAdminScreen from '../screens/admin/StoreOrderAdminScreen';
 import ProductOrdersStoreScreen from '../screens/admin/ProductOrdersStoreScreen';
+import OrdersRiderScreen from '../screens/rider/OrdersRiderScreen';
 import AccountScreen from '../screens/AccountScreen';
 import LogOutScreen from '../screens/auth/LogOutScreen';
 
@@ -77,6 +78,15 @@ const Order_Admin_StackNavigator = createStackNavigator({
   },
   ordersStore: {
     screen: ProductOrdersStoreScreen
+  }
+});
+
+const Order_Rider_StackNavigator = createStackNavigator({
+  orderListRider: {
+    screen: OrdersRiderScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />
+    })
   }
 });
 
@@ -152,6 +162,12 @@ const DrawerNavigator = createDrawerNavigator(
       screen: Order_Admin_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Pedidos'
+      }
+    },
+    orderRider: {
+      screen: Order_Rider_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Pedidos Recibidos'
       }
     },
     account: {

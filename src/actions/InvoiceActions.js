@@ -76,6 +76,15 @@ export const invoiceFetchByStoreId = (storeId) => {
   };
 };
 
+export const invoiceFetchByState = (state) => {
+  return (dispatch) => {
+    firebase.database().ref(`/invoices`).orderByChild('state').equalTo(state)
+      .on('value', snapshot => {
+        dispatch({ type: INVOICES_FETCH_SUCCESS, payload: snapshot.val() });
+      });
+  };
+};
+
 export const invoiceFetchById = (invoiceId) => {
   return (dispatch) => {
     firebase.database().ref(`/invoices/${invoiceId}`)

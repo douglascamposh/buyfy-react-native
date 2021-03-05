@@ -4,63 +4,44 @@ import { Card, CardSection, Title, Content, Button } from '../common';
 import { invoiceStates } from '../../constants/Enum';
 import { Colors } from '../../constants/Styles';
 
-class OrderReceivedItem extends Component {
+class InvoiceItemRider extends Component {
 
-  statesText = {
-    2: "Sin Despachar",
-    3: "Despachado"
-  }
-
-  renderState = (state) => {
-    //Todo: improve in order to reuse this, maybe we should receive the style according the style
+  renderOrder({ item: order }) {
     return (
-      <CardSection style={styles.cardSectionStyle}>
-        <Title style={ state===2 ? styles.receivedStyle : styles.processedStyle}>
-          {this.statesText[state]}
-        </Title>
-      </CardSection>
-    );
-  }
-
-  renderOrder ({item: order}) {
-    return(
-      <View>
-        <CardSection style={styles.cardSectionStyle}>
+      <View style={styles.cardSectionStyle}>
           <View style={styles.containerLeft}>
             <Content style={styles.descriptionStyle}>
               {order.quantity}x
             </Content>
           </View>
           <View style={styles.containerCenter}>
-            <Title style={styles.titleStyle}>
+            <Content style={styles.titleStyle}>
               {order.name}
-            </Title>
+            </Content>
           </View>
           <View style={styles.containerRigth}>
             <Content style={styles.descriptionStyle}>
               Bs. {Number(order.price) * Number(order.quantity)}
             </Content>
           </View>
-        </CardSection>
       </View>
     );
   }
 
   render() {
-    const { uid, subTotal, shippingCost, orders, created_at, state } = this.props.invoice;
-    const { invoiceOnClick, showState } = this.props;
+    const { uid, subTotal, shippingCost, orders, created_at, state, riderId } = this.props.invoice;
+    const { invoiceOnClick } = this.props;
     const orderDate = new Date(created_at).toLocaleDateString();
     const orderTime = new Date(created_at).toLocaleTimeString();
     return (
       <FlatList
         ListHeaderComponent={
-          <>
-            <CardSection>
-              <Title>
-                Orden recibida en {orderDate} {orderTime}
-              </Title>
-            </CardSection>
-          </>
+          <CardSection>
+            <Title>
+              
+            </Title>
+            <Content>Orden recibida en {orderDate} {orderTime}</Content>
+          </CardSection>
         }
         ListFooterComponent={
           <Card>
@@ -71,37 +52,19 @@ class OrderReceivedItem extends Component {
               </View>
               <View style={styles.containerCenter}>
                 <Title style={styles.titleStyle}>
-                  Subtotal
+                  Total
                 </Title>
               </View>
               <View style={styles.containerRigth}>
                 <Content style={styles.descriptionStyle}>
-                  Bs. {subTotal}
+                  Bs. {Number(subTotal) + Number(shippingCost)}
                 </Content>
               </View>
             </CardSection>
-            <CardSection style={styles.cardSectionStyle}>
-              <View style={styles.containerLeft}>
-                <Content style={styles.descriptionStyle}>
-                </Content>
-              </View>
-              <View style={styles.containerCenter}>
-                <Title style={styles.titleStyle}>
-                  Costo de envío
-                </Title>
-              </View>
-              <View style={styles.containerRigth}>
-                <Content style={styles.descriptionStyle}>
-                  Bs. {shippingCost}
-                </Content>
-              </View>
-            </CardSection>
-            {(state === invoiceStates.created) && <CardSection>
-              <Button onPress={() => invoiceOnClick({ uid, state: invoiceStates.received})}>Aceptar</Button>
-              <Button onPress={() => invoiceOnClick({ uid, state: invoiceStates.rejected})}>Rechazar</Button>
+            {(!!invoiceOnClick) && <CardSection>
+              <Button onPress={() => invoiceOnClick({ uid })}>Tomar pedido</Button>
             </CardSection>
             }
-            {showState && this.renderState(state)}
           </Card>
         }
         enableEmptySections
@@ -149,4 +112,4 @@ const styles = {
   }
 };
 
-export default OrderReceivedItem;
+export default InvoiceItemRider;

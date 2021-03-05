@@ -13,7 +13,8 @@ export const invoiceStates = {
   "rejected": 6,
   "unpayed": 7,
   "undelivered": 8,
-  "refunded": 9
+  "refunded": 9,
+  "rejectedRider": 10
 };
 
 export const weekDays = {
