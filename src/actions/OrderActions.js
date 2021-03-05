@@ -4,6 +4,7 @@ import {
   ORDERS_FETCH_SUCCESS,
   ORDER_FETCH_SUCCESS,
   ORDER_DELETED_SUCCESS,
+  ORDERS_RECEIVED_FETCH_SUCCESS,
   PRODUCT_CREATE_ORDER,
   PRODUCT_UPDATE_ORDER } from './types';
 import { orderStates } from '../constants/Enum';

@@ -14,6 +14,7 @@ export const invoiceCreate = (invoice) => {
     invoice.userId = user ? user.uid : '';
     invoice.created_at = Date.now();
     invoice.state = invoiceStates.created;
+    // console.log("shippingCost", invoice.shippingCost);
     firebase.database().ref(`/invoices`)
       .push(invoice)
       .then((response) => {
@@ -39,11 +40,45 @@ export const invoiceCreate = (invoice) => {
   };
 };
 
+export const invoiceUpdateById = (invoice) => {
+  const {uid} = invoice;
+  delete invoice.uid;
+  return (dispatch) => {
+    firebase.database().ref(`/invoices/${uid}`)
+      .update(invoice)
+      .then(() => {
+        console.info(`Invoice updated with id ${uid}`);
+      })
+      .catch(error => {
+        console.warn('The invoice was not updated', error);
+      });
+    dispatch({ type: INVOICE_CREATE, payload: { uid } });//Todo revisar para que sirve el dispatch
+  }
+}
+
 export const invoiceFetchByUserId = () => {
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
   return (dispatch) => {
     firebase.database().ref(`/invoices`).orderByChild('userId').equalTo(userId)
+      .on('value', snapshot => {
+        dispatch({ type: INVOICES_FETCH_SUCCESS, payload: snapshot.val() });
+      });
+  };
+};
+
+export const invoiceFetchByStoreId = (storeId) => {
+  return (dispatch) => {
+    firebase.database().ref(`/invoices`).orderByChild('storeId').equalTo(storeId)
+      .on('value', snapshot => {
+        dispatch({ type: INVOICES_FETCH_SUCCESS, payload: snapshot.val() });
+      });
+  };
+};
+
+export const invoiceFetchByState = (state) => {
+  return (dispatch) => {
+    firebase.database().ref(`/invoices`).orderByChild('state').equalTo(state)
       .on('value', snapshot => {
         dispatch({ type: INVOICES_FETCH_SUCCESS, payload: snapshot.val() });
       });

@@ -116,7 +116,7 @@ class CurrentOrder extends Component {
                 color={Colors.disable}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.contentStyle}>Bs. {invoice.subTotal + invoice.shippingCost}</Content>
+              <Content style={styles.contentStyle}>Bs. {Number(invoice.subTotal) + Number(invoice.shippingCost)}</Content>
             </CardSection>
           </Card>
         </ScrollView>
@@ -130,7 +130,8 @@ const styles = {
     paddingLeft: 15
   },
   contentStyle: {
-    marginTop: 0
+    marginTop: 0,
+    paddingLeft: 10
   },
   cardSectionStyle: {
     alignItems: 'center'

@@ -30,7 +30,7 @@ export const addressCreate = (address) => {
         dispatch({ type: ADDRESS_CREATE });
       })
       .catch(error => {
-        console.warn("It was not created the address", error);
+        console.warn("It was not created the address", error); //TODO: deberia retornar un type: ADDRESS_CREATE_FAIL  y mostrar el error en un componente
       });
   };
 };

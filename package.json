@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "~2.4.0",
+    "@react-native-community/segmented-control": "^2.1.1",
     "@use-expo/font": "^2.0.0",
     "bufferutil": "^4.0.1",
     "expo": "^38.0.0",

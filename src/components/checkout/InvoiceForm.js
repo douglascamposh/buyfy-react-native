@@ -66,7 +66,7 @@ class InvoiceForm extends Component {
         </CardSection>
         <CardSection style={styles.cardSectionStyle}>
           <Title>
-            Direccion
+            Dirección
           </Title>
           <View style={styles.cardAddress}>
             <Content numberOfLines={2} style={styles.addressStyle}>
@@ -138,8 +138,8 @@ const styles = {
 }
 
 const mapStateToProps = (state) => {
-  const { addressId, nit, shippingCost } = state.invoiceForm;
-  return { addressId, nit, shippingCost };
+  const { addressId, nit } = state.invoiceForm;
+  return { addressId, nit };
 }
 
 export default connect(mapStateToProps, { invoiceUpdateForm })(InvoiceForm);

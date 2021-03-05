@@ -6,8 +6,7 @@ import {
 const INITIAL_STATE = {
   addressId: '',
   nit: '',
-  orders: {},
-  shippingCost: 0
+  orders: {}
 };
 
 export default (state = INITIAL_STATE, action) => {

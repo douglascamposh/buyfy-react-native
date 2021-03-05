@@ -19,7 +19,7 @@ const Invoice = (props) => {
           Costo de Envio
         </Title>
         <Content>
-          Bs. 10
+          Bs. {props.shippingCost}
         </Content>
       </CardSection>
       <CardSection style={styles.cardSectionStyle}>
