@@ -31,7 +31,7 @@ class StoreList extends Component {
 
   navigateToProduct = (store) => {
     this.props.navigation.navigate('productList', { store });
-    this.setState({ isVisible: true });
+    this.setState({ isVisible: false });
   }
 
   invoiceCardOnClick = (invoiceId) => {
