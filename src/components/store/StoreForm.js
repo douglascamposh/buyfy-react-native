@@ -70,7 +70,7 @@ class StoreForm extends Component {
                 color={Colors.secondaryText}
                 iconStyle={styles.iconStyle}
               />
-              <Content style={styles.styleTextAddressInfo}>{addressInfo}</Content>
+              <Content style={styles.styleTextAddressInfo} numberOfLines={2} ellipsizeMode='tail'>{addressInfo}</Content>
             </CardSection>
             <Button onPress={() => this.setState({ isVisible: false })} style={styles.styleButtonMap} textStyle={styles.styleButtonTextMap}>Confirmar Direccion</Button>
           </View>  
@@ -328,6 +328,7 @@ const styles = {
   },
   styleTextAddressInfo: {
     marginTop: 0,
+    marginRight: 15,
     alignSelf: 'center'
   }
 }
