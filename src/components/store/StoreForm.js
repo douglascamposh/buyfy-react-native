@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { CardSection, ImagePicker, TextInput, Button, Title, GoogleMap } from '../common';
-import { Overlay } from 'react-native-elements';
+import { CardSection, ImagePicker, TextInput, Button, Title, GoogleMap, Content } from '../common';
+import { Size, Colors } from '../../constants/Styles';
+import { Overlay, Icon } from 'react-native-elements';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -55,7 +56,27 @@ class StoreForm extends Component {
     props.setFieldValue('longitude', longitude);
   }
 
-  renderModalAddressList = (props) => {
+  renderModalAddressList = (props) => {  
+    const showAddressInfo = () => {
+      if( props.values.street && props.values.streetReference && props.values.numberStreet && props.values.departmentNumber && props.values.city){
+        let addressInfo = `${props.values.street} ${props.values.streetReference} Nº${props.values.numberStreet} ${props.values.departmentNumber}, ${props.values.city}`;
+        return(
+          <View>
+            <CardSection style={styles.cardSectionStyle}>
+              <Icon
+                name='ios-pin'
+                type='ionicon'
+                size={Size.iconInput}
+                color={Colors.secondaryText}
+                iconStyle={styles.iconStyle}
+              />
+              <Content style={styles.styleTextAddressInfo} numberOfLines={2} ellipsizeMode='tail'>{addressInfo}</Content>
+            </CardSection>
+            <Button onPress={() => this.setState({ isVisible: false })} style={styles.styleButtonMap} textStyle={styles.styleButtonTextMap}>Confirmar Direccion</Button>
+          </View>  
+        )
+      }
+    }
     return (
       <Overlay
       width="auto"
@@ -65,7 +86,7 @@ class StoreForm extends Component {
       >        
         <View>
           <Title>
-            Arrastra el marcador hasta la dirección de la tienda
+          Arrastra el marcador hasta la dirección de la tienda
           </Title>
           <GoogleMap
             marker={{
@@ -75,10 +96,28 @@ class StoreForm extends Component {
               longitude: props.values.longitude,
               onDragEnd: (coordinate) => this.onDragEndMarker(props, coordinate)
             }}
-          />
+            />
+            {showAddressInfo()}
         </View>
       </Overlay>
     );
+  }
+
+  buttonGeoreference = (props) => {
+    if( props.values.street && props.values.streetReference && props.values.numberStreet && props.values.departmentNumber && props.values.city){
+      return(
+      <Button onPress={this.showModal}>
+        Mostrar Mapa
+      </Button>
+      )
+    }
+    else{
+      return(
+        <Button style={styles.styleButtonDisable} textStyle={styles.styleButtonDIsableTextMap}>
+          Mostrar Mapa
+        </Button>
+      )
+    }
   }
 
   render() {
@@ -251,9 +290,8 @@ class StoreForm extends Component {
                 <Title style={{paddingBottom: 10}}>
                   Georeferencia
                 </Title>
-                <Button onPress={this.showModal}>
-                  Mostrar Mapa
-                </Button>
+                {this.buttonGeoreference(props)}
+                
               </CardSection>
               {this.renderModalAddressList(props)}
 
@@ -270,4 +308,28 @@ class StoreForm extends Component {
   }
 }
 
+const styles = {
+  styleButtonMap: {
+    flex:0,
+    backgroundColor: Colors.primaryRed,
+    borderColor: Colors.primaryRed
+  },
+  styleButtonTextMap: {
+		color: Colors.primaryTextInverse
+	},
+  styleButtonDisable: {
+    borderColor: Colors.disable
+  },
+  styleButtonDIsableTextMap: {
+    color: Colors.disable
+  },
+  iconStyle: {
+    paddingRight: 5
+  },
+  styleTextAddressInfo: {
+    marginTop: 0,
+    marginRight: 15,
+    alignSelf: 'center'
+  }
+}
 export default StoreForm;
