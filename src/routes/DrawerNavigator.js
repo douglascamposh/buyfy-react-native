@@ -6,6 +6,8 @@ import AccountDataStack from './AccountStack';
 import AddressStack from './AddressStack';
 import AdminStack from './AdminStack';
 import StoreStack from './StoreStack';
+import OrderAdminStack from './OrderAdminStack';
+import OrderRiderStack from './OrderRiderStack';
 
 const SwitchNavigator = createSwitchNavigator({
   loading: {
@@ -40,7 +42,18 @@ const SwitchNavigator = createSwitchNavigator({
         drawerLabel: 'Administración'
       }
     },
-    account: {
+    orderAdmin: {
+      screen: OrderAdminStack,
+      navigationOptions: {
+        drawerLabel: 'Pedidos'
+      }
+    },
+    orderRider: {
+      screen: OrderRiderStack,
+      navigationOptions: {
+        drawerLabel: 'Pedidos Recibidos'
+      }
+    }, account: {
       screen: AccountDataStack,
       navigationOptions: {
         drawerLabel: 'Mi cuenta'
