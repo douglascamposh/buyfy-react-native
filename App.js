@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/reducers';
-import AppNavigator from './src/navigation/DrawerNavigator';
+import AppNavigator from './src/routes/DrawerNavigator';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
 import * as Permissions from 'expo-permissions';
