@@ -4,7 +4,7 @@ import ProductDetail from '../components/product/ProductDetail';
 class ProductDetailScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'Details',
+      headerTitle: 'Detalles',
       title: 'Product Detail'
     }
   }
