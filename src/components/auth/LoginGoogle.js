@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import { Size, Colors, Padding } from '../../constants/Styles';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
-import { iosClientId, androidClientId } from '../../../TokenConfig';
+import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from '../../../environment.json';
 
 class LoginGoogle extends Component {
 
@@ -86,8 +86,8 @@ class LoginGoogle extends Component {
   signInWithGoogleAsync = async() => {
     try {
       const result = await Google.logInAsync({
-        androidClientId: androidClientId,
-        iosClientId: iosClientId,
+        androidClientId: ANDROID_CLIENT_ID,
+        iosClientId: IOS_CLIENT_ID,
         scopes: ['profile', 'email'],
       });
 

@@ -6,7 +6,7 @@ import AppNavigator from './src/routes/DrawerNavigator';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
 import * as Permissions from 'expo-permissions';
-import { firebaseConfig } from './TokenConfig';
+import { FIREBASE_CONFIG } from './environment.json';
 
 
 //temp fix, know issue only for android
@@ -25,7 +25,7 @@ class App extends Component {
 
   async componentDidMount() {
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(FIREBASE_CONFIG);
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     await Permissions.askAsync(Permissions.LOCATION);
   }
