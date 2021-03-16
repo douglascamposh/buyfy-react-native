@@ -89,8 +89,8 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const addresses = _.map(state.addresses, (val, uid) => {
-    return { ...val, uid };
+  const addresses = _.map(state.addresses, (val) => {
+    return { ...val };
   });
   return { addresses };
 };

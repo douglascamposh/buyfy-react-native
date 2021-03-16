@@ -7,7 +7,7 @@ import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
 import * as Permissions from 'expo-permissions';
 import { FIREBASE_CONFIG } from './environment.json';
-
+LogBox.ignoreLogs(['expo-constants']);
 
 //temp fix, know issue only for android
 import { LogBox } from 'react-native';
