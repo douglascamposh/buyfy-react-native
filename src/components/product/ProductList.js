@@ -185,8 +185,8 @@ const mapStateToProps = state => {
     return { ...val };
   });
   
-  const orders = _.map(state.order, (val, uid) => {
-    return { ...val, uid };
+  const orders = _.map(state.order, (val) => {
+    return { ...val };
   });
  
   return { products, orders };
