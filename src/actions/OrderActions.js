@@ -28,9 +28,8 @@ export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
 export const orderFetchByOrderId = (orderId) => {
   return (dispatch) => {
     firebase.firestore().collection('orders').doc(orderId).get()
-    .then(snapshot => {
+    .then(doc => {
       if (doc.exists){
-        console.log('document exist');
         const order = { ...doc.data() };
         order.uid = orderId;
         dispatch({ type: STORE_FETCH_SUCCESS, payload: order })

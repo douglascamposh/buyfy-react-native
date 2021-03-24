@@ -66,10 +66,10 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const invoices = _.map(state.invoices, (val, uid) => {
-    const orders = _.map(val.orders, (order, uid) => { return {...order, uid}; });
+  const invoices = _.map(state.invoices, (val) => {
+    const orders = _.map(val.orders, (order) => { return {...order }; });
     val.orders = orders;
-    return { ...val, uid };
+    return { ...val };
   });
   const pendings = invoices.filter(invoice => invoice.state === invoiceStates.created);
   const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);//Todo: we should all invoices delivered not only received

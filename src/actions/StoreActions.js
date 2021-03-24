@@ -176,7 +176,6 @@ export const storeFetchById = (storeId) => {
     firebase.firestore().collection('stores').doc(storeId).get()
     .then(doc => {
       if (doc.exists){
-        console.log('document exist');
         const store = { ...doc.data() };
         store.uid = storeId;
         dispatch({ type: STORE_FETCH_SUCCESS, payload: store })
