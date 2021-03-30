@@ -79,10 +79,9 @@ class StoreAdminList extends Component {
 }
 
 const mapStateToProps = state => {
-  const stores = _.map(state.adminStores, (val, uid) => {
-    return { ...val, uid };
+  const stores = _.map(state.adminStores, (val) => {
+    return { ...val };
   });
-
   return { stores };
 };
 

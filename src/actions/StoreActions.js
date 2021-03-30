@@ -1,5 +1,7 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import uuid from 'uuid/v4';
+import { ref } from 'yup';
 import {
   STORE_FETCH_SUCCESS,
   STORES_FETCH_SUCCESS,
@@ -10,10 +12,13 @@ import {
 
 export const storesFetch = () => {
   return (dispatch) => {
-    firebase.database().ref(`/stores`).orderByChild('deleted').equalTo(false)
-    .on('value', snapshot => {
-      dispatch({type: STORES_FETCH_SUCCESS, payload: snapshot.val()});
-    });
+    firebase.firestore().collection('stores').where('deleted', '==', false).get()
+    .then(snapshot => {
+      const stores = snapshot.docs.map(doc => {
+        return { ...doc.data(), uid: doc.id }
+      });
+      dispatch({ type: STORES_FETCH_SUCCESS, payload: stores });    
+    })
   };
 };
 
@@ -21,10 +26,13 @@ export const storesByUserIdFetch = () => {
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
   return (dispatch) => {
-    firebase.database().ref(`/stores`).orderByChild('userId').equalTo(userId)
-      .on('value', snapshot => {
-        dispatch({ type: STORES_FETCH_ADMIN_SUCCESS, payload: snapshot.val() });
+    firebase.firestore().collection('stores').where('userId','==', userId).get()
+    .then(snapshot => {
+      const stores = snapshot.docs.map(doc => {
+        return { ...doc.data(), uid: doc.id }
       });
+      dispatch({ type: STORES_FETCH_ADMIN_SUCCESS, payload: stores });    
+    })
   };
 };
 
@@ -34,7 +42,8 @@ export const storeCreate = (store) => {
   delete store.logo;
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
-  const created_at = updated_at = Date.now();
+  const created_at = Date.now();
+  const updated_at = Date.now();
   return (dispatch) => {
     const images = [];
     const imageName = image ? uuid() : '';
@@ -46,27 +55,27 @@ export const storeCreate = (store) => {
       uploadImages(images)
         .then(response => {
           console.info("images uploaded successfully");
-          firebase.database().ref(`/stores`)
-            .push({ ...store, imageName: imageName, logoName: logoName ,userId, created_at, updated_at, deleted: false })
-            .then(() => {
-              console.info(`Store Created`);
-            })
-            .catch(error => {
-              console.warn("Error at create the Store", error);
-            }).finally(() => dispatch({ type: STORE_CREATE }));
+          firebase.firestore().collection('stores')
+          .add({ ...store, imageName: imageName, logoName: logoName ,userId, created_at, updated_at, deleted: false })
+          .then(() => {
+            console.info(`Store Created`);
+          })
+          .catch(error => {
+            console.warn("Error at create the Store", error);
+          }).finally(() => dispatch({ type: STORE_CREATE }));
         })
         .catch(error => {
           console.warn("It was not possible upload the images", error);
         });
     } else {
-      firebase.database().ref(`/stores`)
-        .push({ ...store, userId, created_at, updated_at, deleted: false })
-        .then(() => {
-          console.info(`Store Created`);
-        })
-        .catch(error => {
-          console.warn("Error at create the Store", error);
-        }).finally(() => dispatch({ type: STORE_CREATE }));
+      firebase.firestore().collection('stores')
+      .add({ ...store, userId, created_at, updated_at, deleted: false })
+      .then(() => {
+        console.info(`Store Created`);
+      })
+      .catch(error => {
+        console.warn("Error at create the Store", error);
+      }).finally(() => dispatch({ type: STORE_CREATE }));
     }
   };
 };
@@ -78,7 +87,7 @@ export const storeUpdate = (store) => {
   delete store.logo;
   const newImageName = image ? uuid() : imageName;
   const newLogoName = logo ? uuid() : logoName;
-
+  
   const images = [];
   image ? images.push({ name: newImageName, image: image }) : null;
   logo ? images.push({ name: newLogoName, image: logo }) : null;
@@ -91,27 +100,28 @@ export const storeUpdate = (store) => {
       uploadImages(images)
       .then(response => {
         console.info("images uploaded successfully");
-        firebase.database().ref(`/stores/${uid}`)
-          .set({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
-          .then(() => {
-            console.info(`Updated Store, storeId: ${uid}`);
-          })
-          .catch(error => {
-            console.warn("Error at update the Store", error);
-          }).finally(() => dispatch({ type: STORE_UPDATE }));
+        firebase.firestore().collection('stores').doc(uid)
+        .update({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
+        .then(() => {
+          console.info(`Updated Store, storeId: ${uid}`);
+        })
+        .catch( error => {
+          console.log(`Updated Store, storeId: ${uid}`, error)
+        })
+        .finally(() => dispatch({ type: STORE_UPDATE }));
       })
       .catch(error => {
         console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
       }); //TODO: display error update to UI when an error occurrs
     } else {
-      firebase.database().ref(`/stores/${uid}`)
-        .set({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
-        .then(() => {
-          console.info(`Updated Store, storeId: ${uid}`);
-        })
-        .catch(error => {
-          console.warn("Error at update the Store", error);
-        }).finally(() => dispatch({ type: STORE_UPDATE }));
+      firebase.firestore().collection('stores').doc(uid)
+      .update({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
+      .then(() => {
+        console.info(`Updated Store, storeId: ${uid}`);
+      })
+      .catch(error => {
+        console.warn("Error at update the Store", error);
+      }).finally(() => dispatch({ type: STORE_UPDATE }));
     }
   };
 };
@@ -121,28 +131,28 @@ export const storeUpdateFields = (store) => {
   delete store.uid;
   const updated_at = Date.now();
   return (dispatch) => {
-    firebase.database().ref(`/stores/${uid}`)
-      .set({ ...store, updated_at})
-      .then(() => {
-        console.info(`Updated Store, storeId: ${uid}`);
-        dispatch({ type: STORE_UPDATE });
-      })
-      .catch(error => {
-        console.warn("Error at update the Store", error);
-      });
+    firebase.firestore().collection('stores').doc(uid)
+    .update({ ...store, updated_at })
+    .then(() => {
+      console.info(`Updated Store, storeId: ${uid}`);
+      dispatch({ type: STORE_UPDATE });
+    })
+    .catch(error => {
+      console.warn("Error at update the Store", error);
+    });
   };
 };
 
 export const deleteStore = (storeId) => {
   return (dispatch) => {
     firebase.database().ref(`/stores/${storeId}`)
-      .set(null)
-      .then(() => {
-        console.info(`Removed store with storeId: ${storeId}`);
-      })
-      .catch(error => {
-        console.warn("Error at remove the Product", error);
-      });
+    .set(null)
+    .then(() => {
+      console.info(`Removed store with storeId: ${storeId}`);
+    })
+    .catch(error => {
+      console.warn("Error at remove the Product", error);
+    });
   };
 };
 
@@ -163,11 +173,16 @@ const uploadImage = async (image, imageName) => {
 
 export const storeFetchById = (storeId) => {
   return (dispatch) => {
-    firebase.database().ref(`/stores/${storeId}`)
-      .on('value', snapshot => {
-        const store = { ...snapshot.val() };
+    firebase.firestore().collection('stores').doc(storeId).get()
+    .then(doc => {
+      if (doc.exists){
+        const store = { ...doc.data() };
         store.uid = storeId;
-        dispatch({ type: STORE_FETCH_SUCCESS, payload: store });
-      });
-  };
+        dispatch({ type: STORE_FETCH_SUCCESS, payload: store })
+      } else {
+        console.log("No such document!");
+      }
+    }).catch(error => console.log("Error getting document:", error))
+  }
 };
+

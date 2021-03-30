@@ -181,13 +181,14 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const products = _.map(state.products, (val, uid) => {
-    return {...val, uid};
+  const products = _.map(state.products, (val) => {
+    return { ...val };
   });
-  const orders = _.map(state.order, (val, uid) => {
-    return { ...val, uid };
+  
+  const orders = _.map(state.order, (val) => {
+    return { ...val };
   });
-
+ 
   return { products, orders };
 };
 

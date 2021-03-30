@@ -29,7 +29,6 @@ class CheckoutDetail extends Component {
 
   confirmOrder = () => {
     const { addressId, nit, orders, shippingCost = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate
-    console.log("shippingCost", shippingCost);
     this.props.invoiceCreate({ addressId, nit, orders, shippingCost, subTotal, storeId });
     this.setState({ isVisible: true });
   }
@@ -129,18 +128,18 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const ordersProducts = _.map(state.order, (val, uid) => {
-    return { ...val, uid };
+  const ordersProducts = _.map(state.order, (val ) => {
+    return { ...val };
   });
-  const userAddresses = _.map(state.addresses, (val, uid) => {
-    return { ...val, uid };
+  const userAddresses = _.map(state.addresses, (val) => {
+    return { ...val };
   });;
   const userAddress = _.last(userAddresses) || { uid: '' };
 
   const { name, shippingCost } = state.store;
-
-  const orders = _.mapValues(state.order, ({ name, quantity, price }) => {
-    return { name, quantity, price };
+  
+  const orders = _.map(state.order, ({ name, quantity, price, uid }) => {
+    return { name, quantity, price, uid };
   });
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
 

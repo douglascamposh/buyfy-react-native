@@ -49,8 +49,8 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const invoices = _.map(state.invoices, (val, uid) => {
-    return { ...val, uid };
+  const invoices = _.map(state.invoices, (val) => {
+    return { ...val };
   });
   return { invoices };
 };

@@ -79,10 +79,10 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const pendings = _.map(state.invoices, (val, uid) => {
-    const orders = _.map(val.orders, (order, uid) => { return { ...order, uid }; });
+  const pendings = _.map(state.invoices, (val) => {
+    const orders = _.map(val.orders, (order) => { return { ...order }; });
     val.orders = orders;
-    return { ...val, uid };
+    return { ...val};
   });
   //.filter(invoice => !invoice.riderId);
   return { pendings };

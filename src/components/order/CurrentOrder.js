@@ -143,7 +143,6 @@ const styles = {
 
 const mapStateToProps = state => {
   const invoice = { ...state.invoice };
-  
   return { invoice };
 };
 

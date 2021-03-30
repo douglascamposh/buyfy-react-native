@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import uuid from 'uuid/v4';
 import {
   PRODUCT_FETCH_SUCCESS,
@@ -8,28 +9,34 @@ import {
 } from './types';
 
 export const productsFetch = () => {
-  return (dispatch) => {
-    firebase.database().ref(`/products`)
-    .on('value', snapshot => {
-      dispatch({type: PRODUCT_FETCH_SUCCESS, payload: snapshot.val()});
-    });
+  return () => {
+    firebase.firestore().collection('products').get()
+    .then(dispatch => {
+      const products = snapshot.docs.map(doc => {
+        return { ...doc.data(), uid:doc.id }
+      });
+      dispatch({type: PRODUCT_FETCH_SUCCESS, payload: products});
+    })
   };
 };
 
 export const productsFetchByStoreId = (storeId) => {
   return (dispatch) => {
-    firebase.database().ref(`/products`).orderByChild('storeId').equalTo(storeId)
-    .on('value', snapshot => {
-      dispatch({type: PRODUCT_FETCH_SUCCESS, payload: snapshot.val()});
-    });
+    firebase.firestore().collection('products').where('storeId', '==', storeId).get()
+    .then(snapshot => {
+      const products = snapshot.docs.map(doc => {
+        return { ...doc.data(), uid:doc.id }
+      });
+      dispatch({ type: PRODUCT_FETCH_SUCCESS, payload: products });    
+    })
   };
 };
 
 export const productCreate = ({name, description, price, image, storeId}) => {
   return (dispatch) => {
     const imageName = image ? uuid() : '';
-    firebase.database().ref(`/products`)
-    .push({name, description, price, imageName, storeId})
+    firebase.firestore().collection('products')
+    .add({ name, description, price, imageName, storeId })
     .then((response) => {
       if(image) {
         uploadImage(image, imageName)
@@ -42,43 +49,39 @@ export const productCreate = ({name, description, price, image, storeId}) => {
           dispatch({type: PRODUCT_CREATE});
         });
       }
-    });
+    })
   };
 };
 
 export const deleteProduct = (productId) => {
-  return (dispatch) => {
-    firebase.database().ref(`/products/${productId}`)
-      .set(null)
-      .then(() => {
-        console.info(`Removed product with productId: ${productId}`);
-      })
-      .catch(error => {
-        console.warn("Error at remove the Product", error);
-      });
+  return () => {
+    firebase.firestore().collection('products').doc(productId)
+    .delete()
+    .then(() => console.log(`Removed product with productId: ${productId}`))
+    .catch( error => console.warn("Error at remove the Product", error));
   };
 };
 
 export const productUpdate = ({ name, description, price, image, imageName, storeId, uid }) => {
   const newImageName = image ? uuid() : imageName;
   return (dispatch) => {
-    firebase.database().ref(`/products/${uid}`)
-      .set({ name, description, price: Number(price), imageName: newImageName, storeId })
+    firebase.firestore().collection('products').doc(uid)
+    .update({ name, description, price: Number(price), imageName: newImageName, storeId })
+    .then(() => {
+      console.info(`Updated product, productId: ${uid}`);
+      uploadImage(image, newImageName)
       .then(() => {
-        console.info(`Updated product, productId: ${uid}`);
-        uploadImage(image, newImageName)
-          .then((response) => {
-            console.info("image edit uploaded", imageName);
-            dispatch({ type: PRODUCT_UPDATE });
-          })
-          .catch(error => {
-            console.warn(`It was not possible upload the new image to the product with productId: ${uid}`, error);
-            dispatch({ type: PRODUCT_UPDATE });
-          });
+        console.info("image edit uploaded", imageName);
+        dispatch({ type: PRODUCT_UPDATE });
       })
       .catch(error => {
-        console.warn("Error at update the Product", error);
-      });
+        console.warn(`It was not possible upload the new image to the product with productId: ${uid}`, error);
+        dispatch({ type: PRODUCT_UPDATE });
+      });        
+    })
+    .catch(error => {
+      console.warn("Error at update the Product", error);
+    });
   };
 };
 
