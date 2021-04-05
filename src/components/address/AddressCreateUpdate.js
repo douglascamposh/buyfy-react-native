@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { StackActions, NavigationActions } from 'react-navigation';
 import AddressForm from './AddressForm';
 import { addressCreate, addressUpdate } from '../../actions';
 // import { ScrollView } from 'react-native-gesture-handler';
-
 import { ScrollView, View, SafeAreaView } from 'react-native';
 import { Title, CardSection, Button } from '../common';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -22,14 +22,18 @@ class AddressCreateUpdate extends Component {
 
   saveAddress = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid }) => {
     !uid ? this.props.addressCreate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone }) :
-      this.props.addressUpdate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid });
+    this.props.addressUpdate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid });
     this.setState({ isVisible: true });
   }
 
-  navigateTo = (route) => {
+
+  navigateTo  = () => {
     this.setState({ isVisible: false });
-    const addressId = this.props.addressId;
-    this.props.navigation.navigate(route, { addressId });
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'addressList' })],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   renderModal() {
@@ -47,7 +51,7 @@ class AddressCreateUpdate extends Component {
           />
           <Title style={[styles.titleStyle, styles.centerContent]}>Se guardo la Direccion!</Title>
           <CardSection>
-            <Button style={styles.modalButtonStyle} onPress={(route) => this.navigateTo('addressList')}>Ver mis direcciones</Button>
+            <Button style={styles.modalButtonStyle} onPress={() => { this.navigateTo() }}>Ver mis direcciones</Button>
           </CardSection>
         </View>
       </Overlay>

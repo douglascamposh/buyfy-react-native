@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { addressFetchByUserId, deleteAddress } from '../../actions';
+import { StackActions, NavigationActions } from 'react-navigation';
 import AddressListItem from './AddressListItem';
 import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -15,6 +16,12 @@ class AddressList extends Component {
     this.props.addressFetchByUserId();
   }
 
+  componentDidUpdate(prevProps) { 
+    if(this.props.addresses.length !== prevProps.addresses.length){
+      this.props.addressFetchByUserId();
+    }  
+  }
+  
   addressDetailOnClick = (address) => {
     this.props.navigation.navigate('editAddress', { address });
   }

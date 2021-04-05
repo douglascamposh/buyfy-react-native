@@ -31,7 +31,7 @@ export const addressCreate = (address) => {
     firebase.firestore().collection(USERS).doc(userId).collection(ADDRESSES)
     .add(address)
       .then(() => {
-        dispatch({ type: ADDRESS_CREATE });
+        dispatch({ type: ADDRESS_CREATE });  
       })
       .catch(error => {
         console.error("It was not created the address", error);
@@ -57,18 +57,11 @@ export const addressUpdate = ({ name, street, numberStreet, departmentNumber, ci
 export const deleteAddress = (addressId) => {
   const { currentUser } = firebase.auth();
   const userId = currentUser ? currentUser.uid : '';
-  return (dispatch) => {
+  return () => {
     firebase.firestore().collection(USERS).doc(userId).collection(ADDRESSES).doc(addressId)
     .delete()
-    .then(() => console.log('Address deleted'))
+    .then(() => console.log('addrress delete'))
     .catch((error) => console.log('Error at remove', error))
-    //   .set(null)
-    //   .then(() => {
-    //     console.info(`Removed address with addressId: ${addressId}`);
-    //   })
-    //   .catch(error => {
-    //     console.warn("Error at remove the Address", error);
-    //   });
   };
 };
 
