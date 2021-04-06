@@ -171,6 +171,7 @@ const uploadImage = async (image, imageName) => {
 }
 
 export const storeFetchById = (storeId) => {
+  console.log('action store from actions',storeId )
   return (dispatch) => {
     firebase.firestore().collection('stores').doc(storeId).get()
     .then(doc => {

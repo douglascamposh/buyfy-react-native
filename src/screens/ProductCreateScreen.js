@@ -15,7 +15,7 @@ class ProductCreateScreen extends Component {
 
   render() {
     const storeId = this.props.navigation.getParam('storeId', {});
-    return <ProductCreate navigateTo={this.navigateTo} storeId={storeId}/>;
+    return <ProductCreate navigateTo={this.navigateTo} storeId={storeId} navigation={this.props.navigation}/>;
   }
 }
 

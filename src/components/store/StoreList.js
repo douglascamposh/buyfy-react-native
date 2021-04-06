@@ -25,6 +25,12 @@ class StoreList extends Component {
     this.props.storesFetch();
   }
 
+  componentDidUpdate(prevProps) { 
+    if(this.props.stores.length !== prevProps.stores.length){
+      this.props.storesFetch();
+    }  
+  }
+
   storeOnClick = (store) => {
     isOpen(store.schedule) ? this.navigateToProduct(store) : this.setState({ isVisible: true, currentStore: store });
   }

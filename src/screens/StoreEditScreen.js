@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StackActions, NavigationActions } from 'react-navigation';
 import StoreCreate from '../components/store/StoreCreate';
 
 class StoreEditScreen extends Component {
@@ -9,7 +10,11 @@ class StoreEditScreen extends Component {
   }
 
   navigateTo = () => {
-    this.props.navigation.navigate('storeAdminList');
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'storeAdminList' })]
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   render() {

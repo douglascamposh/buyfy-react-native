@@ -16,9 +16,21 @@ class ProductAdminList extends Component {
   }
 
   componentDidMount() {
+    console.log('didmount');
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
     this.props.productsFetchByStoreId(store.uid);
+  }
+
+  componentDidUpdate(prevProps) { 
+    console.log('didUpdate products');
+    if(this.props.products.length !== prevProps.products.length){
+      const storeId = prevProps.products.storeId;
+      console.log('entro validacion products',storeId);
+      this.props.productsFetchByStoreId(storeId);
+      
+    
+    }  
   }
 
   productDetailOnClick = (product) => {
@@ -134,8 +146,7 @@ const mapStateToProps = state => {
   const products = _.map(state.products, (val) => {
     return { ...val };
   });
-  const store = { ...state.store };
-  return { products, store };
+  return { products };
 };
 
 export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct })(ProductAdminList);

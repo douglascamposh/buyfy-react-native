@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { productCreate, productUpdate } from '../../actions';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { Card } from '../common';
 import ProductForm from './ProductForm';
 
@@ -9,7 +10,13 @@ class ProductCreate extends Component {
   onButtonPress = ({ name, description, price, image, imageName, storeId, uid }) => {
     !uid ? this.props.productCreate({ name, description, price, image, storeId }) :
       this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
-    this.props.navigateTo('productAdminList');
+    this.props.navigateTo('productAdminList', {store:{uid:storeId}});
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'productAdminList' })],
+    });
+    this.props.navigation.dispatch(resetAction);
+  
   }
 
   render() {

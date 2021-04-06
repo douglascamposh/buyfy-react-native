@@ -14,8 +14,15 @@ class StoreAdminList extends Component {
     this.props.storesByUserIdFetch();
   }
 
+  componentDidUpdate(prevProps) { 
+    if(this.props.stores.length !== prevProps.stores.length){
+      this.props.storesByUserIdFetch();
+    }  
+  }
+
   storeOnClick = (store) => {
     this.props.navigation.navigate('productAdminList', { store });
+    console.log('enviando store=', store)
   }
 
   storeEditOnClick = (store) => {

@@ -21,6 +21,7 @@ export const productsFetch = () => {
 };
 
 export const productsFetchByStoreId = (storeId) => {
+  console.log('storeid=', storeId);
   return (dispatch) => {
     firebase.firestore().collection('products').where('storeId', '==', storeId).get()
     .then(snapshot => {
