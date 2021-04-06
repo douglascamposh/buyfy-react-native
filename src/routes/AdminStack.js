@@ -4,6 +4,7 @@ import NavigationDrawerStructure from '../navigation/AppNavigator';
 import StoreAdminScreen from '../screens/admin/StoreAdminScreen';
 import StoreCreateScreen from '../screens/StoreCreateScreen';
 import StoreEditScreen from '../screens/StoreEditScreen';
+import StoreScheduleScreen from '../screens/store/StoreScheduleScreen';
 import ProductAdminScreen from '../screens/admin/ProductAdminScreen';
 import ProductCreateScreen from '../screens/ProductCreateScreen';
 import ProductEditScreen from '../screens/ProductEditScreen';
@@ -29,6 +30,9 @@ const screens = {
   },
   editProduct: {
     screen: ProductEditScreen
+  },
+  editScheduleStoreScreen: {
+    screen: StoreScheduleScreen
   },
 };
 

@@ -1,7 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import uuid from 'uuid/v4';
-import { ref } from 'yup';
 import {
   STORE_FETCH_SUCCESS,
   STORES_FETCH_SUCCESS,

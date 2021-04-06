@@ -1,22 +1,18 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, ScrollView, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, deleteProduct, storeUpdateFields } from '../../actions';
+import { FlatList, SafeAreaView } from 'react-native';
+import { productsFetchByStoreId, deleteProduct } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title } from '../common';
 import { Colors, Size } from '../../constants/Styles';
-import { Overlay, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
-import ScheduleWeek from './ScheduleWeek';
 
 class ProductAdminList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isVisible: false,
-    }
   }
 
   componentDidMount() {
@@ -84,35 +80,9 @@ class ProductAdminList extends Component {
     this.props.navigation.navigate('orderList', { storeId });
   }
 
-  showScheduleOnClick = () => {
-    this.setState({ isVisible: true });
-  }
-
-  saveSchedule = (values) => {
-    const { navigation } = this.props;
-    const store = navigation.getParam('store', {});
-    store.schedule = values;
-    this.props.storeUpdateFields({...store})
-    this.setState({isVisible: false});
-  }
-
-  renderModalSchedule(store) {
-    return (
-      <Overlay
-        isVisible={this.state.isVisible}
-        onBackdropPress={() => this.setState({ isVisible: false })}
-      >
-        <ScrollView>
-          <Title>
-            Horario de Atención
-          </Title>
-          <ScheduleWeek
-            schedule={{ ...store.schedule }}
-            saveSchedule={this.saveSchedule}
-          />
-        </ScrollView>
-      </Overlay>
-    );
+  navigateToScheduleForm = () => {
+    const { storeId } = _.last(this.props.products)
+    this.props.navigation.navigate('editScheduleStoreScreen', { storeId });
   }
 
   render() {
@@ -134,10 +104,9 @@ class ProductAdminList extends Component {
                 </Content>
               </AsyncTile>
             </Card>
-            {this.renderModalSchedule(store)}
             <Card>
               <Title>Horario de Atención</Title>
-              <Button onPress={this.showScheduleOnClick}>Configurar Horario</Button>
+              <Button onPress={this.navigateToScheduleForm}>Configurar Horario</Button>
             </Card>
           </>
           }
@@ -169,4 +138,4 @@ const mapStateToProps = state => {
   return { products, store };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct, storeUpdateFields })(ProductAdminList);
+export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct })(ProductAdminList);

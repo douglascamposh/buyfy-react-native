@@ -1,10 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
 import { CardSection, Button, Title } from '../common';
-import * as yup from 'yup';
 
 // const ScheduleSchema = yup.object({
 //   openAt: yup.date()
@@ -20,6 +19,7 @@ import * as yup from 'yup';
 
 const ScheduleWeek = ({ schedule, saveSchedule }) => {
   return (
+    <ScrollView>
     <Formik
       initialValues={{ ...schedule }}
       onSubmit={(values, actions) => {
@@ -31,7 +31,7 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
       }}
     >
       {(props) => (
-        <View>
+        <>   
           <CheckBox
             title='Lunes'
             checked={props.values.monday}
@@ -67,6 +67,7 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
             checked={props.values.sunday}
             onPress={() => props.setFieldValue('sunday', !props.values.sunday)}
           />
+          <CardSection style={styles.cardSectionStyle}>
             <Title>Ingrese la hora de apertura</Title>
             <DateTimePicker
               value={props.values.openAt ? new Date(props.values.openAt) : new Date()}
@@ -76,6 +77,8 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
               onChange={(e, date) => props.setFieldValue('openAt', date)}
               style={styles.timePickerStyle}
             />
+          </CardSection>
+          <CardSection style={styles.cardSectionStyle}>
             <Title>Ingrese la hora de cierre</Title>
             <DateTimePicker
               value={props.values.closeAt ? new Date(props.values.closeAt) : new Date()}
@@ -85,20 +88,25 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
               onChange={(e, date) => props.setFieldValue('closeAt', date)}
               style={styles.timePickerStyle}
             />
+          </CardSection>
           <CardSection>
             <Button onPress={props.handleSubmit}>
               Guardar
             </Button>
           </CardSection>
-        </View>
+        </>
       )}
     </Formik>
+    </ScrollView>
   );
 }
 
 const styles = {
   timePickerStyle: {
     height: 116
+  },
+  cardSectionStyle: {
+    flexDirection: 'column',
   }
 }
 
