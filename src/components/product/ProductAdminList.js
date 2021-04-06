@@ -2,26 +2,22 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, deleteProduct, storeUpdateFields } from '../../actions';
+import { productsFetchByStoreId, deleteProduct } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title } from '../common';
 import { Colors, Size } from '../../constants/Styles';
-import { Overlay, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
 
 class ProductAdminList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      store: null
-    }
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
-    this.setState({store: store});
     this.props.productsFetchByStoreId(store.uid);
   }
 
@@ -84,16 +80,9 @@ class ProductAdminList extends Component {
     this.props.navigation.navigate('orderList', { storeId });
   }
 
-  saveSchedule = (values) => {
-    const store = { ...this.state.store };
-    store.schedule = values;
-    this.props.storeUpdateFields({ ...store })
-    this.props.navigation.navigate('productAdminList', { store });
-  }
-
-  showScheduleOnClick = () => {
-    const schedule = { ...this.state.store.schedule };
-    this.props.navigation.navigate('editScheduleStoreScreen', { schedule, saveSchedule: this.saveSchedule });
+  navigateToScheduleForm = () => {
+    const { storeId } = _.last(this.props.products)
+    this.props.navigation.navigate('editScheduleStoreScreen', { storeId });
   }
 
   render() {
@@ -117,7 +106,7 @@ class ProductAdminList extends Component {
             </Card>
             <Card>
               <Title>Horario de Atención</Title>
-              <Button onPress={this.showScheduleOnClick}>Configurar Horario</Button>
+              <Button onPress={this.navigateToScheduleForm}>Configurar Horario</Button>
             </Card>
           </>
           }
@@ -149,4 +138,4 @@ const mapStateToProps = state => {
   return { products, store };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct, storeUpdateFields })(ProductAdminList);
+export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct })(ProductAdminList);

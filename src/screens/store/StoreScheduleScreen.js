@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ScheduleWeek from '../../components/product/ScheduleWeek';
+import StoreScheduleForm from '../../components/product/StoreScheduleForm';
 
 class StoreScheduleScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -10,9 +10,8 @@ class StoreScheduleScreen extends Component {
   }
 
   render() {
-    const schedule = this.props.navigation.getParam('schedule', {});
-    const saveSchedule = this.props.navigation.getParam('saveSchedule', () => {});
-    return <ScheduleWeek navigation={this.props.navigation} schedule={schedule} saveSchedule={saveSchedule}/>;
+    const storeId = this.props.navigation.getParam('storeId', {});
+    return <StoreScheduleForm navigation={this.props.navigation} storeId={storeId}/>;
   }
 }
 

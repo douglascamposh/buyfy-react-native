@@ -4,7 +4,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
 import { CardSection, Button, Title } from '../common';
-import * as yup from 'yup';
 
 // const ScheduleSchema = yup.object({
 //   openAt: yup.date()
