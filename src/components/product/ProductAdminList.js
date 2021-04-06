@@ -1,27 +1,27 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, ScrollView, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 import { productsFetchByStoreId, deleteProduct, storeUpdateFields } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title } from '../common';
 import { Colors, Size } from '../../constants/Styles';
 import { Overlay, Icon } from 'react-native-elements';
 
-import ScheduleWeek from './ScheduleWeek';
 
 class ProductAdminList extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isVisible: false,
+      store: null
     }
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
+    this.setState({store: store});
     this.props.productsFetchByStoreId(store.uid);
   }
 
@@ -84,35 +84,16 @@ class ProductAdminList extends Component {
     this.props.navigation.navigate('orderList', { storeId });
   }
 
-  showScheduleOnClick = () => {
-    this.setState({ isVisible: true });
-  }
-
   saveSchedule = (values) => {
-    const { navigation } = this.props;
-    const store = navigation.getParam('store', {});
+    const store = { ...this.state.store };
     store.schedule = values;
-    this.props.storeUpdateFields({...store})
-    this.setState({isVisible: false});
+    this.props.storeUpdateFields({ ...store })
+    this.props.navigation.navigate('productAdminList', { store });
   }
 
-  renderModalSchedule(store) {
-    return (
-      <Overlay
-        isVisible={this.state.isVisible}
-        onBackdropPress={() => this.setState({ isVisible: false })}
-      >
-        <ScrollView>
-          <Title>
-            Horario de Atención
-          </Title>
-          <ScheduleWeek
-            schedule={{ ...store.schedule }}
-            saveSchedule={this.saveSchedule}
-          />
-        </ScrollView>
-      </Overlay>
-    );
+  showScheduleOnClick = () => {
+    const schedule = { ...this.state.store.schedule };
+    this.props.navigation.navigate('editScheduleStoreScreen', { schedule, saveSchedule: this.saveSchedule });
   }
 
   render() {
@@ -134,7 +115,6 @@ class ProductAdminList extends Component {
                 </Content>
               </AsyncTile>
             </Card>
-            {this.renderModalSchedule(store)}
             <Card>
               <Title>Horario de Atención</Title>
               <Button onPress={this.showScheduleOnClick}>Configurar Horario</Button>
