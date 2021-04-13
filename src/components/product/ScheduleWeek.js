@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { ScrollView } from 'react-native';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
-import { CardSection, Button, Title } from '../common';
+import { CardSection, Button, Title, DatetimePicker } from '../common';
 
 // const ScheduleSchema = yup.object({
 //   openAt: yup.date()
@@ -69,23 +68,25 @@ const ScheduleWeek = ({ schedule, saveSchedule }) => {
           />
           <CardSection style={styles.cardSectionStyle}>
             <Title>Ingrese la hora de apertura</Title>
-            <DateTimePicker
-              value={props.values.openAt ? new Date(props.values.openAt) : new Date()}
+            <DatetimePicker
+              value={props.values.openAt}
+              onChange={(date) => props.setFieldValue('openAt', date)}
               mode={'time'}
               is24Hour={true}
-              display="default"
-              onChange={(e, date) => props.setFieldValue('openAt', date)}
+              display="spinner"
+              textButton={'Hora de ingreso'}
               style={styles.timePickerStyle}
             />
           </CardSection>
           <CardSection style={styles.cardSectionStyle}>
             <Title>Ingrese la hora de cierre</Title>
-            <DateTimePicker
-              value={props.values.closeAt ? new Date(props.values.closeAt) : new Date()}
+            <DatetimePicker
+              value={props.values.closeAt}
+              onChange={(date) => props.setFieldValue('closeAt', date)}
               mode={'time'}
               is24Hour={true}
-              display="default"
-              onChange={(e, date) => props.setFieldValue('closeAt', date)}
+              display="spinner"
+              textButton={'Hora de salida'}
               style={styles.timePickerStyle}
             />
           </CardSection>
