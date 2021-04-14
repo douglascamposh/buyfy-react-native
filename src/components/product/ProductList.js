@@ -2,9 +2,9 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteOrders } from '../../actions';
+import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteOrders, storeFetchById } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card, FloatButton, AsyncTile, Content, Title, CardSection, Button } from '../common';
+import { Explorer, Card, FloatButton, AsyncTile, Content, Title, CardSection, Button, Spinner } from '../common';
 import { orderStates } from './../../constants/Enum';
 import { Colors } from '../../constants/Styles';
 import { scheduleMessage } from '../../utils/Utils';
@@ -16,13 +16,15 @@ class ProductList extends Component {
     super(props);
     this.state = {
       isVisible: false,
-      isBackVisible: false
+      isBackVisible: false,
+      pendingState: true
     }
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
+    this.props.storeFetchById(store.uid);
     this.props.productsFetchByStoreId(store.uid);
     this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
     if(Boolean(this.props.orders.length)) { //Todo: research if we can add this if sentence after to get orders
@@ -32,6 +34,20 @@ class ProductList extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {  
+    const { pending } = this.props;
+    if(pending == false){
+      const { navigation } = this.props;
+      const store = navigation.getParam('store', {});
+      this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
+      if(Boolean(this.props.orders.length)) {
+        this.props.navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+      } else {
+        this.props.navigation.setParams({ back: () => this.props.navigation.goBack() });
+      } 
+      this.setState({pending:true})
+    }  
+  }
   productDetailOnClick = (product) => {
     const store = this.props.navigation.getParam('store', {});
     if(isOpen(store.schedule)) {
@@ -95,12 +111,15 @@ class ProductList extends Component {
 
   viewOrder() {
     const { storeId } = _.last(this.props.products)
-    this.props.navigation.navigate('orderList', { storeId });
+      this.props.navigation.navigate('orderList', { storeId });
   }
 
+
   render() {
-    const { navigation } = this.props;
-    const store = navigation.getParam('store', {});
+    const { store } = this.props;
+    if(store.pending){
+      return(<Spinner />)
+    }
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     const scheduletext = scheduleMessage(store.schedule);
     return (
@@ -183,13 +202,15 @@ const styles = {
 const mapStateToProps = state => {
   const products = _.map(state.products, (val) => {
     return { ...val };
-  });
-  
-  const orders = _.map(state.order, (val) => {
+  }); 
+  const orders = _.map(state.orders.data, (val) => {
     return { ...val };
   });
- 
-  return { products, orders };
+
+  const store = { ...state.store };
+  const { pending } = state.orders;
+
+  return { products, orders, store, pending };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState })(ProductList);
+export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, storeFetchById })(ProductList);

@@ -9,14 +9,8 @@ class ProductCreate extends Component {
   
   onButtonPress = ({ name, description, price, image, imageName, storeId, uid }) => {
     !uid ? this.props.productCreate({ name, description, price, image, storeId }) :
-      this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
-    this.props.navigateTo('productAdminList', {store:{uid:storeId}});
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'productAdminList' })],
-    });
-    this.props.navigation.dispatch(resetAction);
-  
+    this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
+    this.props.navigateTo('productAdminList', storeId);
   }
 
   render() {

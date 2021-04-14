@@ -6,7 +6,8 @@ import {
   STORES_FETCH_SUCCESS,
   STORES_FETCH_ADMIN_SUCCESS,
   STORE_CREATE,
-  STORE_UPDATE
+  STORE_UPDATE,
+  STORE_FETCH_PENDING
 } from './types';
 
 export const storesFetch = () => {
@@ -171,8 +172,8 @@ const uploadImage = async (image, imageName) => {
 }
 
 export const storeFetchById = (storeId) => {
-  console.log('action store from actions',storeId )
   return (dispatch) => {
+    dispatch({ type: STORE_FETCH_PENDING });
     firebase.firestore().collection('stores').doc(storeId).get()
     .then(doc => {
       if (doc.exists){
@@ -185,4 +186,11 @@ export const storeFetchById = (storeId) => {
     }).catch(error => console.log("Error getting document:", error))
   }
 };
+
+export const storeFetchByIdPending = () => {
+  return (dispatch) => {
+    dispatch({type: STORE_FETCH_PENDING});
+  }
+  
+}
 

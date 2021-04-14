@@ -6,6 +6,7 @@ import {
   PRODUCT_CREATE,
   PRODUCT_UPDATE,
   PRODUCT_UPDATE_FORM,
+  PRODUCT_FETCH_PENDING
 } from './types';
 
 export const productsFetch = () => {
@@ -21,7 +22,6 @@ export const productsFetch = () => {
 };
 
 export const productsFetchByStoreId = (storeId) => {
-  console.log('storeid=', storeId);
   return (dispatch) => {
     firebase.firestore().collection('products').where('storeId', '==', storeId).get()
     .then(snapshot => {

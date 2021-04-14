@@ -7,13 +7,15 @@ import {
   ORDER_DELETED_SUCCESS,
   ORDERS_RECEIVED_FETCH_SUCCESS,
   PRODUCT_CREATE_ORDER,
-  PRODUCT_UPDATE_ORDER } from './types';
+  PRODUCT_UPDATE_ORDER,
+  ORDERS_FETCH_PENDING } from './types';
 import { orderStates } from '../constants/Enum';
 
 export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
   return (dispatch) => {
+    dispatch(orderFetchPendingByUserIdAndStoreIdAndState());
     const user = firebase.auth().currentUser;
-    const userId = user ? user.uid : '';
+    const userId = user ? user.uid : '';  
     firebase.firestore().collection('orders').where('userId', '==', userId).where('state', '==', state).where('storeId', '==', storeId).get()
     .then(snapshot => {
       //Todo filter by userId and state in backend because is not possible in the client
@@ -24,6 +26,12 @@ export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
     });
   };
 };
+
+export const orderFetchPendingByUserIdAndStoreIdAndState = () =>{
+  return (dispatch) => {
+    dispatch({type: ORDERS_FETCH_PENDING});
+  }
+}
 
 export const orderFetchByOrderId = (orderId) => {
   return (dispatch) => {
@@ -67,6 +75,7 @@ export const orderCreate = (order) => {
     .then(() => {
       console.info(`Order Created`);
         dispatch({ type: PRODUCT_CREATE_ORDER });
+
     })
     .catch(error => {
       console.warn("It was not add the order", error);

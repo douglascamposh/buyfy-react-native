@@ -72,7 +72,7 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const orders = _.map(state.order, (val) => {
+  const orders = _.map(state.orders.data, (val) => {
     return { ...val };
   });
   const totalOrders = _.sumBy(orders, (order) => (order.price * order.quantity) );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StackActions, NavigationActions } from 'react-navigation';
 import ProductCreate from '../components/product/ProductCreate';
 
 class ProductEditScreen extends Component {
@@ -8,8 +9,15 @@ class ProductEditScreen extends Component {
     }
   }
 
-  navigateTo = (route) => {
-    this.props.navigation.navigate(route);
+  navigateTo = (route, storeId) => {
+    const resetAction = StackActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: 'storeAdminList'}),
+        NavigationActions.navigate({ routeName: route, params: {storeId}})
+      ],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   render() {

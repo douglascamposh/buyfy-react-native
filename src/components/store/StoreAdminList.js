@@ -21,8 +21,7 @@ class StoreAdminList extends Component {
   }
 
   storeOnClick = (store) => {
-    this.props.navigation.navigate('productAdminList', { store });
-    console.log('enviando store=', store)
+    this.props.navigation.navigate('productAdminList', { storeId: store.uid });
   }
 
   storeEditOnClick = (store) => {
