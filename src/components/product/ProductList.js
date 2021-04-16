@@ -16,38 +16,36 @@ class ProductList extends Component {
     super(props);
     this.state = {
       isVisible: false,
-      isBackVisible: false,
-      pendingState: true
+      isBackVisible: false
     }
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
-    this.props.storeFetchById(store.uid);
-    this.props.productsFetchByStoreId(store.uid);
-    this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
-    if(Boolean(this.props.orders.length)) { //Todo: research if we can add this if sentence after to get orders
-      this.props.navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
-    } else {
-      this.props.navigation.setParams({ back: () => this.props.navigation.goBack() });
-    }
+    Promise.all([
+      this.props.storeFetchById(store.uid),
+      this.props.productsFetchByStoreId(store.uid),
+      this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft)
+    ]).then(() => {
+      if (Boolean(this.props.orders.length)) { //Todo: research if we can add this if sentence after to get orders
+        navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+      } else {
+        navigation.setParams({ back: () => navigation.goBack() });
+      }
+    });
+    this.willFocusSubscription = navigation.addListener(
+      'willFocus',
+      () => {
+        this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
+      }
+    );
   }
 
-  componentDidUpdate(prevProps) {  
-    const { pending } = this.props;
-    if(pending == false){
-      const { navigation } = this.props;
-      const store = navigation.getParam('store', {});
-      this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
-      if(Boolean(this.props.orders.length)) {
-        this.props.navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
-      } else {
-        this.props.navigation.setParams({ back: () => this.props.navigation.goBack() });
-      } 
-      this.setState({pending:true})
-    }  
+  componentWillUnmount() {
+    this.willFocusSubscription.remove();
   }
+
   productDetailOnClick = (product) => {
     const store = this.props.navigation.getParam('store', {});
     if(isOpen(store.schedule)) {

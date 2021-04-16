@@ -13,7 +13,7 @@ import { orderStates } from '../constants/Enum';
 
 export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
   return (dispatch) => {
-    dispatch(orderFetchPendingByUserIdAndStoreIdAndState());
+    dispatch(fetchOrdersPending());
     const user = firebase.auth().currentUser;
     const userId = user ? user.uid : '';  
     firebase.firestore().collection('orders').where('userId', '==', userId).where('state', '==', state).where('storeId', '==', storeId).get()
@@ -27,7 +27,7 @@ export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
   };
 };
 
-export const orderFetchPendingByUserIdAndStoreIdAndState = () =>{
+export const fetchOrdersPending = () =>{
   return (dispatch) => {
     dispatch({type: ORDERS_FETCH_PENDING});
   }
@@ -74,8 +74,7 @@ export const orderCreate = (order) => {
     .add(order)
     .then(() => {
       console.info(`Order Created`);
-        dispatch({ type: PRODUCT_CREATE_ORDER });
-
+      dispatch({ type: PRODUCT_CREATE_ORDER });
     })
     .catch(error => {
       console.warn("It was not add the order", error);
