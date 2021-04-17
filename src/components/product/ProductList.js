@@ -34,16 +34,17 @@ class ProductList extends Component {
         navigation.setParams({ back: () => navigation.goBack() });
       }
     });
-    this.willFocusSubscription = navigation.addListener(
-      'willFocus',
-      () => {
-        this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
-      }
-    );
   }
 
-  componentWillUnmount() {
-    this.willFocusSubscription.remove();
+  componentDidUpdate(prevProps) {
+    if(prevProps.orders !== this.props.orders) {
+      const { navigation } = this.props;
+      if (Boolean(this.props.orders.length)) {
+        navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+      } else {
+        navigation.setParams({ back: () => navigation.goBack() });
+      }
+    }
   }
 
   productDetailOnClick = (product) => {

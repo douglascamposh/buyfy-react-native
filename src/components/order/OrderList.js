@@ -2,14 +2,14 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SafeAreaView, FlatList, View } from 'react-native';
-import { CardSection, FloatButton, Title } from '../common';
+import { CardSection, FloatButton, Spinner, Title } from '../common';
 import { orderFetchByUserIdAndStoreIdAndState, deleteOrder } from '../../actions';
 import OrderListItem from './OrderListItem';
 import { orderStates } from './../../constants/Enum';
 
 class OrderList extends Component {
   componentDidMount() {
-    const { navigation, storeId } = this.props;
+    const { storeId } = this.props;
     this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
   }
 
@@ -27,6 +27,9 @@ class OrderList extends Component {
   }
 
   render() {
+    if(this.props.pending) {
+      return <Spinner/>;
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.containerDetail}>
@@ -48,7 +51,8 @@ class OrderList extends Component {
             </>}
           />
         </View>
-        <FloatButton text={'Confirmar pedido'} onPress={this.confirmOrder} />
+        {Boolean(this.props.orders.length) && (
+          <FloatButton text={'Confirmar pedido'} onPress={this.confirmOrder} />)}
       </SafeAreaView>
     );
   }
@@ -75,8 +79,9 @@ const mapStateToProps = state => {
   const orders = _.map(state.orders.data, (val) => {
     return { ...val };
   });
+  const {pending} = state.orders.data;
   const totalOrders = _.sumBy(orders, (order) => (order.price * order.quantity) );
-  return { orders, totalOrders };
+  return { orders, totalOrders, pending };
 };
 
 export default connect(mapStateToProps, { orderFetchByUserIdAndStoreIdAndState, deleteOrder })(OrderList);

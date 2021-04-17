@@ -49,10 +49,13 @@ export const orderFetchByOrderId = (orderId) => {
 };
 
 export const deleteOrder = (orderId) => {
-  return () => {
+  return (dispatch) => {
     firebase.firestore().collection('orders').doc(orderId)
     .delete()
-    .then(()=> console.info(`Removed order with orderId: ${orderId}`))
+    .then(()=> {
+      console.info(`Removed order with orderId: ${orderId}`);
+      dispatch({ type: ORDER_DELETED_SUCCESS, payload: orderId });
+    })
     .catch(error => console.warn('Error at remove the Order', error));
   };
 };
@@ -72,9 +75,10 @@ export const orderCreate = (order) => {
     order.userId = user ? user.uid : '';
     firebase.firestore().collection('orders')
     .add(order)
-    .then(() => {
-      console.info(`Order Created`);
-      dispatch({ type: PRODUCT_CREATE_ORDER });
+    .then((doc) => {
+      console.info(`Order Created with Id`, doc.id);
+      order.uid = doc.id;
+      dispatch({ type: PRODUCT_CREATE_ORDER, payload: order });
     })
     .catch(error => {
       console.warn("It was not add the order", error);
