@@ -10,8 +10,7 @@ import OrdersReducer from './OrdersReducer';
 import InvoiceFormReducer from './InvoiceFormReducer';
 import InvoicesReducer from './InvoicesReducer';
 import InvoiceReducer from './InvoiceReducer';
-import AddressReducer from './AddressReducer';
-import AddressFormReducer from './AddressFormReducer';
+import AddressReducer from './AddressListReducer';
 import StoresAdminReducer from './StoresAdminReducer';
 import UserDataReducer from './UserDataReducer';
 
@@ -29,6 +28,5 @@ export default combineReducers({
     invoices: InvoicesReducer,
     invoice: InvoiceReducer,
     addresses: AddressReducer,
-    addressForm: AddressFormReducer,
     user: UserDataReducer,
 });

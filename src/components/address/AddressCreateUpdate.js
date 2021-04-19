@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { StackActions, NavigationActions } from 'react-navigation';
+//import { StackActions, NavigationActions } from 'react-navigation';
 import AddressForm from './AddressForm';
 import { addressCreate, addressUpdate } from '../../actions';
 // import { ScrollView } from 'react-native-gesture-handler';
@@ -28,12 +28,7 @@ class AddressCreateUpdate extends Component {
 
 
   navigateTo  = () => {
-    this.setState({ isVisible: false });
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'addressList' })],
-    });
-    this.props.navigation.dispatch(resetAction);
+    this.props.navigation.goBack();
   }
 
   renderModal() {
@@ -59,7 +54,8 @@ class AddressCreateUpdate extends Component {
   }
 
   render() {
-    const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props.address ? this.props.address : this.props;
+    const emptyAddress = {name:'', street:'', numberStreet:'', departmentNumber:'', city:'', town:'', streetReference:'', phone:'', uid:''}
+    const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props.address ? this.props.address : emptyAddress;
     const address = { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
     return (
       <SafeAreaView style={styles.container}>
@@ -80,9 +76,8 @@ class AddressCreateUpdate extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = state.addressForm;
-  return { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
+const mapStateToProps = () => {
+  return {};
 };
 
 const styles = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { addressFetchByUserId, deleteAddress } from '../../actions';
+import { addressListFetchByUserId, deleteAddress } from '../../actions';
 import AddressListItem from './AddressListItem';
 import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -12,12 +12,12 @@ import { Icon } from 'react-native-elements';
 class AddressList extends Component {
 
   componentDidMount() {
-    this.props.addressFetchByUserId();
+    this.props.addressListFetchByUserId();
   }
 
   componentDidUpdate(prevProps) { 
     if(this.props.addresses.length !== prevProps.addresses.length){
-      this.props.addressFetchByUserId();
+      this.props.addressListFetchByUserId();
     }  
   }
   
@@ -95,9 +95,9 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const addresses = _.map(state.addresses, (val) => {
+  const addresses = _.map(state.addresses.data, (val) => {
     return { ...val };
   });
   return { addresses };
 };
-export default connect(mapStateToProps, { addressFetchByUserId, deleteAddress })(AddressList);
+export default connect(mapStateToProps, { addressListFetchByUserId, deleteAddress })(AddressList);

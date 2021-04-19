@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { Title, Card, CardSection, FloatButton, Button } from '../common';
-import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate, addressFetchByUserId, storeFetchById } from '../../actions';
+import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate, addressListFetchByUserId, storeFetchById } from '../../actions';
 import InvoiceForm from './InvoiceForm';
 import Invoice from './Invoice';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,7 +23,7 @@ class CheckoutDetail extends Component {
   componentDidMount() {
     const { storeId } = this.props;
     this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
-    this.props.addressFetchByUserId();
+    this.props.addressListFetchByUserId();
     this.props.storeFetchById(storeId);
   }
 
@@ -151,7 +151,7 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   orderFetchByUserIdAndStoreIdAndState,
-  addressFetchByUserId,
+  addressListFetchByUserId,
   invoiceCreate,
   storeFetchById
 })(CheckoutDetail);
