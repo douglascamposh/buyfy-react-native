@@ -17,17 +17,6 @@ class StoreAdminList extends Component {
   componentDidUpdate(prevProps) { 
     if(this.props.stores.length !== prevProps.stores.length){
       this.props.storesByUserIdFetch();
-    }  
-    if(this.props.store){
-        if(prevProps.store){
-         if(this.props.store.updated_at && prevProps.store.updated_at){
-          this.props.storesByUserIdFetch();
-         }
-        }else{
-          this.props.storesByUserIdFetch();
-        }    
-    } else{
-      console.log('enter to else'); 
     }
   }
 
@@ -102,9 +91,8 @@ const mapStateToProps = state => {
   const stores = _.map(state.adminStores.data, (val) => {
     return { ...val };
   });
-  const { store } = state.adminStores; 
   const { pending } = state.adminStores;
-  return { stores, pending, store };
+  return { stores, pending };
 };
 
 export default connect(mapStateToProps, { storesByUserIdFetch, storeUpdateFields })(StoreAdminList);

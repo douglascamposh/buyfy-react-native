@@ -100,8 +100,6 @@ export const storeCreate = (store) => {
 
 export const storeUpdate = (store) => {
   const { uid, image, imageName, logo, logoName } = store;
-  console.log('imageName', imageName);
-  console.log('logoName', logoName);
 
   delete store.uid;
   delete store.image;
@@ -125,7 +123,7 @@ export const storeUpdate = (store) => {
         .update({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
         .then(() => {
           console.info(`Updated Store, storeId: ${uid}`);
-          dispatch ({type: STORE_UPDATE_SUCCESS, payload: {...store, uid}});
+          dispatch({ type: STORE_UPDATE_SUCCESS, payload: { ...store, uid, imageName: newImageName, logoName: newLogoName, updated_at }});
         })
         .catch( error => {
           console.log(`error at updated Store, storeId: ${uid}`, error)
@@ -136,7 +134,7 @@ export const storeUpdate = (store) => {
       }); //TODO: display error update to UI when an error occurrs
     } else {
       firebase.firestore().collection('stores').doc(uid)
-      .update({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
+      .update({ ...store, updated_at, userId })
       .then(() => {
         console.info(`Updated Store, storeId: ${uid}`);
         dispatch ({type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });

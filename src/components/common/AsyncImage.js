@@ -21,8 +21,15 @@ class AsyncImage extends Component {
     this.getAndLoadHttpUrl();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.image != prevProps.image) {
+      this.getAndLoadHttpUrl();
+    }
+  }
+
   
   getAndLoadHttpUrl() {
+    this.setState({loading: true});
     const ref = firebase.storage().ref(this.props.image);
     ref.getDownloadURL().then(data => {
       if (this._isMounted) {
