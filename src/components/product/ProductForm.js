@@ -29,8 +29,9 @@ class ProductForm extends Component {
 
   onChooseImagePress = async (props) => {
     let result = await ExpoImagePicker.launchImageLibraryAsync();
-    if(!result.cancelled) {
-      props.setFieldValue('image', result.uri);
+    if (!result.cancelled) {
+      const imageResized = await resizeImage(result.uri);
+      props.setFieldValue('image', imageResized);
     }
   }
 
