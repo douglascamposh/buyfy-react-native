@@ -1,4 +1,6 @@
 import { weekDays } from '../constants/Enum';
+import { ImageResizeConf } from '../constants/Image';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 export const isOpen = (schedule = {}) => {
   const currentDate = new Date();
@@ -39,4 +41,17 @@ export const scheduleMessage = (schedule = {}) => {
     }
   }
   return `Cerrado por hoy`;
+}
+
+export const resizeImage = async (image) => {
+  try {
+    const imageResized = await ImageManipulator.manipulateAsync(
+      image, [{ resize: { width: ImageResizeConf.width } }],
+      { compress: ImageResizeConf.compress, format: ImageManipulator.SaveFormat.JPEG },
+    );
+    console.log('Image resized', imageResized);
+    return imageResized.uri;
+  } catch (err) {
+    console.log('Error at resize the image', err);
+  }
 }

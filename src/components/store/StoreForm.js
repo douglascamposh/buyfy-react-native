@@ -6,6 +6,7 @@ import { Overlay, Icon } from 'react-native-elements';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import {resizeImage} from '../../utils/Utils';
 
 const StoreSchema = yup.object({
   name: yup.string()
@@ -35,14 +36,16 @@ class StoreForm extends Component {
   onChooseImagePress = async (props) => {
     let result = await ExpoImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      props.setFieldValue('image', result.uri);
+      const imageResized = await resizeImage(result.uri);
+      props.setFieldValue('image', imageResized);
     }
   }
 
   onChooseLogoPress = async (props) => {
     let result = await ExpoImagePicker.launchImageLibraryAsync();
     if (!result.cancelled) {
-      props.setFieldValue('logo', result.uri);
+      const imageResized = await resizeImage(result.uri);
+      props.setFieldValue('logo', imageResized);
     }
   }
 
