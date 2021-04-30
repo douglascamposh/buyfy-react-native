@@ -14,7 +14,10 @@ class StoreCreate extends Component {
   }
 
   render() {
-    const store = this.props.store ? this.props.store : this.props.storeNew;
+    const emptyStore = {
+      name:'', description:'', deliveryTime:'', shippingCost:'', category:'', image:'', imageName:'', logo:'', logoName:'', uid:'', minimumCost:'', street:'', numberStreet:'', departmentNumber:'', city:'', town:'', streetReference:'', phone:'', latitude:'', longitude:''
+    };
+    const store = this.props.store ? this.props.store : emptyStore;
     return (
       <SafeAreaView>
         <ScrollView>
@@ -29,9 +32,8 @@ class StoreCreate extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { name, description, deliveryTime, shippingCost, category, image, imageName, logo, logoName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude } = state.storeForm;
-  return { storeNew: { name, description, deliveryTime, shippingCost, category, image, imageName, logo, logoName, uid, minimumCost, street, numberStreet, departmentNumber, city, town, streetReference, phone, latitude, longitude }};
+const mapStateToProps = () => {
+  return {};
 }
 
 export default connect(mapStateToProps, { storeCreate, storeUpdate })(StoreCreate);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { AppleStyleSwipeableRow, RightActions } from '../common';
+import { AppleStyleSwipeableRow, RightActions, Spinner} from '../common';
 import { FlatList } from 'react-native';
 import { storesByUserIdFetch, storeUpdateFields } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
@@ -18,6 +18,17 @@ class StoreAdminList extends Component {
     if(this.props.stores.length !== prevProps.stores.length){
       this.props.storesByUserIdFetch();
     }  
+    if(this.props.store){
+        if(prevProps.store){
+         if(this.props.store.updated_at && prevProps.store.updated_at){
+          this.props.storesByUserIdFetch();
+         }
+        }else{
+          this.props.storesByUserIdFetch();
+        }    
+    } else{
+      console.log('enter to else'); 
+    }
   }
 
   storeOnClick = (store) => {
@@ -73,6 +84,9 @@ class StoreAdminList extends Component {
   }
 
   render() {
+    if(this.props.pending){
+      return(<Spinner/>)
+    }
     return (
       <FlatList
         enableEmptySections
@@ -85,10 +99,12 @@ class StoreAdminList extends Component {
 }
 
 const mapStateToProps = state => {
-  const stores = _.map(state.adminStores, (val) => {
+  const stores = _.map(state.adminStores.data, (val) => {
     return { ...val };
   });
-  return { stores };
+  const { store } = state.adminStores; 
+  const { pending } = state.adminStores;
+  return { stores, pending, store };
 };
 
 export default connect(mapStateToProps, { storesByUserIdFetch, storeUpdateFields })(StoreAdminList);

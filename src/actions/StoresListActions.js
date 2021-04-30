@@ -5,13 +5,16 @@ import {
   STORE_FETCH_SUCCESS,
   STORES_FETCH_SUCCESS,
   STORES_FETCH_ADMIN_SUCCESS,
-  STORE_CREATE,
-  STORE_UPDATE,
-  STORE_FETCH_PENDING
+  STORE_CREATE_SUCCESS,
+  STORE_UPDATE_SUCCESS,
+  STORE_DELETE_SUCCESS,
+  STORE_FETCH_PENDING,
+  STORES_FETCH_PENDING
 } from './types';
 
 export const storesFetch = () => {
   return (dispatch) => {
+    dispatch({ type: STORES_FETCH_PENDING });
     firebase.firestore().collection('stores').where('deleted', '==', false).get()
     .then(snapshot => {
       const stores = snapshot.docs.map(doc => {
@@ -26,6 +29,7 @@ export const storesByUserIdFetch = () => {
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
   return (dispatch) => {
+    dispatch({ type: STORES_FETCH_PENDING });
     firebase.firestore().collection('stores').where('userId','==', userId).get()
     .then(snapshot => {
       const stores = snapshot.docs.map(doc => {
@@ -33,8 +37,20 @@ export const storesByUserIdFetch = () => {
       });
       dispatch({ type: STORES_FETCH_ADMIN_SUCCESS, payload: stores });    
     })
-  };
+  }; 
 };
+
+export const fetchStoresListPending = () => {
+  return (dispatch) => {
+    dispatch({ type: STORES_FETCH_PENDING });
+  }
+}
+
+export const fetchStorePending = () => {
+  return (dispatch) => {
+    dispatch({ type: STORE_FETCH_PENDING });
+  }
+}
 
 export const storeCreate = (store) => {
   const { image, logo } = store;
@@ -59,10 +75,11 @@ export const storeCreate = (store) => {
           .add({ ...store, imageName: imageName, logoName: logoName ,userId, created_at, updated_at, deleted: false })
           .then(() => {
             console.info(`Store Created`);
+            dispatch({ type: STORE_CREATE_SUCCESS, payload: store })
           })
           .catch(error => {
             console.warn("Error at create the Store", error);
-          }).finally(() => dispatch({ type: STORE_CREATE }));
+          })
         })
         .catch(error => {
           console.warn("It was not possible upload the images", error);
@@ -72,16 +89,20 @@ export const storeCreate = (store) => {
       .add({ ...store, userId, created_at, updated_at, deleted: false })
       .then(() => {
         console.info(`Store Created`);
+        dispatch({ type: STORE_CREATE_SUCCESS, payload: store })
       })
       .catch(error => {
         console.warn("Error at create the Store", error);
-      }).finally(() => dispatch({ type: STORE_CREATE }));
+      })
     }
   };
 };
 
 export const storeUpdate = (store) => {
   const { uid, image, imageName, logo, logoName } = store;
+  console.log('imageName', imageName);
+  console.log('logoName', logoName);
+
   delete store.uid;
   delete store.image;
   delete store.logo;
@@ -104,11 +125,11 @@ export const storeUpdate = (store) => {
         .update({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
         .then(() => {
           console.info(`Updated Store, storeId: ${uid}`);
+          dispatch ({type: STORE_UPDATE_SUCCESS, payload: {...store, uid}});
         })
         .catch( error => {
-          console.log(`Updated Store, storeId: ${uid}`, error)
+          console.log(`error at updated Store, storeId: ${uid}`, error)
         })
-        .finally(() => dispatch({ type: STORE_UPDATE }));
       })
       .catch(error => {
         console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
@@ -118,10 +139,11 @@ export const storeUpdate = (store) => {
       .update({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
       .then(() => {
         console.info(`Updated Store, storeId: ${uid}`);
+        dispatch ({type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });
       })
       .catch(error => {
         console.warn("Error at update the Store", error);
-      }).finally(() => dispatch({ type: STORE_UPDATE }));
+      })
     }
   };
 };
@@ -135,7 +157,7 @@ export const storeUpdateFields = (store) => {
     .update({ ...store, updated_at })
     .then(() => {
       console.info(`Updated Store, storeId: ${uid}`);
-      dispatch({ type: STORE_UPDATE });
+      dispatch({ type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });
     })
     .catch(error => {
       console.warn("Error at update the Store", error);
@@ -149,6 +171,7 @@ export const deleteStore = (storeId) => {
     .set(null)
     .then(() => {
       console.info(`Removed store with storeId: ${storeId}`);
+      dispatch({type: STORE_DELETE_SUCCESS, payload: storeId})
     })
     .catch(error => {
       console.warn("Error at remove the Product", error);
@@ -186,11 +209,3 @@ export const storeFetchById = (storeId) => {
     }).catch(error => console.log("Error getting document:", error))
   }
 };
-
-export const storeFetchByIdPending = () => {
-  return (dispatch) => {
-    dispatch({type: STORE_FETCH_PENDING});
-  }
-  
-}
-

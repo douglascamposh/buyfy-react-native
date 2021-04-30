@@ -5,7 +5,7 @@ import { FlatList, View } from 'react-native';
 import { storesFetch } from '../../actions';
 import StoreListItem from './StoreListItem';
 import InvoiceCards from '../checkout/InvoiceCards';
-import { Card, CardSection, Button, Content, Title } from '../common';
+import { Card, CardSection, Button, Content, Title, Spinner } from '../common';
 import RecomendedStores from './RecomendedStores';
 import { Colors } from '../../constants/Styles';
 import { Overlay, Icon } from 'react-native-elements';
@@ -28,7 +28,7 @@ class StoreList extends Component {
   componentDidUpdate(prevProps) { 
     if(this.props.stores.length !== prevProps.stores.length){
       this.props.storesFetch();
-    }  
+    }
   }
 
   storeOnClick = (store) => {
@@ -126,11 +126,11 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const stores = _.map(state.stores, (val) => {
+  const stores = _.map(state.stores.data, (val) => {
     return { ...val };
   });
-
-  return { stores };
+  const { pending } = state.stores;
+  return { stores, pending };
 };
 
 export default connect(mapStateToProps, { storesFetch })(StoreList);

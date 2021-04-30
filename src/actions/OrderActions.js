@@ -63,7 +63,7 @@ export const deleteOrder = (orderId) => {
 export const deleteOrders = async (orders) => {
   const promises = [];
   for (const order of orders) {
-    promises.push(firebase.firestore().collection('orders').doc(order.uid)).delete();
+    promises.push(firebase.firestore().collection('orders').doc(order.uid).delete());
   }
   return Promise.all(promises);
 }
