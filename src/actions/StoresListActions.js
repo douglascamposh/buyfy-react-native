@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import _ from 'lodash';
 import uuid from 'uuid/v4';
 import {
   STORE_FETCH_SUCCESS,
@@ -57,92 +58,82 @@ export const storeCreate = (store) => {
   delete store.image;
   delete store.logo;
   const user = firebase.auth().currentUser;
-  const userId = user ? user.uid : '';
-  const created_at = Date.now();
-  const updated_at = Date.now();
+  store.userId = user ? user.uid : '';
+  store.created_at = Date.now();
+  store.updated_at = Date.now();
   return (dispatch) => {
     const images = [];
-    const imageName = image ? uuid() : '';
-    const logoName = logo ? uuid() : '';
-    image ? images.push({ name: imageName, image: image}) : null;
-    logo ? images.push({ name: logoName, image: logo }) : null;
+    image ? images.push({ name: uuid(), image: image}) : null;
+    logo ? images.push({ name: uuid(), image: logo }) : null;
     
-    if (images.length) {
-      uploadImages(images)
-        .then(response => {
-          console.info("images uploaded successfully");
-          firebase.firestore().collection('stores')
-          .add({ ...store, imageName: imageName, logoName: logoName ,userId, created_at, updated_at, deleted: false })
+    uploadImages(images)
+      .then(imagesResponse => {
+        if (image) {
+          store.imageName = imagesResponse[0].name;
+          store.imageUri = imagesResponse[0].uri;
+        }
+        if (logo) {
+          store.logoName = [...imagesResponse].pop().name;
+          store.logoUri = [...imagesResponse].pop().uri;
+        }
+      })
+      .catch(error => {
+        console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
+      })
+      .finally(() => {
+        firebase.firestore().collection('stores')
+          .add({ ...store, deleted: false })
           .then(() => {
             console.info(`Store Created`);
             dispatch({ type: STORE_CREATE_SUCCESS, payload: store })
           })
           .catch(error => {
-            console.warn("Error at create the Store", error);
+            console.warn("Error at create the Store", error); //TODO: add dispatch to display errors
           })
-        })
-        .catch(error => {
-          console.warn("It was not possible upload the images", error);
-        });
-    } else {
-      firebase.firestore().collection('stores')
-      .add({ ...store, userId, created_at, updated_at, deleted: false })
-      .then(() => {
-        console.info(`Store Created`);
-        dispatch({ type: STORE_CREATE_SUCCESS, payload: store })
-      })
-      .catch(error => {
-        console.warn("Error at create the Store", error);
-      })
-    }
+      });
   };
 };
 
 export const storeUpdate = (store) => {
-  const { uid, image, imageName, logo, logoName } = store;
+  const { uid, image, logo } = store;
 
   delete store.uid;
   delete store.image;
   delete store.logo;
-  const newImageName = image ? uuid() : imageName;
-  const newLogoName = logo ? uuid() : logoName;
   
   const images = [];
-  image ? images.push({ name: newImageName, image: image }) : null;
-  logo ? images.push({ name: newLogoName, image: logo }) : null;
+  image ? images.push({ name: uuid(), image: image }) : null;
+  logo ? images.push({ name: uuid(), image: logo }) : null;
   
-  const updated_at = Date.now();
   const user = firebase.auth().currentUser;
-  const userId = user ? user.uid : '';
+  store.userId = user ? user.uid : '';
+  store.updated_at = Date.now();
   return (dispatch) => {
-    if (images.length) {
-      uploadImages(images)
-      .then(response => {
-        console.info("images uploaded successfully");
-        firebase.firestore().collection('stores').doc(uid)
-        .update({ ...store, imageName: newImageName, logoName: newLogoName, updated_at, userId })
+    uploadImages(images)
+    .then(imagesResponse => {
+      if(image) {
+        store.imageName = imagesResponse[0].name;
+        store.imageUri = imagesResponse[0].uri;
+      }
+      if(logo) {
+        store.logoName = [...imagesResponse].pop().name;
+        store.logoUri = [...imagesResponse].pop().uri;
+      }
+    })
+    .catch(error => {
+      console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
+    })
+    .finally(() => {
+      firebase.firestore().collection('stores').doc(uid)
+        .update({ ...store })
         .then(() => {
           console.info(`Updated Store, storeId: ${uid}`);
-          dispatch({ type: STORE_UPDATE_SUCCESS, payload: { ...store, uid, imageName: newImageName, logoName: newLogoName, updated_at }});
+          dispatch({ type: STORE_UPDATE_SUCCESS, payload: { ...store, uid } });
         })
-        .catch( error => {
-          console.log(`error at updated Store, storeId: ${uid}`, error)
-        })
-      })
-      .catch(error => {
-        console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
-      }); //TODO: display error update to UI when an error occurrs
-    } else {
-      firebase.firestore().collection('stores').doc(uid)
-      .update({ ...store, updated_at, userId })
-      .then(() => {
-        console.info(`Updated Store, storeId: ${uid}`);
-        dispatch ({type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });
-      })
-      .catch(error => {
-        console.warn("Error at update the Store", error);
-      })
-    }
+        .catch(error => {
+          console.log(`error at updated Store, storeId: ${uid}`, error);//TODO: add dispatch to display errors
+        });
+    });
   };
 };
 
@@ -182,14 +173,16 @@ const uploadImages = async (images) => {
   for(const item of images) {
     promises.push(uploadImage(item.image, item.name));
   }
-  return Promise.all(promises)
+  return Promise.all(promises);
 }
 
 const uploadImage = async (image, imageName) => {
   const response = await fetch(image);
   const blob = await response.blob();
   const ref = firebase.storage().ref().child(`images/${imageName}`);
-  return ref.put(blob);
+  const snapshot = await ref.put(blob);
+  const uri = await snapshot.ref.getDownloadURL();
+  return {name: imageName, uri};
 }
 
 export const storeFetchById = (storeId) => {
