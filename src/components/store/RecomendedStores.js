@@ -8,6 +8,7 @@ const renderCarrouselItem = (item) => {
       title={item.name}
       description={`${item.deliveryTime}-${Number(item.deliveryTime) + 15} min | Bs. ${item.shippingCost}`}
       image={item.imageName}
+      uri={item.imageUri}
     />
   );
 }

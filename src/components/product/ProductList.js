@@ -144,6 +144,7 @@ class ProductList extends Component {
                 </Card>
                 <Card>
                   <Explorer data={this.props.products} />
+                  {/* ToDo: use Carrousel component instead of Explorer, Explorer will be deprecated */}
                 </Card>
               </>
               }

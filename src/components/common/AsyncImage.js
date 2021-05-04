@@ -18,12 +18,21 @@ class AsyncImage extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    this.getAndLoadHttpUrl();
+    if (this.props.uri) {
+      this.setState({ url: this.props.uri, loading: false });
+    } else {
+      this.getAndLoadHttpUrl();
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.image != prevProps.image) {
-      this.getAndLoadHttpUrl();
+    if (!this.props.uri) {
+      if (this.props.image != prevProps.image) {
+        this.getAndLoadHttpUrl();
+      }
+    }
+    if (this.props.uri !== prevProps.uri) {
+      this.setState({ url: this.props.uri, loading: false });
     }
   }
 

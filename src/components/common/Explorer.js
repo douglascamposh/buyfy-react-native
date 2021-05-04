@@ -40,6 +40,7 @@ const renderItems = (items) => {
         description={item.description}
         footer={`Bs. ${item.price}`}
         image={item.imageName}
+        uri={item.imageUri}
         containerImage={styles.containerImage}
         containerLabel={styles.containerLabel}
         />)

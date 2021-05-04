@@ -119,6 +119,7 @@ export const storeUpdate = (store) => {
         store.logoName = [...imagesResponse].pop().name;
         store.logoUri = [...imagesResponse].pop().uri;
       }
+      console.info(`Image was uploaded storeId: ${uid}`);
     })
     .catch(error => {
       console.warn(`It was not possible upload the new image to the store with storeId: ${uid}`, error);
