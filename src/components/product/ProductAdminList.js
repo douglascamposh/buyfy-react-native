@@ -91,7 +91,7 @@ class ProductAdminList extends Component {
   }
 
   navigateToScheduleForm = () => {
-    const { uid: storeId } = this.props.navigation.getParam('store', {});
+    const storeId = this.props.navigation.getParam('storeId', {});
     this.props.navigation.navigate('editScheduleStoreScreen', { storeId });
   }
 
