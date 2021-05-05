@@ -21,6 +21,12 @@ class AsyncTile extends Component {
     this.getAndLoadHttpUrl();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.image != prevProps.image) {
+      this.getAndLoadHttpUrl();
+    }
+  }
+
   getAndLoadHttpUrl() {
     const ref = firebase.storage().ref(this.props.image);
     ref.getDownloadURL().then(data => {
