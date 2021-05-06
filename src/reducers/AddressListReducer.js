@@ -9,6 +9,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ADDRESS_FETCH_SUCCESS:
       return { 
+        ...state,
         data: action.payload,
         pending: false
       };
@@ -18,14 +19,17 @@ export default (state = INITIAL_STATE, action) => {
         pending: true
       };  
     case ADDRESS_CREATE_SUCCESS: 
-      state.data.push(action.payload);
-      return { data: [...state.data] };
+      return {...state, data: [...state.data, action.payload] }
     case ADDRESS_UPDATE_SUCCESS: 
-      const i = state.data.findIndex((index) => index.uid === action.payload.uid);
-      state.data[i] = action.payload;
-      return { data: [...state.data] };
+    const data = state.data.map( address => {
+      if(address.uid === action.payload.uid){
+        return {...address, ...action.payload}
+      }
+      return address;
+    })
+    return {...state, data:data};
     case ADDRESS_DELETED_SUCCESS: 
-      return { data: state.data.filter(({uid}) => uid !== action.payload) };  
+      return { ...state, data: state.data.filter(({uid}) => uid !== action.payload) };  
     default:
       return state;
   }

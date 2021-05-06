@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Title, Content, CardSection } from '../common';
 
 const Invoice = (props) => {
-
   return (
     <View>
       <CardSection style={styles.cardSectionStyle}>
@@ -27,7 +26,7 @@ const Invoice = (props) => {
           Total
         </Title>
         <Title>
-          Bs. {props.totalOrders + 10}
+          Bs. { Number(props.totalOrders) + Number(props.shippingCost) }
         </Title>
       </CardSection>
     </View>

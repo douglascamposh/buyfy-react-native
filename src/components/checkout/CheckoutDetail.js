@@ -128,23 +128,21 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const ordersProducts = _.map(state.order, (val ) => {
+  const ordersProducts = _.map(state.orders.data, (val ) => {
     return { ...val };
   });
-  const userAddresses = _.map(state.addresses, (val) => {
+  const userAddresses = _.map(state.addresses.data, (val) => {
     return { ...val };
   });;
   const userAddress = _.last(userAddresses) || { uid: '' };
 
-  const { name, shippingCost } = state.store;
+  const { name, shippingCost } = state.store.data;
   
-  const orders = _.map(state.order, ({ name, quantity, price, uid }) => {
+  const orders = _.map(state.orders.data, ({ name, quantity, price, uid }) => {
     return { name, quantity, price, uid };
   });
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
-
   let { addressId: newAddressId, nit, invoiceId } = state.invoiceForm;
-  
   const addressId = newAddressId || userAddress.uid;
   return { totalOrders, addressId, nit, orders, shippingCost, invoiceId, userAddresses, name };
 };

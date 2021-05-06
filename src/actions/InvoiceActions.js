@@ -4,7 +4,8 @@ import {
   INVOICE_CREATE,
   INVOICE_UPDATE_FORM,
   INVOICES_FETCH_SUCCESS,
-  INVOICE_FETCH_SUCCESS
+  INVOICE_FETCH_SUCCESS,
+  INVOICE_CREATE_SUCCESS
 } from './types';
 import _ from 'lodash';
 import { orderStates, invoiceStates } from '../constants/Enum';
@@ -20,16 +21,18 @@ export const invoiceCreate = (invoice) => {
     .then(response => {
       const invoiceId = response.id;
       const writeBatch = firebase.firestore().batch();
-      dispatch({ type: INVOICE_CREATE, payload: { invoiceId } });
       for (let index = 0; index < invoice.orders.length; index++) {
         let orderId = invoice.orders[index].uid
         const orderRef = firebase.firestore().collection('orders').doc(orderId);
         writeBatch.update(orderRef, {state: orderStates.created} ); //Update orders
       }
       writeBatch.commit()
-      .then(() => console.log('Successfully executed batch.'))
+      .then(() => {
+        console.log('Successfully executed batch.');
+        dispatch({ type: INVOICE_CREATE, payload: { invoiceId } });
+        dispatch({ type: INVOICE_CREATE_SUCCESS, payload: invoice });
+      })
       .catch((error) => console.log('Batch error', error))
-      dispatch({ type: INVOICE_CREATE, payload: { invoiceId } });
     })
     .catch(error => console.warn('It was not created the Invoice', error))
   };

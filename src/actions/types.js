@@ -24,7 +24,8 @@ export const ORDER_FETCH_SUCCESS = 'order_fetch_success';
 export const ORDER_DELETED_SUCCESS = 'order_deleted_success';
 export const ORDERS_RECEIVED_FETCH_SUCCESS = 'orders_received_fetch_success';
 
-export const INVOICE_CREATE = 'invoice_create_success';
+export const INVOICE_CREATE = 'invoice_create';
+export const INVOICE_CREATE_SUCCESS = 'invoice_create_success';
 export const INVOICE_UPDATE_FORM = 'invoice_update_form';
 export const INVOICES_FETCH_SUCCESS = 'invoices_fetch_success';
 export const INVOICE_FETCH_SUCCESS = 'invoice_fetch_success';

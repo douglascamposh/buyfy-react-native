@@ -116,9 +116,9 @@ class ProductList extends Component {
 
   render() {
     const { store } = this.props;
-    if(store.pending){
-      return(<Spinner />)
-    }
+    // if(store.pending){
+    //   return(<Spinner />)
+    // }
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     const scheduletext = scheduleMessage(store.schedule);
     return (
