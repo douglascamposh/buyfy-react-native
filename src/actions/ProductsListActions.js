@@ -46,7 +46,7 @@ export const productCreate = (product) => {
         product.imageName = imageResponse.name;
       })
       .catch(error => {
-        console.warn(`It was not possible upload the image to the product with productId: ${uid}`, error);
+        console.info(`It was not possible upload the image to the product`, error);
       })
       .finally(() => {
         firebase.firestore().collection('products')
@@ -86,14 +86,14 @@ export const productUpdate = (product) => {
         product.imageName = imageResponse.name;
       })
       .catch(error => {
-        console.warn(`It was not possible upload the new image to the product with productId: ${uid}`, error);
+        console.info(`It was not possible upload the new image to the product with productId: ${uid}`, error);
       })
       .finally(() => {
         firebase.firestore().collection('products').doc(uid)
           .update({ ...product })
           .then(() => {
             console.info(`Updated product, productId: ${uid}`);
-            dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: { ...product } });
+            dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: { ...product,uid } });
           })
           .catch(error => {
             console.warn("Error at update the Product", error);

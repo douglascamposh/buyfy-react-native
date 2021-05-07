@@ -34,7 +34,7 @@ class StoreOrderList extends Component {
 }
 
 const mapStateToProps = state => {
-  const stores = _.map(state.adminStores, (val) => {
+  const stores = _.map(state.adminStores.data, (val) => {
     return { ...val };
   });
 

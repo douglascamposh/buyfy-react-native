@@ -5,7 +5,8 @@ import {
   INVOICE_UPDATE_FORM,
   INVOICES_FETCH_SUCCESS,
   INVOICE_FETCH_SUCCESS,
-  INVOICE_CREATE_SUCCESS
+  INVOICE_CREATE_SUCCESS,
+  INVOICE_UPDATE_SUCCESS
 } from './types';
 import _ from 'lodash';
 import { orderStates, invoiceStates } from '../constants/Enum';
@@ -50,7 +51,8 @@ export const invoiceUpdateById = (invoice) => {
     .catch(error => {
       console.warn('The invoice was not updated', error);
     });
-  dispatch({ type: INVOICE_CREATE, payload: { uid } });//Todo revisar para que sirve el dispatch
+  // dispatch({ type: INVOICE_CREATE, payload: { uid } });//Todo revisar para que sirve el dispatch
+    dispatch({ type: INVOICE_UPDATE_SUCCESS, payload: invoice, uid });
   }
 }
 

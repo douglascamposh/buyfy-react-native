@@ -146,11 +146,11 @@ export const storeUpdateFields = (store) => {
     firebase.firestore().collection('stores').doc(uid)
     .update({ ...store, updated_at })
     .then(() => {
-      console.info(`Updated Store, storeId: ${uid}`);
+      console.info(`Updated field Store, storeId: ${uid}`);
       dispatch({ type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });
     })
     .catch(error => {
-      console.warn("Error at update the Store", error);
+      console.warn("Error at update the field Store", error);
     });
   };
 };

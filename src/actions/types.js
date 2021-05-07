@@ -29,6 +29,7 @@ export const INVOICE_CREATE_SUCCESS = 'invoice_create_success';
 export const INVOICE_UPDATE_FORM = 'invoice_update_form';
 export const INVOICES_FETCH_SUCCESS = 'invoices_fetch_success';
 export const INVOICE_FETCH_SUCCESS = 'invoice_fetch_success';
+export const INVOICE_UPDATE_SUCCESS = 'invoice_update_success';
 
 export const ADDRESS_FETCH_SUCCESS = 'addresses_fetch_success';
 export const ADDRESS_CREATE = 'address_create_success';

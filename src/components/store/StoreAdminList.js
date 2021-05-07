@@ -21,7 +21,7 @@ class StoreAdminList extends Component {
   }
 
   storeOnClick = (store) => {
-    this.props.navigation.navigate('productAdminList', { storeId: store.uid });
+    this.props.navigation.navigate('productAdminList', { storeId: store.uid, name: store.name });
   }
 
   storeEditOnClick = (store) => {
@@ -73,9 +73,9 @@ class StoreAdminList extends Component {
   }
 
   render() {
-    if(this.props.pending){
-      return(<Spinner/>)
-    }
+    // if(this.props.pending){
+    //   return(<Spinner/>)
+    // }
     return (
       <FlatList
         enableEmptySections

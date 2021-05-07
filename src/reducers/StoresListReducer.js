@@ -11,10 +11,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: action.payload, 
-        payload: false
+        payload: false,
+        store: null
       };
     case STORES_FETCH_PENDING:
-      return { ...state, pending: true };
+      return { ...state, pending: true, store: null };
     case STORE_CREATE_SUCCESS: 
       return{
         ...state, data: [ ...state.data, action.payload ]
@@ -26,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         }
         return store;
       });
-      return { ...state, data: data };
+      return { ...state, data: data, store: action.payload };
     default:
       return state;
   }

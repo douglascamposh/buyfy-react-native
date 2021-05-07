@@ -112,13 +112,9 @@ class ProductList extends Component {
     const { storeId } = _.last(this.props.products)
       this.props.navigation.navigate('orderList', { storeId });
   }
-
-
+  
   render() {
     const { store } = this.props;
-    // if(store.pending){
-    //   return(<Spinner />)
-    // }
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     const scheduletext = scheduleMessage(store.schedule);
     return (
@@ -207,7 +203,7 @@ const mapStateToProps = state => {
     return { ...val };
   });
 
-  const store = { ...state.store };
+  const store = { ...state.store.data };
   const { pending } = state.orders;
 
   return { products, orders, store, pending };
