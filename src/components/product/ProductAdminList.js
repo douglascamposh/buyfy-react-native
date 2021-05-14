@@ -143,7 +143,7 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const store = {...state.store.data}
+  const store = {...state.store}
   const products = _.map(state.products.data, (val) => {
     return { ...val };
   });

@@ -25,7 +25,7 @@ class OrdersReceivedStore extends Component {
   componentDidUpdate(prevProps) {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
-    this.props.order && prevProps.order === null ? this.props.invoiceFetchByStoreId(store.uid) : null;
+    this.props.order && prevProps.order === null ? this.props.invoiceFetchByStoreId(store.uid) : null;     
   }
 
   invoiceButtonOnClick = (invoice) => {
@@ -72,17 +72,15 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const invoices = _.map(state.invoices.data, (val) => {
+  const invoices = _.map(state.invoices.ordersRecived, (val) => {
     const orders = _.map(val.orders, (order) => { return {...order }; });
     val.orders = orders;
     return { ...val };
   });
-
-  const { order } = state.invoices;
   const pendings = invoices.filter(invoice => invoice.state === invoiceStates.created);
   const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);//Todo: we should all invoices delivered not only received
   const rejected = invoices.filter(invoice => invoice.state === invoiceStates.rejected);
-  return { pendings, accepted, rejected, invoices, order };
+  return { pendings, accepted, rejected, invoices };
 };
 
 export default connect(mapStateToProps, { invoiceFetchByStoreId, invoiceUpdateById })(OrdersReceivedStore);

@@ -10,7 +10,7 @@ import {
   STORE_UPDATE_SUCCESS,
   STORE_DELETE_SUCCESS,
   STORE_FETCH_PENDING,
-  STORES_FETCH_PENDING
+  STORES_FETCH_PENDING,
 } from './types';
 
 export const storesFetch = () => {
@@ -148,6 +148,7 @@ export const storeUpdateFields = (store) => {
     .then(() => {
       console.info(`Updated field Store, storeId: ${uid}`);
       dispatch({ type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });
+      dispatch({type: STORE_DELETE_SUCCESS, payload: {...store, uid}});
     })
     .catch(error => {
       console.warn("Error at update the field Store", error);

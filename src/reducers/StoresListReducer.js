@@ -1,4 +1,4 @@
-import { STORES_FETCH_SUCCESS, STORES_FETCH_PENDING, STORE_CREATE_SUCCESS, STORE_UPDATE_SUCCESS} from '../actions/types';
+import { STORES_FETCH_SUCCESS, STORES_FETCH_PENDING, STORE_CREATE_SUCCESS, STORE_UPDATE_SUCCESS, STORE_DELETE_SUCCESS} from '../actions/types';
 
 const INITIAL_STATE = {
   data: [],
@@ -12,15 +12,24 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         data: action.payload, 
         payload: false,
-        store: null
       };
     case STORES_FETCH_PENDING:
-      return { ...state, pending: true, store: null };
+      return { ...state, pending: true };
     case STORE_CREATE_SUCCESS: 
       return{
         ...state, data: [ ...state.data, action.payload ]
       }
     case STORE_UPDATE_SUCCESS:
+      let isStore = false;
+      state.data.map(store => {
+        if (store.uid === action.payload.uid) {
+          isStore = true
+          return isStore ;
+        }
+      });
+      if(!isStore){
+        return {...state, data: [...state.data, action.payload] }
+      }
       const data = state.data.map(store => {
         if (store.uid === action.payload.uid) {
           return { ...store, ...action.payload };
@@ -28,6 +37,10 @@ export default (state = INITIAL_STATE, action) => {
         return store;
       });
       return { ...state, data: data, store: action.payload };
+      case STORE_DELETE_SUCCESS:
+        if(action.payload.deleted){
+          return { ...state, data: state.data.filter(({uid}) => uid !== action.payload.uid) };
+        }
     default:
       return state;
   }

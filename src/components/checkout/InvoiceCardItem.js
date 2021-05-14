@@ -80,7 +80,7 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const store = { ...state.store.data };
+  const store = { ...state.store };
   return { store };
 };
 

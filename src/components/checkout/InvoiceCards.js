@@ -55,7 +55,7 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const invoices = _.map(state.invoices.data, (val) => {
+  const invoices = _.map(state.invoices.dataCards, (val) => {
     return { ...val };
   });
   return { invoices };

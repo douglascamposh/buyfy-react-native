@@ -20,9 +20,7 @@ export const STORE_FETCH_PENDING = 'store_fetch_pending';
 
 export const ORDERS_FETCH_SUCCESS = 'orders_fetch_success';
 export const ORDERS_FETCH_PENDING = 'orders_fetch_pending';
-export const ORDER_FETCH_SUCCESS = 'order_fetch_success';
 export const ORDER_DELETED_SUCCESS = 'order_deleted_success';
-export const ORDERS_RECEIVED_FETCH_SUCCESS = 'orders_received_fetch_success';
 
 export const INVOICE_CREATE = 'invoice_create';
 export const INVOICE_CREATE_SUCCESS = 'invoice_create_success';
@@ -30,10 +28,12 @@ export const INVOICE_UPDATE_FORM = 'invoice_update_form';
 export const INVOICES_FETCH_SUCCESS = 'invoices_fetch_success';
 export const INVOICE_FETCH_SUCCESS = 'invoice_fetch_success';
 export const INVOICE_UPDATE_SUCCESS = 'invoice_update_success';
+export const INVOICE_RIDER_UPDATE_SUCCESS = 'invoice_rider_update_success';
+export const INVOICES_FETCH_BY_USER_ID_SUCCESS = 'invoice_fetch_by_user_id_success';
+export const INVOICES_FETCH_BY_STORE_ID_SUCCESS = 'invoice_fetch_by_store_id_success';
+export const INVOICES_FETCH_BY_STATE_SUCCESS = 'invoices_fetch_by_state_success';
 
 export const ADDRESS_FETCH_SUCCESS = 'addresses_fetch_success';
-export const ADDRESS_CREATE = 'address_create_success';
-export const ADDRESS_UPDATE = 'address_update_success';
 export const ADDRESS_FETCH_PENDING = 'address_fetch_pending';
 export const ADDRESS_CREATE_SUCCESS = 'address_create_success';
 export const ADDRESS_UPDATE_SUCCESS = 'address_update_success';

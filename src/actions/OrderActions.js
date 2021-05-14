@@ -3,9 +3,7 @@ import 'firebase/firestore';
 import _ from 'lodash';
 import {
   ORDERS_FETCH_SUCCESS,
-  ORDER_FETCH_SUCCESS,
   ORDER_DELETED_SUCCESS,
-  ORDERS_RECEIVED_FETCH_SUCCESS,
   PRODUCT_CREATE_ORDER,
   PRODUCT_UPDATE_ORDER,
   ORDERS_FETCH_PENDING } from './types';

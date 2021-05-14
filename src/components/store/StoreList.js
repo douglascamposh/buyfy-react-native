@@ -29,16 +29,6 @@ class StoreList extends Component {
     if(this.props.stores.length !== prevProps.stores.length){
       this.props.storesFetch();
     }
-    if(this.props.store){
-      if(prevProps.store){
-       if(this.props.store.delete && prevProps.store.delete){
-         console.log('entro delete');
-        this.props.storesFetch();
-       }
-      }else{
-        this.props.storesFetch();
-      }    
-    }
   }
 
   storeOnClick = (store) => {
@@ -139,8 +129,8 @@ const mapStateToProps = state => {
   const stores = _.map(state.stores.data, (val) => {
     return { ...val };
   });
-  const { pending, store } = state.stores;
-  return { stores, pending, store };
+  const { pending } = state.stores;
+  return { stores, pending };
 };
 
 export default connect(mapStateToProps, { storesFetch })(StoreList);

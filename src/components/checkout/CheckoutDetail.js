@@ -136,7 +136,7 @@ const mapStateToProps = state => {
   });;
   const userAddress = _.last(userAddresses) || { uid: '' };
 
-  const { name, shippingCost } = state.store.data;
+  const { name, shippingCost } = state.store;
   
   const orders = _.map(state.orders.data, ({ name, quantity, price, uid }) => {
     return { name, quantity, price, uid };

@@ -203,7 +203,7 @@ const mapStateToProps = state => {
     return { ...val };
   });
 
-  const store = { ...state.store.data };
+  const store = { ...state.store };
   const { pending } = state.orders;
 
   return { products, orders, store, pending };

@@ -23,10 +23,8 @@ class OrdersRider extends Component {
   }
 
   componentDidUpdate(prevProps){
-    if(this.props.order){
-      if(prevProps.order === null){
-        this.props.invoiceFetchByState(invoiceStates.received);
-      }
+    if(this.props.pendings.length !== prevProps.pendings.length){
+      this.props.invoiceFetchByState(invoiceStates.received);
     }
   }
 
@@ -87,14 +85,12 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const pendings = _.map(state.invoices.data, (val) => {
+  const pendings = _.map(state.invoices.ordersRider, (val) => {
     const orders = _.map(val.orders, (order) => { return { ...order }; });
     val.orders = orders;
     return { ...val};
   });
-  const { order } = state.invoices;
-  //.filter(invoice => !invoice.riderId);
-  return { pendings, order };
+  return { pendings };
 };
 
 export default connect(mapStateToProps, { invoiceFetchByState, invoiceUpdateById })(OrdersRider);

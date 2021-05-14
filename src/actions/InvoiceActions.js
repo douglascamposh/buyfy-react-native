@@ -3,10 +3,14 @@ import 'firebase/firestore';
 import {
   INVOICE_CREATE,
   INVOICE_UPDATE_FORM,
+  INVOICES_FETCH_BY_USER_ID_SUCCESS,
   INVOICES_FETCH_SUCCESS,
   INVOICE_FETCH_SUCCESS,
   INVOICE_CREATE_SUCCESS,
-  INVOICE_UPDATE_SUCCESS
+  INVOICE_UPDATE_SUCCESS,
+  INVOICES_FETCH_BY_STORE_ID_SUCCESS,
+  INVOICES_FETCH_BY_STATE_SUCCESS,
+  INVOICE_RIDER_UPDATE_SUCCESS
 } from './types';
 import _ from 'lodash';
 import { orderStates, invoiceStates } from '../constants/Enum';
@@ -56,6 +60,22 @@ export const invoiceUpdateById = (invoice) => {
   }
 }
 
+export const invoiceUpdateRiderById = (invoice) => {
+  const {uid} = invoice;
+  delete invoice.uid;
+  return (dispatch) => {
+    firebase.firestore().collection('invoices').doc(uid)
+    .update(invoice)
+    .then(() => {
+      console.info(`Invoice Rider updated with id ${uid}`);
+    })
+    .catch(error => {
+      console.warn('The invoice rider was not updated', error);
+    });
+    dispatch({ type: INVOICE_RIDER_UPDATE_SUCCESS, payload: invoice, uid });
+  }
+}
+
 export const invoiceFetchByUserId = () => {
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
@@ -65,7 +85,7 @@ export const invoiceFetchByUserId = () => {
       const docsInvoicesFetchUser = snapshot.docs.map(doc => {
         return { ...doc.data(), uid:doc.id }
       });
-      dispatch({ type: INVOICES_FETCH_SUCCESS, payload: docsInvoicesFetchUser });
+      dispatch({ type: INVOICES_FETCH_BY_USER_ID_SUCCESS, payload: docsInvoicesFetchUser });
     })
   };
 };
@@ -77,7 +97,7 @@ export const invoiceFetchByStoreId = (storeId) => {
       const docsInvoicesFetchStore = snapshot.docs.map(doc => {
         return { ...doc.data(), uid:doc.id }
       })
-      dispatch({ type: INVOICES_FETCH_SUCCESS, payload: docsInvoicesFetchStore });
+      dispatch({ type: INVOICES_FETCH_BY_STORE_ID_SUCCESS, payload: docsInvoicesFetchStore });
     })
   };
 };
@@ -89,7 +109,7 @@ export const invoiceFetchByState = (state) => {
       const docsInvoicesFetchState = snapshot.docs.map(doc => {
         return { ...doc.data(), uid:doc.id }
       })
-      dispatch({ type: INVOICES_FETCH_SUCCESS, payload: docsInvoicesFetchState });
+      dispatch({ type: INVOICES_FETCH_BY_STATE_SUCCESS, payload: docsInvoicesFetchState });
     })
   };
 };
