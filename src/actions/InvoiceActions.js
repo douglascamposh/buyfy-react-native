@@ -34,8 +34,7 @@ export const invoiceCreate = (invoice) => {
       writeBatch.commit()
       .then(() => {
         console.log('Successfully executed batch.');
-        dispatch({ type: INVOICE_CREATE, payload: { invoiceId } });
-        dispatch({ type: INVOICE_CREATE_SUCCESS, payload: invoice });
+        dispatch({ type: INVOICE_CREATE_SUCCESS, payload: {...invoice, invoiceId} });
       })
       .catch((error) => console.log('Batch error', error))
     })
@@ -55,7 +54,6 @@ export const invoiceUpdateById = (invoice) => {
     .catch(error => {
       console.warn('The invoice was not updated', error);
     });
-  // dispatch({ type: INVOICE_CREATE, payload: { uid } });//Todo revisar para que sirve el dispatch
     dispatch({ type: INVOICE_UPDATE_SUCCESS, payload: invoice, uid });
   }
 }

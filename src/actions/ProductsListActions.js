@@ -52,7 +52,7 @@ export const productCreate = (product) => {
         firebase.firestore().collection('products')
           .add({ ...product })
           .then(() => {
-            console.log('producto creado', product)
+            console.log('product created', product)
             dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: {...product} });
           }).catch(error => {
             console.warn("It was not possible create the product", error); //TODO add dispatch when occurs an error

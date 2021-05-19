@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { AppleStyleSwipeableRow, RightActions, Spinner} from '../common';
 import { FlatList } from 'react-native';
-import { storesByUserIdFetch, storeUpdateFields } from '../../actions';
+import { storesByUserIdFetch, storeUpdateFields, disableEnableStore } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
 import StoreListItem from './StoreListItem';
@@ -29,7 +29,7 @@ class StoreAdminList extends Component {
   }
 
   storeDeleteOnClick = (store) => {
-    this.props.storeUpdateFields({ ...store, deleted: !store.deleted });
+    this.props.disableEnableStore({ ...store, deleted: !store.deleted });
   }
 
   renderRightActions = (progress, item, close) => {
@@ -73,9 +73,6 @@ class StoreAdminList extends Component {
   }
 
   render() {
-    // if(this.props.pending){
-    //   return(<Spinner/>)
-    // }
     return (
       <FlatList
         enableEmptySections
@@ -95,4 +92,4 @@ const mapStateToProps = state => {
   return { stores, pending };
 };
 
-export default connect(mapStateToProps, { storesByUserIdFetch, storeUpdateFields })(StoreAdminList);
+export default connect(mapStateToProps, { storesByUserIdFetch, storeUpdateFields, disableEnableStore })(StoreAdminList);

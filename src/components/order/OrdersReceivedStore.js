@@ -72,7 +72,7 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const invoices = _.map(state.invoices.ordersRecived, (val) => {
+  const invoices = _.map(state.invoices.ordersReceived, (val) => {
     const orders = _.map(val.orders, (order) => { return {...order }; });
     val.orders = orders;
     return { ...val };

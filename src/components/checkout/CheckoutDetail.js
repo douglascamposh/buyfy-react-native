@@ -142,7 +142,9 @@ const mapStateToProps = state => {
     return { name, quantity, price, uid };
   });
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
-  let { addressId: newAddressId, nit, invoiceId } = state.invoiceForm;
+  let { addressId: newAddressId, nit, /*invoiceId*/ } = state.invoiceForm;
+  const {invoiceId} = state.invoices;
+  console.log('invice id ', invoiceId);
   const addressId = newAddressId || userAddress.uid;
   return { totalOrders, addressId, nit, orders, shippingCost, invoiceId, userAddresses, name };
 };

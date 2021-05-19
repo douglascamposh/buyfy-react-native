@@ -49,6 +49,7 @@ export const addressCreate = (address) => {
 
 export const addressUpdate = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid}) => {
   const addressUpdate = { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid}
+  console.log('adress update', addressUpdate);
   const {currentUser} = firebase.auth();
   const userId = currentUser ? currentUser.uid : '';
   return (dispatch) => {

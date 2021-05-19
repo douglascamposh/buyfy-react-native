@@ -1,4 +1,4 @@
-import { STORES_FETCH_ADMIN_SUCCESS, STORES_FETCH_PENDING, STORE_CREATE_SUCCESS, STORE_UPDATE_SUCCESS } from '../actions/types';
+import { STORES_FETCH_ADMIN_SUCCESS, STORES_FETCH_PENDING, STORE_CREATE_SUCCESS, STORE_UPDATE_SUCCESS, STORE_DISABLE_ENABLE_SUCCESS } from '../actions/types';
 
 const INITIAL_STATE = {
   data: [],
@@ -28,6 +28,15 @@ export default (state = INITIAL_STATE, action) => {
         return store;
       });
       return { ...state, data: data };
+      case STORE_DISABLE_ENABLE_SUCCESS:
+        const dataDisableEnable = state.data.map(store => {
+          if (store.uid === action.payload.uid) {
+            return { ...store, deleted: !store.deleted };
+          }
+          return store;
+        });
+        return { ...state, data: dataDisableEnable };
+        
     default:
       return state;
   }

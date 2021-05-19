@@ -10,7 +10,7 @@ export default (state = INITIAL_STATE, action) => {
     case ADDRESS_FETCH_SUCCESS:
       return { 
         ...state,
-        data: action.payload,
+        data: [...action.payload],
         pending: false
       };
     case ADDRESS_FETCH_PENDING:

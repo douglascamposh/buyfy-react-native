@@ -15,7 +15,7 @@ export const STORE_FETCH_SUCCESS = 'store_fetch_success';
 export const STORE_CREATE_SUCCESS = 'store_create_success';
 export const STORE_UPDATE_SUCCESS = 'store_update_success';
 export const STORES_FETCH_PENDING = 'stores_fetchPending';
-export const STORE_DELETE_SUCCESS = 'store_delete_success';
+export const STORE_DISABLE_ENABLE_SUCCESS = 'store_disable_enable_success';
 export const STORE_FETCH_PENDING = 'store_fetch_pending';
 
 export const ORDERS_FETCH_SUCCESS = 'orders_fetch_success';
@@ -38,6 +38,7 @@ export const ADDRESS_FETCH_PENDING = 'address_fetch_pending';
 export const ADDRESS_CREATE_SUCCESS = 'address_create_success';
 export const ADDRESS_UPDATE_SUCCESS = 'address_update_success';
 export const ADDRESS_DELETED_SUCCESS = 'address_delete_success';
+export const ADDRESS_CREATE_FORM = 'address_create_form';
 
 export const USER_FETCH_SUCCESS = 'user_fetch_success';
 export const USER_DATA_UPDATE = 'user_data_update';

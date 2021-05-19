@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
     case ORDERS_FETCH_SUCCESS:
       return { 
         ...state,
-        data: action.payload,
+        data: [...action.payload],
         pending: false
       };
     case ORDERS_FETCH_PENDING:

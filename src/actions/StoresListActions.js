@@ -8,7 +8,7 @@ import {
   STORES_FETCH_ADMIN_SUCCESS,
   STORE_CREATE_SUCCESS,
   STORE_UPDATE_SUCCESS,
-  STORE_DELETE_SUCCESS,
+  STORE_DISABLE_ENABLE_SUCCESS,
   STORE_FETCH_PENDING,
   STORES_FETCH_PENDING,
 } from './types';
@@ -148,7 +148,6 @@ export const storeUpdateFields = (store) => {
     .then(() => {
       console.info(`Updated field Store, storeId: ${uid}`);
       dispatch({ type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });
-      dispatch({type: STORE_DELETE_SUCCESS, payload: {...store, uid}});
     })
     .catch(error => {
       console.warn("Error at update the field Store", error);
@@ -156,16 +155,18 @@ export const storeUpdateFields = (store) => {
   };
 };
 
-export const deleteStore = (storeId) => {
+export const disableEnableStore = (store) => {
+  const { uid, deleted } = store;
+  const updated_at = Date.now();
   return (dispatch) => {
-    firebase.database().ref(`/stores/${storeId}`)
-    .set(null)
+    firebase.firestore().collection('stores').doc(uid)
+    .update({updated_at, deleted })
     .then(() => {
-      console.info(`Removed store with storeId: ${storeId}`);
-      dispatch({type: STORE_DELETE_SUCCESS, payload: storeId})
+      deleted? console.info(`disabled field Store, storeId: ${uid}`): console.info(`enabled field Store, storeId: ${uid}`);    
+      dispatch({type: STORE_DISABLE_ENABLE_SUCCESS, payload: {uid, deleted}});
     })
     .catch(error => {
-      console.warn("Error at remove the Product", error);
+      console.warn("Error at delete the field Store", error);
     });
   };
 };

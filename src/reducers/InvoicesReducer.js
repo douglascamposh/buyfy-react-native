@@ -2,8 +2,9 @@ import { INVOICES_FETCH_SUCCESS, INVOICES_FETCH_BY_USER_ID_SUCCESS, INVOICE_CREA
 
 const INITIAL_STATE = {
   dataCards: [],
-  ordersRecived: [],
+  ordersReceived: [],
   ordersRider: [],
+  invoiceId: '',
   pending: false,
 };
 
@@ -12,35 +13,35 @@ export default (state = INITIAL_STATE, action) => {
     case INVOICES_FETCH_BY_USER_ID_SUCCESS: 
       return {
         ...state,
-        data: action.payload,
-        dataCards: action.payload,
+        dataCards: [...action.payload],
         pending: false,
       }
     case INVOICES_FETCH_BY_STORE_ID_SUCCESS:
       return {
         ...state,
-        ordersRecived: action.payload,
+        ordersReceived: [...action.payload],
         pending: false,
       }
     case INVOICES_FETCH_BY_STATE_SUCCESS:
       return {
         ...state,
-        ordersRider: action.payload,
+        ordersRider: [...action.payload],
         pending: false,
       }
     case INVOICE_CREATE_SUCCESS: 
       return {
         ...state, 
-        dataCards: [...state.dataCards, action.payload]
+        dataCards: [...state.dataCards, action.payload],
+        invoiceId: action.payload.invoiceId
       }
     case INVOICE_UPDATE_SUCCESS: 
-    const data = state.ordersRecived.map(invoice => {
+    const data = state.ordersReceived.map(invoice => {
       if (invoice.uid === action.payload.uid) {
         return { ...invoice, ...action.payload };
       }
       return invoice;
     });
-    return { ...state, ordersRecived:[...data]}
+    return { ...state, ordersReceived:[...data]}
     
     case INVOICE_RIDER_UPDATE_SUCCESS: 
     const dataRider = state.ordersRider.map(invoice => {

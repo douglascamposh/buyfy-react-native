@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-//import { StackActions, NavigationActions } from 'react-navigation';
 import AddressForm from './AddressForm';
 import { addressCreate, addressUpdate } from '../../actions';
-// import { ScrollView } from 'react-native-gesture-handler';
 import { ScrollView, View, SafeAreaView } from 'react-native';
 import { Title, CardSection, Button } from '../common';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -54,9 +52,7 @@ class AddressCreateUpdate extends Component {
   }
 
   render() {
-    const emptyAddress = {name:'', street:'', numberStreet:'', departmentNumber:'', city:'', town:'', streetReference:'', phone:'', uid:''}
-    const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props.address ? this.props.address : emptyAddress;
-    const address = { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
+    const address = this.props.address ? this.props.address : this.props;
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -76,8 +72,9 @@ class AddressCreateUpdate extends Component {
   }
 }
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  const address= state.addressForm;
+  return {...address};
 };
 
 const styles = {
