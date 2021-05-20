@@ -22,6 +22,12 @@ class OrdersRider extends Component {
     this.props.invoiceFetchByState(invoiceStates.received); //pending orders
   }
 
+  componentDidUpdate(prevProps){
+    if(this.props.pendings.length !== prevProps.pendings.length){
+      this.props.invoiceFetchByState(invoiceStates.received);
+    }
+  }
+
   invoiceButtonOnClick = (invoice) => {
     const { currentUser } = firebase.auth();
     invoice.riderId = currentUser.uid;
@@ -79,12 +85,11 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const pendings = _.map(state.invoices, (val) => {
+  const pendings = _.map(state.invoices.ordersRider, (val) => {
     const orders = _.map(val.orders, (order) => { return { ...order }; });
     val.orders = orders;
     return { ...val};
   });
-  //.filter(invoice => !invoice.riderId);
   return { pendings };
 };
 

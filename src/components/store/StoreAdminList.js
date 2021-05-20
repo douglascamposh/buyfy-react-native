@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { AppleStyleSwipeableRow, RightActions } from '../common';
+import { AppleStyleSwipeableRow, RightActions, Spinner} from '../common';
 import { FlatList } from 'react-native';
-import { storesByUserIdFetch, storeUpdateFields } from '../../actions';
+import { storesByUserIdFetch, storeUpdateFields, disableEnableStore } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
 import StoreListItem from './StoreListItem';
@@ -14,8 +14,14 @@ class StoreAdminList extends Component {
     this.props.storesByUserIdFetch();
   }
 
+  componentDidUpdate(prevProps) { 
+    if(this.props.stores.length !== prevProps.stores.length){
+      this.props.storesByUserIdFetch();
+    }
+  }
+
   storeOnClick = (store) => {
-    this.props.navigation.navigate('productAdminList', { store });
+    this.props.navigation.navigate('productAdminList', { storeId: store.uid, name: store.name });
   }
 
   storeEditOnClick = (store) => {
@@ -23,7 +29,7 @@ class StoreAdminList extends Component {
   }
 
   storeDeleteOnClick = (store) => {
-    this.props.storeUpdateFields({ ...store, deleted: !store.deleted });
+    this.props.disableEnableStore({ ...store, deleted: !store.deleted });
   }
 
   renderRightActions = (progress, item, close) => {
@@ -79,10 +85,11 @@ class StoreAdminList extends Component {
 }
 
 const mapStateToProps = state => {
-  const stores = _.map(state.adminStores, (val) => {
+  const stores = _.map(state.adminStores.data, (val) => {
     return { ...val };
   });
-  return { stores };
+  const { pending } = state.adminStores;
+  return { stores, pending };
 };
 
-export default connect(mapStateToProps, { storesByUserIdFetch, storeUpdateFields })(StoreAdminList);
+export default connect(mapStateToProps, { storesByUserIdFetch, storeUpdateFields, disableEnableStore })(StoreAdminList);

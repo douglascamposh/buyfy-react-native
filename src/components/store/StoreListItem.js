@@ -35,7 +35,7 @@ class StoreListItem extends Component {
   }
 
   render() {
-    const { name, deliveryTime, shippingCost, logoName, deleted, schedule } = this.props.store;
+    const { name, deliveryTime, shippingCost, logoName, deleted, schedule, imageUri } = this.props.store;
     const imageRoute = logoName ? `images/${logoName}` : null;
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
@@ -55,7 +55,7 @@ class StoreListItem extends Component {
             </View>
             {Boolean(imageRoute) && (
               <View style={Boolean(deleted) || !isOpen(schedule) ? styles.containerRigthDisable : styles.containerRigth}>
-                <AsyncImage image={imageRoute} style={styles.imageStyle}></AsyncImage>
+                <AsyncImage image={imageRoute} uri={imageUri} style={styles.imageStyle}></AsyncImage>
               </View>
             )}
           </CardSection>

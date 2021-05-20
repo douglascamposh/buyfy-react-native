@@ -22,6 +22,12 @@ class OrdersReceivedStore extends Component {
     this.props.invoiceFetchByStoreId(store.uid);
   }
 
+  componentDidUpdate(prevProps) {
+    const { navigation } = this.props;
+    const store = navigation.getParam('store', {});
+    this.props.order && prevProps.order === null ? this.props.invoiceFetchByStoreId(store.uid) : null;     
+  }
+
   invoiceButtonOnClick = (invoice) => {
     this.props.invoiceUpdateById(invoice);
     // this.props.navigation.navigate('productDetail', { order });
@@ -66,7 +72,7 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const invoices = _.map(state.invoices, (val) => {
+  const invoices = _.map(state.invoices.ordersReceived, (val) => {
     const orders = _.map(val.orders, (order) => { return {...order }; });
     val.orders = orders;
     return { ...val };
@@ -74,7 +80,7 @@ const mapStateToProps = state => {
   const pendings = invoices.filter(invoice => invoice.state === invoiceStates.created);
   const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);//Todo: we should all invoices delivered not only received
   const rejected = invoices.filter(invoice => invoice.state === invoiceStates.rejected);
-  return { pendings, accepted, rejected };
+  return { pendings, accepted, rejected, invoices };
 };
 
 export default connect(mapStateToProps, { invoiceFetchByStoreId, invoiceUpdateById })(OrdersReceivedStore);

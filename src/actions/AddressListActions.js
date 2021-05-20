@@ -2,13 +2,15 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import {
   ADDRESS_FETCH_SUCCESS,
+  ADDRESS_FETCH_PENDING,
   ADDRESS_UPDATE_FORM,
-  ADDRESS_CREATE,
-  ADDRESS_UPDATE
+  ADDRESS_CREATE_SUCCESS,
+  ADDRESS_UPDATE_SUCCESS,
+  ADDRESS_DELETED_SUCCESS
 } from './types';
 import { USERS, ADDRESSES } from './resources';
 
-export const addressFetchByUserId = () => {
+export const addressListFetchByUserId = () => {
   return (dispatch) => {
     const user = firebase.auth().currentUser;
     const userId = user ? user.uid : '';
@@ -23,6 +25,12 @@ export const addressFetchByUserId = () => {
   };
 };
 
+export const fetchAddressListPending = () => {
+  return (dispatch) => {
+    dispatch({type: ADDRESS_FETCH_PENDING});
+  }
+}
+
 export const addressCreate = (address) => {
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
@@ -31,7 +39,7 @@ export const addressCreate = (address) => {
     firebase.firestore().collection(USERS).doc(userId).collection(ADDRESSES)
     .add(address)
       .then(() => {
-        dispatch({ type: ADDRESS_CREATE });
+        dispatch({ type: ADDRESS_CREATE_SUCCESS, payload: address});  
       })
       .catch(error => {
         console.error("It was not created the address", error);
@@ -40,6 +48,7 @@ export const addressCreate = (address) => {
 };
 
 export const addressUpdate = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid}) => {
+  const addressUpdate = { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid}
   const {currentUser} = firebase.auth();
   const userId = currentUser ? currentUser.uid : '';
   return (dispatch) => {
@@ -47,7 +56,7 @@ export const addressUpdate = ({ name, street, numberStreet, departmentNumber, ci
     .update({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, userId })
     .then(() => {
       console.info(`Address updated`);
-      dispatch({type: ADDRESS_UPDATE});
+      dispatch({type: ADDRESS_UPDATE_SUCCESS, payload: addressUpdate});
     }).catch(error => {
       console.info("there was an error at update the address, error:", error);
     });
@@ -60,15 +69,11 @@ export const deleteAddress = (addressId) => {
   return (dispatch) => {
     firebase.firestore().collection(USERS).doc(userId).collection(ADDRESSES).doc(addressId)
     .delete()
-    .then(() => console.log('Address deleted'))
+    .then(() => {
+      console.log('addrress delete');
+      dispatch({ type: ADDRESS_DELETED_SUCCESS, payload: addressId });
+    })
     .catch((error) => console.log('Error at remove', error))
-    //   .set(null)
-    //   .then(() => {
-    //     console.info(`Removed address with addressId: ${addressId}`);
-    //   })
-    //   .catch(error => {
-    //     console.warn("Error at remove the Address", error);
-    //   });
   };
 };
 

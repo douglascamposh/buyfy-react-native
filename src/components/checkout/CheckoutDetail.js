@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View } from 'react-native';
 import { Title, Card, CardSection, FloatButton, Button } from '../common';
-import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate, addressFetchByUserId, storeFetchById } from '../../actions';
+import { orderFetchByUserIdAndStoreIdAndState, invoiceCreate, addressListFetchByUserId, storeFetchById } from '../../actions';
 import InvoiceForm from './InvoiceForm';
 import Invoice from './Invoice';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,7 +23,7 @@ class CheckoutDetail extends Component {
   componentDidMount() {
     const { storeId } = this.props;
     this.props.orderFetchByUserIdAndStoreIdAndState(storeId, orderStates.draft);
-    this.props.addressFetchByUserId();
+    this.props.addressListFetchByUserId();
     this.props.storeFetchById(storeId);
   }
 
@@ -128,30 +128,29 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const ordersProducts = _.map(state.order, (val ) => {
+  const ordersProducts = _.map(state.orders.data, (val ) => {
     return { ...val };
   });
-  const userAddresses = _.map(state.addresses, (val) => {
+  const userAddresses = _.map(state.addresses.data, (val) => {
     return { ...val };
   });;
   const userAddress = _.last(userAddresses) || { uid: '' };
 
   const { name, shippingCost } = state.store;
   
-  const orders = _.map(state.order, ({ name, quantity, price, uid }) => {
+  const orders = _.map(state.orders.data, ({ name, quantity, price, uid }) => {
     return { name, quantity, price, uid };
   });
   const totalOrders = _.sumBy(ordersProducts, (order) => (order.price * order.quantity));
-
-  let { addressId: newAddressId, nit, invoiceId } = state.invoiceForm;
-  
+  let { addressId: newAddressId, nit } = state.invoiceForm;
+  const {invoiceId} = state.invoices;
   const addressId = newAddressId || userAddress.uid;
   return { totalOrders, addressId, nit, orders, shippingCost, invoiceId, userAddresses, name };
 };
 
 export default connect(mapStateToProps, {
   orderFetchByUserIdAndStoreIdAndState,
-  addressFetchByUserId,
+  addressListFetchByUserId,
   invoiceCreate,
   storeFetchById
 })(CheckoutDetail);

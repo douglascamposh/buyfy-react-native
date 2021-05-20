@@ -12,6 +12,12 @@ class InvoiceCards extends Component {
     this.props.invoiceFetchByUserId();
   }
 
+  componentDidUpdate(prevProps){
+    if(this.props.invoices.length !== prevProps.invoices.length){
+      this.props.invoiceFetchByUserId();
+    }
+  }
+
   invoiceOnPress = ({ uid }) => {
     this.props.onInvoiceCardClick(uid);
   }
@@ -49,7 +55,7 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const invoices = _.map(state.invoices, (val) => {
+  const invoices = _.map(state.invoices.dataCards, (val) => {
     return { ...val };
   });
   return { invoices };

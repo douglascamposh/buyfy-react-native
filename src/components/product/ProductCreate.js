@@ -6,25 +6,25 @@ import ProductForm from './ProductForm';
 
 class ProductCreate extends Component {
   
-  onButtonPress = ({ name, description, price, image, imageName, storeId, uid }) => {
+  onButtonPress = ({ name, description, price, image = '', imageName = '', storeId, uid }) => {
     !uid ? this.props.productCreate({ name, description, price, image, storeId }) :
-      this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
-    this.props.navigateTo('productAdminList');
+    this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
+    this.props.navigateTo();
   }
 
   render() {
-    const { name, description, price, image, imageName, storeId, uid } = this.props.product ? this.props.product : this.props;
+    const product = this.props.product ? this.props.product : { ...this.props, storeId: this.props.storeId };
     return (
       <Card>
-        <ProductForm product={{ name, description, price, image, imageName, storeId, uid }} saveProduct={this.onButtonPress}/>
+        <ProductForm product={product} saveProduct={this.onButtonPress}/>
       </Card>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { name, description, price, image, imageName, uid} = state.productForm;
-  return { name, description, price, image, imageName, uid};
+  const product = state.productForm;
+  return { ...product };
 }
 
 export default connect(mapStateToProps, { productCreate, productUpdate })(ProductCreate);

@@ -2,9 +2,9 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, deleteProduct } from '../../actions';
+import { productsFetchByStoreId, deleteProduct, storeFetchById } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title } from '../common';
+import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title, Spinner } from '../common';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
 
@@ -17,8 +17,17 @@ class ProductAdminList extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    const store = navigation.getParam('store', {});
-    this.props.productsFetchByStoreId(store.uid);
+    const storeId = navigation.getParam('storeId', {});
+    this.props.storeFetchById(storeId)
+    this.props.productsFetchByStoreId(storeId);
+  }
+
+  componentDidUpdate(prevProps) { 
+    const { navigation } = this.props;
+    const storeId = navigation.getParam('storeId', {});
+    if(this.props.products.length !== prevProps.products.length){
+      this.props.productsFetchByStoreId(storeId);
+    }  
   }
 
   productDetailOnClick = (product) => {
@@ -81,14 +90,16 @@ class ProductAdminList extends Component {
   }
 
   navigateToScheduleForm = () => {
-    const { uid: storeId } = this.props.navigation.getParam('store', {});
+    const storeId = this.props.navigation.getParam('storeId', {});
     this.props.navigation.navigate('editScheduleStoreScreen', { storeId });
   }
 
   render() {
-    const { navigation } = this.props;
-    const store = navigation.getParam('store', {});
-    const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
+    const { store } = this.props;
+    if(store.pending){
+      return(<Spinner />)
+    }
+    const imageRoute = store.imageName ? `images/${store.imageName}` :'regalo.jpg';
     return (
       <SafeAreaView style={styles.container}>    
         <FlatList
@@ -131,11 +142,11 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const products = _.map(state.products, (val) => {
+  const store = {...state.store}
+  const products = _.map(state.products.data, (val) => {
     return { ...val };
   });
-  const store = { ...state.store };
   return { products, store };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct })(ProductAdminList);
+export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct, storeFetchById })(ProductAdminList);

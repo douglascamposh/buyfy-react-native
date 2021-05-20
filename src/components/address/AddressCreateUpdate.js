@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import AddressForm from './AddressForm';
 import { addressCreate, addressUpdate } from '../../actions';
-// import { ScrollView } from 'react-native-gesture-handler';
-
 import { ScrollView, View, SafeAreaView } from 'react-native';
 import { Title, CardSection, Button } from '../common';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -22,14 +20,13 @@ class AddressCreateUpdate extends Component {
 
   saveAddress = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid }) => {
     !uid ? this.props.addressCreate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone }) :
-      this.props.addressUpdate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid });
+    this.props.addressUpdate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid });
     this.setState({ isVisible: true });
   }
 
-  navigateTo = (route) => {
-    this.setState({ isVisible: false });
-    const addressId = this.props.addressId;
-    this.props.navigation.navigate(route, { addressId });
+
+  navigateTo  = () => {
+    this.props.navigation.goBack();
   }
 
   renderModal() {
@@ -47,7 +44,7 @@ class AddressCreateUpdate extends Component {
           />
           <Title style={[styles.titleStyle, styles.centerContent]}>Se guardo la Direccion!</Title>
           <CardSection>
-            <Button style={styles.modalButtonStyle} onPress={(route) => this.navigateTo('addressList')}>Ver mis direcciones</Button>
+            <Button style={styles.modalButtonStyle} onPress={() => { this.navigateTo() }}>Ver mis direcciones</Button>
           </CardSection>
         </View>
       </Overlay>
@@ -55,8 +52,7 @@ class AddressCreateUpdate extends Component {
   }
 
   render() {
-    const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = this.props.address ? this.props.address : this.props;
-    const address = { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
+    const address = this.props.address ? this.props.address : this.props;
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -76,9 +72,9 @@ class AddressCreateUpdate extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid } = state.addressForm;
-  return { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid };
+const mapStateToProps = (state) => {
+  const address= state.addressForm;
+  return {...address};
 };
 
 const styles = {

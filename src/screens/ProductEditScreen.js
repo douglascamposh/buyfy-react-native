@@ -8,8 +8,8 @@ class ProductEditScreen extends Component {
     }
   }
 
-  navigateTo = (route) => {
-    this.props.navigation.navigate(route);
+  navigateTo = () => {
+    this.props.navigation.goBack();
   }
 
   render() {

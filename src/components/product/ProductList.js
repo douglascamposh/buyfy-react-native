@@ -2,9 +2,9 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, SafeAreaView } from 'react-native';
-import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteOrders } from '../../actions';
+import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteOrders, storeFetchById } from '../../actions';
 import ProductListItem from './ProductListItem';
-import { Explorer, Card, FloatButton, AsyncTile, Content, Title, CardSection, Button } from '../common';
+import { Explorer, Card, FloatButton, AsyncTile, Content, Title, CardSection, Button, Spinner } from '../common';
 import { orderStates } from './../../constants/Enum';
 import { Colors } from '../../constants/Styles';
 import { scheduleMessage } from '../../utils/Utils';
@@ -23,12 +23,27 @@ class ProductList extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
-    this.props.productsFetchByStoreId(store.uid);
-    this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft);
-    if(Boolean(this.props.orders.length)) { //Todo: research if we can add this if sentence after to get orders
-      this.props.navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
-    } else {
-      this.props.navigation.setParams({ back: () => this.props.navigation.goBack() });
+    Promise.all([
+      this.props.storeFetchById(store.uid),
+      this.props.productsFetchByStoreId(store.uid),
+      this.props.orderFetchByUserIdAndStoreIdAndState(store.uid, orderStates.draft)
+    ]).then(() => {
+      if (Boolean(this.props.orders.length)) { //Todo: research if we can add this if sentence after to get orders
+        navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+      } else {
+        navigation.setParams({ back: () => navigation.goBack() });
+      }
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.orders !== this.props.orders) {
+      const { navigation } = this.props;
+      if (Boolean(this.props.orders.length)) {
+        navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+      } else {
+        navigation.setParams({ back: () => navigation.goBack() });
+      }
     }
   }
 
@@ -95,12 +110,11 @@ class ProductList extends Component {
 
   viewOrder() {
     const { storeId } = _.last(this.props.products)
-    this.props.navigation.navigate('orderList', { storeId });
+      this.props.navigation.navigate('orderList', { storeId });
   }
-
+  
   render() {
-    const { navigation } = this.props;
-    const store = navigation.getParam('store', {});
+    const { store } = this.props;
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     const scheduletext = scheduleMessage(store.schedule);
     return (
@@ -126,6 +140,7 @@ class ProductList extends Component {
                 </Card>
                 <Card>
                   <Explorer data={this.props.products} />
+                  {/* ToDo: use Carrousel component instead of Explorer, Explorer will be deprecated */}
                 </Card>
               </>
               }
@@ -181,15 +196,17 @@ const styles = {
 }
 
 const mapStateToProps = state => {
-  const products = _.map(state.products, (val) => {
+  const products = _.map(state.products.data, (val) => {
+    return { ...val };
+  }); 
+  const orders = _.map(state.orders.data, (val) => {
     return { ...val };
   });
-  
-  const orders = _.map(state.order, (val) => {
-    return { ...val };
-  });
- 
-  return { products, orders };
+
+  const store = { ...state.store };
+  const { pending } = state.orders;
+
+  return { products, orders, store, pending };
 };
 
-export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState })(ProductList);
+export default connect(mapStateToProps, { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, storeFetchById })(ProductList);

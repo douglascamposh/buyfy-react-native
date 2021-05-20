@@ -9,7 +9,7 @@ class ProductListItem extends Component {
   }
 
   render() {
-    const {name, description, price, imageName} = this.props.product;
+    const {name, description, price, imageName, imageUri} = this.props.product;
     const imageRoute = imageName ? `images/${imageName}` : null;
     return(
       <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
@@ -28,7 +28,7 @@ class ProductListItem extends Component {
             </View>
             { Boolean(imageRoute) && (
               <View style={styles.containerRigth}>
-                <AsyncImage image={imageRoute} style={styles.imageStyle} ></AsyncImage>
+                <AsyncImage image={imageRoute} uri={imageUri} style={styles.imageStyle} ></AsyncImage>
               </View>
             )}
           </CardSection>

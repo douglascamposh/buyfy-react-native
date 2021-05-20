@@ -4,6 +4,7 @@ import { CardSection, ImagePicker, TextInput, Button } from '../common';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { resizeImage } from '../../utils/Utils';
 
 const ProductSchema = yup.object({
   name: yup.string()

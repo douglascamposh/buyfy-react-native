@@ -4,7 +4,8 @@ import { HeaderButton } from '../../components/common';
 
 class ProductAdminScreen extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { uid: storeId, name } = navigation.getParam('store', {});
+    const storeId = navigation.getParam('storeId', {});
+    const name = navigation.getParam('name', {});
     return {
       headerTitle: name,
       headerRight: () => (

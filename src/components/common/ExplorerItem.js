@@ -12,6 +12,7 @@ const ExplorerItem = (props) => {
       <View style={[containerImage, props.containerImage]}>
         <AsyncImage
           image={imageRoute}
+          uri={props.uri}
           style={ imageStyle }
         />
       </View>
