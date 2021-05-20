@@ -19,6 +19,7 @@ export const productsFetch = () => {
       });
       dispatch({ type: PRODUCT_FETCH_SUCCESS, payload: products });
     })
+    .catch(error => console.info('a error ocurred in products fetch list',error));
   };
 };
 
@@ -32,6 +33,7 @@ export const productsFetchByStoreId = (storeId) => {
       });
       dispatch({ type: PRODUCT_FETCH_SUCCESS, payload: products });    
     })
+    .catch(error => console.info('a error ocurred in products fetch by storeId list ',error));
   };
 };
 

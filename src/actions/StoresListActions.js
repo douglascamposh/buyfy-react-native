@@ -23,6 +23,7 @@ export const storesFetch = () => {
       });
       dispatch({ type: STORES_FETCH_SUCCESS, payload: stores });    
     })
+    .catch(error => console.info('a error ocurred in stores Fetch List',error));
   };
 };
 
@@ -38,6 +39,7 @@ export const storesByUserIdFetch = () => {
       });
       dispatch({ type: STORES_FETCH_ADMIN_SUCCESS, payload: stores });    
     })
+    .catch(error => console.info('a error ocurred in stores by userId Fetch List',error));
   }; 
 };
 

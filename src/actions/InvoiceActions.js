@@ -66,11 +66,11 @@ export const invoiceUpdateRiderById = (invoice) => {
     .update(invoice)
     .then(() => {
       console.info(`Invoice Rider updated with id ${uid}`);
+      dispatch({ type: INVOICE_RIDER_UPDATE_SUCCESS, payload: { ...invoice, uid } });
     })
     .catch(error => {
       console.warn('The invoice rider was not updated', error);
     });
-    dispatch({ type: INVOICE_RIDER_UPDATE_SUCCESS, payload: invoice, uid });
   }
 }
 
