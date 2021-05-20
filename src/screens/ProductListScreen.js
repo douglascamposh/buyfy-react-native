@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProductList from '../components/product/ProductList';
 import { HeaderButton } from '../components/common';
+import { withNavigationFocus } from 'react-navigation';
 
 class ProductListScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -14,8 +15,8 @@ class ProductListScreen extends Component {
   }
 
   render() {
-    return <ProductList navigation={this.props.navigation} />;
+    return <ProductList navigation={this.props.navigation} isFocused={this.props.isFocused ? true : false}/>;
   }
 }
 
-export default ProductListScreen;
+export default withNavigationFocus(ProductListScreen);
