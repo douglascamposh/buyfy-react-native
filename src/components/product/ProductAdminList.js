@@ -26,7 +26,6 @@ class ProductAdminList extends Component {
     const { navigation } = this.props;
     const storeId = navigation.getParam('storeId', {});
     if(this.props.products.length !== prevProps.products.length){
-      this.props.storeFetchById(storeId)
       this.props.productsFetchByStoreId(storeId);
     }  
   }
