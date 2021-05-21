@@ -10,6 +10,8 @@ import { Colors } from '../../constants/Styles';
 import { scheduleMessage } from '../../utils/Utils';
 import { Overlay, Icon } from 'react-native-elements';
 import { isOpen } from '../../utils/Utils';
+import { BackHandler } from 'react-native';
+
 class ProductList extends Component {
 
   constructor(props) {
@@ -30,6 +32,10 @@ class ProductList extends Component {
     ]).then(() => {
       if (Boolean(this.props.orders.length)) { //Todo: research if we can add this if sentence after to get orders
         navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+        BackHandler.addEventListener(
+          'hardwareBackPress',
+          this.BackButtonPress
+        );
       } else {
         navigation.setParams({ back: () => navigation.goBack() });
       }
@@ -40,10 +46,28 @@ class ProductList extends Component {
     if(prevProps.orders !== this.props.orders) {
       const { navigation } = this.props;
       if (Boolean(this.props.orders.length)) {
-        navigation.setParams({ back: () => this.setState({ isBackVisible: true }) })
+        navigation.setParams({ back: () => this.setState({ isBackVisible: true }) });
+        BackHandler.addEventListener(
+          'hardwareBackPress',
+          this.BackButtonPress
+        );
       } else {
         navigation.setParams({ back: () => navigation.goBack() });
       }
+    }
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.BackButtonPress
+    );
+  }
+
+  BackButtonPress = () => {
+    if(this.props.isFocused){
+      this.setState({ isBackVisible: true });
+      return true;
     }
   }
 
