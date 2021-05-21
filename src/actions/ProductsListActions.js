@@ -7,7 +7,8 @@ import {
   PRODUCT_UPDATE_SUCCESS,
   PRODUCT_UPDATE_FORM,
   PRODUCTS_FETCH_PENDING,
-  PRODUCT_DELETED_SUCCESS
+  PRODUCT_DELETED_SUCCESS,
+  PRODUCT_RESET_VALUES_FORM_ORDER
 } from './types';
 
 export const productsFetch = () => {
@@ -116,10 +117,14 @@ const uploadImage = async (image, imageName) => {
   throw new Error('Image file is null');
 };
 
+export const productInitialValuesForm = () => {
+  return (dispatch)=> {
+    dispatch({ type: PRODUCT_RESET_VALUES_FORM_ORDER })
+  }
+};
 export const productUpdateForm = ({prop, value}) => {
-  return {
-    type: PRODUCT_UPDATE_FORM,
-    payload: {prop, value}
+  return (dispatch)=> {
+    dispatch({ type: PRODUCT_UPDATE_FORM, payload: {prop, value} })
   }
 };
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { productUpdateForm } from '../../actions';
+import { productUpdateForm, productInitialValuesForm } from '../../actions';
 import { View } from 'react-native';
 import { Card, CardSection, Title } from '../common';
 import { Input } from 'react-native-elements';
@@ -8,7 +8,10 @@ import NumericInput from 'react-native-numeric-input';
 import { FontWeight, Size } from '../../constants/Styles';
 
 class ProductOrderForm extends Component {
-
+  componentWillUnmount(){
+    this.props.productInitialValuesForm();
+  }
+  
   render() {
     return (
       <View>
@@ -28,7 +31,7 @@ class ProductOrderForm extends Component {
               onLimitReached={(isMax,msg) => console.log(isMax,msg)}
               minValue={1}
               maxValue={10}
-              initValue={1}
+              initValue={this.props.quantity}
               totalWidth={110} 
               totalHeight={40}
               separatorWidth={0}
@@ -72,4 +75,4 @@ const mapStateToProps = (state) => {
   return { quantity, notes };
 }
 
-export default connect(mapStateToProps, {productUpdateForm})(ProductOrderForm);
+export default connect(mapStateToProps, {productUpdateForm, productInitialValuesForm})(ProductOrderForm);

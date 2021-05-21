@@ -79,7 +79,7 @@ class LoginForm extends Component {
             secureTextEntry
             leftIcon={
               <Icon
-                name='ios-lock'
+                name='lock-closed'
                 type='ionicon'
                 size={Size.iconInput}
                 color={Colors.secondaryText}
