@@ -10,7 +10,7 @@ export default (state = INITIAL_STATE, action) => {
     case STORES_FETCH_ADMIN_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        data: [...action.payload],
         pending: false
       }
     case STORES_FETCH_PENDING:

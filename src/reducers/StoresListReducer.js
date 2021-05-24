@@ -2,7 +2,7 @@ import { STORES_FETCH_SUCCESS, STORES_FETCH_PENDING, STORE_CREATE_SUCCESS, STORE
 
 const INITIAL_STATE = {
   data: [],
-  pending: false
+  pending: false 
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -11,7 +11,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: [...action.payload], 
-        payload: false,
+        pending: false,
       };
     case STORES_FETCH_PENDING:
       return { ...state, pending: true };

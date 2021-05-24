@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView, RefreshControl } from 'react-native';
 import { productsFetchByStoreId, deleteProduct, storeFetchById } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title, Spinner } from '../common';
@@ -13,6 +13,9 @@ class ProductAdminList extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      refreshing: false
+    }
   }
 
   componentDidMount() {
@@ -94,6 +97,14 @@ class ProductAdminList extends Component {
     this.props.navigation.navigate('editScheduleStoreScreen', { storeId });
   }
 
+  onRefresh() {
+    const { navigation } = this.props;
+    const storeId = navigation.getParam('storeId', {});  
+    this.setState({refreshing: true});
+    this.props.productsFetchByStoreId(storeId);
+    setTimeout(()=> {this.setState({ refreshing: false }); }, 2000);
+  }
+
   render() {
     const { store } = this.props;
     if(store.pending){
@@ -125,6 +136,12 @@ class ProductAdminList extends Component {
           renderItem={this.renderItem}
           data={this.props.products}
           keyExtractor={({ uid }) => String(uid)} deleteProduct
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={()=> this.onRefresh()}
+            />
+          }
         />
       </SafeAreaView>
     );

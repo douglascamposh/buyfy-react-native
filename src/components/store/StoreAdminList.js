@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { AppleStyleSwipeableRow, RightActions, Spinner} from '../common';
-import { FlatList } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import { storesByUserIdFetch, storeUpdateFields, disableEnableStore } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
 import StoreListItem from './StoreListItem';
 
 class StoreAdminList extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      refreshing: false
+    }
+  }
   
   componentDidMount() {
     this.props.storesByUserIdFetch();
@@ -72,6 +79,12 @@ class StoreAdminList extends Component {
     );
   }
 
+  onRefresh() {
+    this.setState({refreshing: true});
+    this.props.storesByUserIdFetch();     
+    setTimeout(()=> {this.setState({ refreshing: false }); }, 2000);
+  }
+
   render() {
     return (
       <FlatList
@@ -79,6 +92,12 @@ class StoreAdminList extends Component {
         renderItem={this.renderItem}
         data={this.props.stores}
         keyExtractor={({ uid }) => String(uid)}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={()=> this.onRefresh()}
+          />
+        }
       />
     );
   }

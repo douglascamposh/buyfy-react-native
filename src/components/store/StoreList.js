@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, RefreshControl } from 'react-native';
 import { storesFetch } from '../../actions';
 import StoreListItem from './StoreListItem';
 import InvoiceCards from '../checkout/InvoiceCards';
@@ -17,7 +17,8 @@ class StoreList extends Component {
     super(props);
     this.state = {
       isVisible: false,
-      currentStore: null
+      currentStore: null,
+      refreshing: false
     }
   }
 
@@ -78,6 +79,12 @@ class StoreList extends Component {
     );
   }
 
+  onRefresh() {
+    this.setState({refreshing: true});
+    this.props.storesFetch();     
+    setTimeout(()=> {this.setState({ refreshing: false }); }, 2000);
+  }
+
   render() {
     return (
         <FlatList
@@ -95,6 +102,12 @@ class StoreList extends Component {
           renderItem={this.renderItem}
           data={this.props.stores}
           keyExtractor={({uid}) => String(uid)}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={()=> this.onRefresh()}
+            />
+          }
         />
     );
   }
