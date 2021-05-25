@@ -49,7 +49,7 @@ class StoreAdminList extends Component {
         onPress: () => { this.storeDeleteOnClick(item); close(); }, color: Colors.primaryRed, item: item,
         icon: (
           <Icon
-            name={Boolean(item.deleted) ? 'ios-undo' : 'ios-trash'}
+            name={Boolean(item.deleted) ? 'arrow-undo-sharp' : 'ios-trash'}
             type='ionicon'
             size={Size.iconButton}
             color={Colors.primaryTextInverse}

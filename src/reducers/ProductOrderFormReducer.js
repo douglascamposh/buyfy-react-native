@@ -1,7 +1,7 @@
 import {
     PRODUCT_CREATE_ORDER,
     PRODUCT_UPDATE_ORDER,
-    PRODUCT_UPDATE_FORM
+    PRODUCT_UPDATE_FORM,
   } from '../actions/types';
   
   const INITIAL_STATE = {
@@ -17,7 +17,9 @@ import {
       case PRODUCT_UPDATE_ORDER:
         return INITIAL_STATE;
       case PRODUCT_UPDATE_FORM:
-        return { ...state, [action.payload.prop]: action.payload.value }
+        return action.payload? 
+          { ...state, [action.payload.prop]: action.payload.value }
+          : INITIAL_STATE;
       default:
         return state;
     }
