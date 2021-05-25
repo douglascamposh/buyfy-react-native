@@ -8,7 +8,6 @@ import {
   PRODUCT_UPDATE_FORM,
   PRODUCTS_FETCH_PENDING,
   PRODUCT_DELETED_SUCCESS,
-  PRODUCT_RESET_VALUES_FORM_ORDER
 } from './types';
 
 export const productsFetch = () => {
@@ -119,7 +118,7 @@ const uploadImage = async (image, imageName) => {
 
 export const productInitialValuesForm = () => {
   return (dispatch)=> {
-    dispatch({ type: PRODUCT_RESET_VALUES_FORM_ORDER })
+    dispatch({ type: PRODUCT_UPDATE_FORM })
   }
 };
 export const productUpdateForm = ({prop, value}) => {

@@ -3,7 +3,6 @@ export const PRODUCT_CREATE_SUCCESS = 'product_create_success';
 export const PRODUCT_UPDATE_SUCCESS = 'product_update_success';
 export const PRODUCT_UPDATE_FORM = 'product_update_form';
 export const PRODUCT_CREATE_ORDER = 'product_create_order';
-export const PRODUCT_RESET_VALUES_FORM_ORDER = 'product_reset_values_form_order';
 export const PRODUCT_UPDATE_ORDER = 'product_update_order';
 export const PRODUCT_UPDATE_ORDER_FORM = 'product_update_order_form';
 export const IMAGE_FETCH_SUCCESS = 'image_fetch_success';

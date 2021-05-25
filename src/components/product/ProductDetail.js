@@ -34,7 +34,7 @@ class ProductDetail extends Component {
                 </Title>
               </AsyncTile>
             </Card>
-            <ProductOrderForm {...this.props}/>
+            <ProductOrderForm />
             </KeyboardAwareScrollView>
           </ScrollView>
         </View>
