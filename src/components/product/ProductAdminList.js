@@ -13,9 +13,6 @@ class ProductAdminList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      refreshing: false
-    }
   }
 
   componentDidMount() {
@@ -100,14 +97,12 @@ class ProductAdminList extends Component {
   onRefresh() {
     const { navigation } = this.props;
     const storeId = navigation.getParam('storeId', {});  
-    this.setState({refreshing: true});
     this.props.productsFetchByStoreId(storeId);
-    setTimeout(()=> {this.setState({ refreshing: false }); }, 2000);
   }
 
   render() {
     const { store } = this.props;
-    if(store.pending){
+    if(this.props.pending){
       return(<Spinner />)
     }
     const imageRoute = store.imageName ? `images/${store.imageName}` :'regalo.jpg';
@@ -138,8 +133,10 @@ class ProductAdminList extends Component {
           keyExtractor={({ uid }) => String(uid)} deleteProduct
           refreshControl={
             <RefreshControl
-              refreshing={this.state.refreshing}
+              refreshing={this.props.pending}
               onRefresh={()=> this.onRefresh()}
+              colors={[Colors.headerBlue]}
+              tintColor={Colors.headerBlue}
             />
           }
         />
@@ -163,7 +160,8 @@ const mapStateToProps = state => {
   const products = _.map(state.products.data, (val) => {
     return { ...val };
   });
-  return { products, store };
+  const { pending } = state.products;
+  return { products, store, pending };
 };
 
 export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct, storeFetchById })(ProductAdminList);

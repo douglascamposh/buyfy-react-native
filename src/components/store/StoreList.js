@@ -18,7 +18,6 @@ class StoreList extends Component {
     this.state = {
       isVisible: false,
       currentStore: null,
-      refreshing: false
     }
   }
 
@@ -79,13 +78,14 @@ class StoreList extends Component {
     );
   }
 
-  onRefresh() {
-    this.setState({refreshing: true});
-    this.props.storesFetch();     
-    setTimeout(()=> {this.setState({ refreshing: false }); }, 2000);
+  onRefresh() {  
+    this.props.storesFetch(); 
   }
 
   render() {
+    if(this.props.pending){
+      return <Spinner />
+    }
     return (
         <FlatList
           ListHeaderComponent={
@@ -102,10 +102,12 @@ class StoreList extends Component {
           renderItem={this.renderItem}
           data={this.props.stores}
           keyExtractor={({uid}) => String(uid)}
-          refreshControl={
+          refreshControl ={
             <RefreshControl
-              refreshing={this.state.refreshing}
+              refreshing={this.props.pendingStore}
               onRefresh={()=> this.onRefresh()}
+              colors={[Colors.headerBlue]}
+              tintColor={Colors.headerBlue}
             />
           }
         />

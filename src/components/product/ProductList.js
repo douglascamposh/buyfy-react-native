@@ -19,7 +19,6 @@ class ProductList extends Component {
     this.state = {
       isVisible: false,
       isBackVisible: false,
-      refreshing: false
     }
   }
 
@@ -141,12 +140,13 @@ class ProductList extends Component {
   onRefresh() {
     const { navigation } = this.props;
     const store = navigation.getParam('store', {});
-    this.setState({refreshing: true});
-    this.props.productsFetchByStoreId(store.uid);     
-    setTimeout(()=> {this.setState({ refreshing: false }); }, 2000);
+    this.props.productsFetchByStoreId(store.uid);
   }
   
   render() {
+    if(this.props.pending){
+      return <Spinner />
+    }
     const { store } = this.props;
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     const scheduletext = scheduleMessage(store.schedule);
@@ -184,8 +184,10 @@ class ProductList extends Component {
               withPointer={false}
               refreshControl={
                 <RefreshControl
-                  refreshing={this.state.refreshing}
+                  refreshing={this.props.pending}
                   onRefresh={()=> this.onRefresh()}
+                  colors={[Colors.headerBlue]}
+                  tintColor={Colors.headerBlue}
                 />
               }
             />
@@ -243,7 +245,7 @@ const mapStateToProps = state => {
   });
 
   const store = { ...state.store };
-  const { pending } = state.orders;
+  const { pending } = state.products;
 
   return { products, orders, store, pending };
 };

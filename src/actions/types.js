@@ -17,6 +17,7 @@ export const STORE_UPDATE_SUCCESS = 'store_update_success';
 export const STORES_FETCH_PENDING = 'stores_fetchPending';
 export const STORE_DISABLE_ENABLE_SUCCESS = 'store_disable_enable_success';
 export const STORE_FETCH_PENDING = 'store_fetch_pending';
+export const STORES_BY_USER_FETCH_PENDING = 'stores_by_user_fetch_pending';
 
 export const ORDERS_FETCH_SUCCESS = 'orders_fetch_success';
 export const ORDERS_FETCH_PENDING = 'orders_fetch_pending';

@@ -12,9 +12,6 @@ class StoreAdminList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      refreshing: false
-    }
   }
   
   componentDidMount() {
@@ -80,12 +77,13 @@ class StoreAdminList extends Component {
   }
 
   onRefresh() {
-    this.setState({refreshing: true});
-    this.props.storesByUserIdFetch();     
-    setTimeout(()=> {this.setState({ refreshing: false }); }, 2000);
+    this.props.storesByUserIdFetch();
   }
 
   render() {
+    if(this.props.pending){
+      return <Spinner />
+    }
     return (
       <FlatList
         enableEmptySections
@@ -94,8 +92,10 @@ class StoreAdminList extends Component {
         keyExtractor={({ uid }) => String(uid)}
         refreshControl={
           <RefreshControl
-            refreshing={this.state.refreshing}
+            refreshing={this.props.pending}
             onRefresh={()=> this.onRefresh()}
+            colors={[Colors.headerBlue]}
+            tintColor={Colors.headerBlue}
           />
         }
       />

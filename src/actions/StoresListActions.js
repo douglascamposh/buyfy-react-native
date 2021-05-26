@@ -11,6 +11,7 @@ import {
   STORE_DISABLE_ENABLE_SUCCESS,
   STORE_FETCH_PENDING,
   STORES_FETCH_PENDING,
+  STORES_BY_USER_FETCH_PENDING
 } from './types';
 
 export const storesFetch = () => {
@@ -31,7 +32,7 @@ export const storesByUserIdFetch = () => {
   const user = firebase.auth().currentUser;
   const userId = user ? user.uid : '';
   return (dispatch) => {
-    dispatch({ type: STORES_FETCH_PENDING });
+    dispatch({ type: STORES_BY_USER_FETCH_PENDING });
     firebase.firestore().collection('stores').where('userId','==', userId).get()
     .then(snapshot => {
       const stores = snapshot.docs.map(doc => {
