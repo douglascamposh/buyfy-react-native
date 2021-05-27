@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView, RefreshControl } from 'react-native';
 import { productsFetchByStoreId, deleteProduct, storeFetchById } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Card, AsyncTile, Content, AppleStyleSwipeableRow, RightActions, Button, Title, Spinner } from '../common';
@@ -94,9 +94,15 @@ class ProductAdminList extends Component {
     this.props.navigation.navigate('editScheduleStoreScreen', { storeId });
   }
 
+  onRefresh() {
+    const { navigation } = this.props;
+    const storeId = navigation.getParam('storeId', {});  
+    this.props.productsFetchByStoreId(storeId);
+  }
+
   render() {
     const { store } = this.props;
-    if(store.pending){
+    if(this.props.pending){
       return(<Spinner />)
     }
     const imageRoute = store.imageName ? `images/${store.imageName}` :'regalo.jpg';
@@ -125,6 +131,14 @@ class ProductAdminList extends Component {
           renderItem={this.renderItem}
           data={this.props.products}
           keyExtractor={({ uid }) => String(uid)} deleteProduct
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.pending}
+              onRefresh={()=> this.onRefresh()}
+              colors={[Colors.headerBlue]}
+              tintColor={Colors.headerBlue}
+            />
+          }
         />
       </SafeAreaView>
     );
@@ -146,7 +160,8 @@ const mapStateToProps = state => {
   const products = _.map(state.products.data, (val) => {
     return { ...val };
   });
-  return { products, store };
+  const { pending } = state.products;
+  return { products, store, pending };
 };
 
 export default connect(mapStateToProps, { productsFetchByStoreId, deleteProduct, storeFetchById })(ProductAdminList);

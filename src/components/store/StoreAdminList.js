@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { AppleStyleSwipeableRow, RightActions, Spinner} from '../common';
-import { FlatList } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import { storesByUserIdFetch, storeUpdateFields, disableEnableStore } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
 import { Icon } from 'react-native-elements';
 import StoreListItem from './StoreListItem';
 
 class StoreAdminList extends Component {
+
+  constructor(props) {
+    super(props);
+  }
   
   componentDidMount() {
     this.props.storesByUserIdFetch();
@@ -72,13 +76,28 @@ class StoreAdminList extends Component {
     );
   }
 
+  onRefresh() {
+    this.props.storesByUserIdFetch();
+  }
+
   render() {
+    if(this.props.pending){
+      return <Spinner />
+    }
     return (
       <FlatList
         enableEmptySections
         renderItem={this.renderItem}
         data={this.props.stores}
         keyExtractor={({ uid }) => String(uid)}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.pending}
+            onRefresh={()=> this.onRefresh()}
+            colors={[Colors.headerBlue]}
+            tintColor={Colors.headerBlue}
+          />
+        }
       />
     );
   }

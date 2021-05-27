@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, RefreshControl } from 'react-native';
 import { storesFetch } from '../../actions';
 import StoreListItem from './StoreListItem';
 import InvoiceCards from '../checkout/InvoiceCards';
@@ -17,7 +17,7 @@ class StoreList extends Component {
     super(props);
     this.state = {
       isVisible: false,
-      currentStore: null
+      currentStore: null,
     }
   }
 
@@ -78,7 +78,14 @@ class StoreList extends Component {
     );
   }
 
+  onRefresh() {  
+    this.props.storesFetch(); 
+  }
+
   render() {
+    if(this.props.pending){
+      return <Spinner />
+    }
     return (
         <FlatList
           ListHeaderComponent={
@@ -95,6 +102,14 @@ class StoreList extends Component {
           renderItem={this.renderItem}
           data={this.props.stores}
           keyExtractor={({uid}) => String(uid)}
+          refreshControl ={
+            <RefreshControl
+              refreshing={this.props.pendingStore}
+              onRefresh={()=> this.onRefresh()}
+              colors={[Colors.headerBlue]}
+              tintColor={Colors.headerBlue}
+            />
+          }
         />
     );
   }

@@ -1,4 +1,4 @@
-import { STORES_FETCH_SUCCESS, STORES_FETCH_PENDING, STORE_CREATE_SUCCESS, STORE_UPDATE_SUCCESS, STORE_DISABLE_ENABLE_SUCCESS} from '../actions/types';
+import { STORES_FETCH_SUCCESS, STORES_FETCH_PENDING, STORE_CREATE_SUCCESS, STORE_UPDATE_SUCCESS, STORE_DISABLE_ENABLE_SUCCESS } from '../actions/types';
 
 const INITIAL_STATE = {
   data: [],
@@ -11,7 +11,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: [...action.payload], 
-        payload: false,
+        pending: false,
       };
     case STORES_FETCH_PENDING:
       return { ...state, pending: true };

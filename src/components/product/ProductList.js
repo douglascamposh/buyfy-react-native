@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, SafeAreaView } from 'react-native';
+import { FlatList, View, SafeAreaView, RefreshControl } from 'react-native';
 import { productsFetchByStoreId, orderFetchByUserIdAndStoreIdAndState, deleteOrders, storeFetchById } from '../../actions';
 import ProductListItem from './ProductListItem';
 import { Explorer, Card, FloatButton, AsyncTile, Content, Title, CardSection, Button, Spinner } from '../common';
@@ -18,7 +18,7 @@ class ProductList extends Component {
     super(props);
     this.state = {
       isVisible: false,
-      isBackVisible: false
+      isBackVisible: false,
     }
   }
 
@@ -136,8 +136,17 @@ class ProductList extends Component {
     const { storeId } = _.last(this.props.products)
       this.props.navigation.navigate('orderList', { storeId });
   }
+
+  onRefresh() {
+    const { navigation } = this.props;
+    const store = navigation.getParam('store', {});
+    this.props.productsFetchByStoreId(store.uid);
+  }
   
   render() {
+    if(this.props.pending){
+      return <Spinner />
+    }
     const { store } = this.props;
     const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
     const scheduletext = scheduleMessage(store.schedule);
@@ -172,7 +181,15 @@ class ProductList extends Component {
               renderItem={this.renderItem}
               data={this.props.products}
               keyExtractor={({ uid }) => String(uid)}
-            withPointer={false}
+              withPointer={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.props.pending}
+                  onRefresh={()=> this.onRefresh()}
+                  colors={[Colors.headerBlue]}
+                  tintColor={Colors.headerBlue}
+                />
+              }
             />
           {this.renderModal()}
           {this.renderModalBack()}
@@ -228,7 +245,7 @@ const mapStateToProps = state => {
   });
 
   const store = { ...state.store };
-  const { pending } = state.orders;
+  const { pending } = state.products;
 
   return { products, orders, store, pending };
 };
