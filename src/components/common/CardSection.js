@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import { Colors, Padding } from '../../constants/Styles';
 
 const CardSection = (props) => {
   return (
@@ -12,11 +13,11 @@ const CardSection = (props) => {
 const styles = {
   containerStyle: {
     borderBottomWidth: 1,
-    padding: 10,
-    backgroundColor: '#fff',
+    padding: Padding.cardSection,
+    backgroundColor: Colors.backgroundPrimary,
     justifyContent: 'flex-start',
     flexDirection: 'row',
-    borderColor: '#f2f2f2',
+    borderColor: Colors.borderPrimary,
     position: 'relative'
   }
 };

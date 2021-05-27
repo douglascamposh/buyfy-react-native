@@ -1,6 +1,8 @@
 export const Colors = {
   primaryText: '#000000',
   secondaryText: '#595959',
+  backgroundPrimary: '#fff',
+  borderPrimary: '#f2f2f2',
   primaryRed: '#cc0000',
   primaryGreen: '#00b359',
   primaryBlue: '#4da6ff',
@@ -41,5 +43,7 @@ export const Padding = {
   headerRight: 10,
   headerTop: 10,
   buttonTop: 10,
-  buttonBottom: 10
+  buttonBottom: 10,
+  card: 5,
+  cardSection: 10
 }
