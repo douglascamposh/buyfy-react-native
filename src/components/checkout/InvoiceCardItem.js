@@ -1,17 +1,32 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { View, TouchableWithoutFeedback } from 'react-native';
-import { connect } from 'react-redux';
-import { storeFetchById } from '../../actions';
-import { Card, CardSection, Title, Content } from '../common';
+import { Card, CardSection, Title, Content, Spinner } from '../common';
 import { Icon } from 'react-native-elements';
 import { Size, Colors, Padding } from '../../constants/Styles';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 class InvoiceCardItem extends Component {
 
+  state = {
+    loading: true,
+    store: {}
+  }
+
   componentDidMount() {
     const { invoice } = this.props;
-    this.props.storeFetchById(invoice.storeId);
+    this.setState({loading: true});
+    firebase.firestore().collection('stores').doc(invoice.storeId).get()
+      .then(doc => {
+        if (doc.exists) {
+          const store = { ...doc.data(), uid: invoice.storeId };
+          this.setState({store});
+        } else {
+          console.log("No such document!");
+        }
+      }).catch(error => console.log("Error getting document:", error))
+      .finally(() => this.setState({ loading: false }));
   }
 
   addZero(i) {
@@ -26,7 +41,11 @@ class InvoiceCardItem extends Component {
   }
 
   render() {
-    const { invoice, onPress, store } = this.props;
+    const { store, loading } = this.state;
+    if(loading) {
+      return <Spinner size="small"/>;
+    }
+    const { invoice, onPress } = this.props;
     const date = new Date(invoice.created_at);
     const h = this.addZero(date.getHours());
     const m = this.addZero(date.getMinutes());
@@ -79,9 +98,4 @@ const styles = {
   }
 };
 
-const mapStateToProps = state => {
-  const store = { ...state.store };
-  return { store };
-};
-
-export default connect(mapStateToProps, { storeFetchById })(InvoiceCardItem);
+export default InvoiceCardItem;
