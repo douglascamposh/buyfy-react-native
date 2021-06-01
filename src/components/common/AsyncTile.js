@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tile } from 'react-native-elements';
 import { Spinner } from './Spinner';
 import firebase from 'firebase';
+import imageStore from '../../../assets/imageStore.jpg'
 
 class AsyncTile extends Component {
   
@@ -47,7 +48,7 @@ class AsyncTile extends Component {
     if (this.state.loading) {
       return <Spinner size="large"/>;
     }
-    return (this.state.url &&
+    return (this.state.url ?
       <Tile
         style={[this.props.style]}
         imageContainerStyle={[this.props.imageContainerStyle]}
@@ -57,6 +58,13 @@ class AsyncTile extends Component {
       >
         {this.props.children}
       </Tile>
+      : <Tile
+      style={[this.props.style]}
+      imageContainerStyle={[this.props.imageContainerStyle]}
+      imageSrc={imageStore}
+      title={this.props.title}
+      contentContainerStyle={[this.props.contentContainerStyle]}
+      />
     );
   }
 }

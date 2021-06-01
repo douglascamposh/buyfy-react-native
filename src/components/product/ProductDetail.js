@@ -18,7 +18,7 @@ class ProductDetail extends Component {
   render() {
     const { product } = this.props;
     const { name, description, price, imageName } = product;
-    const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
+    const imageRoute = imageName ? `images/${imageName}` : 'image';
     return (
       <View style={styles.container}>
         <View style={styles.containerDetail}>

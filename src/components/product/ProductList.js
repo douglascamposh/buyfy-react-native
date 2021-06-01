@@ -148,7 +148,7 @@ class ProductList extends Component {
       return <Spinner />
     }
     const { store } = this.props;
-    const imageRoute = store.imageName ? `images/${store.imageName}` : 'regalo.jpg';
+    const imageRoute = store.imageName ? `images/${store.imageName}` : 'image';
     const scheduletext = scheduleMessage(store.schedule);
     return (
       <SafeAreaView style={styles.container}>

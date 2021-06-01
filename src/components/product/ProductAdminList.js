@@ -130,7 +130,7 @@ class ProductAdminList extends Component {
     if(this.props.pending){
       return(<Spinner />)
     }
-    const imageRoute = store.imageName ? `images/${store.imageName}` :'imageStore.jpg';
+    const imageRoute = store.imageName ? `images/${store.imageName}` :'image';
     return (
       <SafeAreaView style={styles.container}>   
       {this.renderModal()} 

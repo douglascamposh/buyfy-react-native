@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { Spinner } from './Spinner';
 import firebase from 'firebase';
+import imageStore from '../../../assets/imageStore.jpg'
 
 class AsyncImage extends Component {
   
@@ -58,8 +59,9 @@ class AsyncImage extends Component {
     if (this.state.loading) {
       return <Spinner size="large"/>;
     }
-    return ( this.state.url &&
+    return ( this.state.url ?
       <Image style={this.props.style} source={{uri: this.state.url}} />
+      : <Image style={this.props.style} source={imageStore} />
     );
   }
 }

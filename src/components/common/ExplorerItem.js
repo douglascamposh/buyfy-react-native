@@ -6,7 +6,7 @@ import { Content } from './Content';
 
 const ExplorerItem = (props) => {
   const { containerStyle, containerImage, imageStyle, containerLabel, titleStyle, descriptionStyle } = styles;
-  const imageRoute = props.image ? `images/${props.image}` : 'regalo.jpg';
+  const imageRoute = props.image ? `images/${props.image}` : 'image';
   return (
     <View style={ containerStyle }>
       <View style={[containerImage, props.containerImage]}>
