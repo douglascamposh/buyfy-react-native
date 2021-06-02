@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { AppleStyleSwipeableRow, RightActions, Spinner} from '../common';
-import { FlatList, RefreshControl } from 'react-native';
+import { AppleStyleSwipeableRow, RightActions, Spinner, CardSection, Title, Content, Button} from '../common';
+import { FlatList, RefreshControl, View, SafeAreaView } from 'react-native';
 import { storesByUserIdFetch, storeUpdateFields, disableEnableStore } from '../../actions';
 import { Colors, Size } from '../../constants/Styles';
-import { Icon } from 'react-native-elements';
+import { Icon, Overlay } from 'react-native-elements';
 import StoreListItem from './StoreListItem';
 
 class StoreAdminList extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      isVisible: false,
+      currentStore: null,
+    }
   }
   
   componentDidMount() {
@@ -34,6 +38,26 @@ class StoreAdminList extends Component {
 
   storeDeleteOnClick = (store) => {
     this.props.disableEnableStore({ ...store, deleted: !store.deleted });
+    this.setState({currentStore: null, isVisible: false});
+  }
+
+  renderModal() { 
+    const { currentStore } = this.state;
+    return currentStore &&
+    <Overlay
+      isVisible={this.state.isVisible}
+      onBackdropPress={() => this.setState({ isVisible: false})}
+      height="30%"
+    >
+      <View style={styles.modalStyle}>
+        { currentStore.deleted ? <Title style={[styles.titleStyle, styles.centerContent]}>¿Esta seguro que desea habilitar el restaurant?</Title>:
+          <Title style={[styles.titleStyle, styles.centerContent]}>¿Esta seguro que desea desabilitar el restaurant?</Title> }
+        <CardSection style={styles.CardSectionStyle}>
+          <Button style={styles.modalButtonStyle} onPress={()=> this.setState({isVisible: false})} >No</Button>
+          <Button style={styles.modalButtonStyle} onPress={() => this.storeDeleteOnClick(currentStore)}>Sí, continuar</Button>
+        </CardSection>
+      </View>
+    </Overlay>
   }
 
   renderRightActions = (progress, item, close) => {
@@ -50,7 +74,7 @@ class StoreAdminList extends Component {
         )
       },
       {
-        onPress: () => { this.storeDeleteOnClick(item); close(); }, color: Colors.primaryRed, item: item,
+        onPress: () => { this.setState({currentStore: item, isVisible: true}); close(); }, color: Colors.primaryRed, item: item,
         icon: (
           <Icon
             name={Boolean(item.deleted) ? 'arrow-undo-sharp' : 'ios-trash'}
@@ -85,21 +109,45 @@ class StoreAdminList extends Component {
       return <Spinner />
     }
     return (
-      <FlatList
-        enableEmptySections
-        renderItem={this.renderItem}
-        data={this.props.stores}
-        keyExtractor={({ uid }) => String(uid)}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.props.pending}
-            onRefresh={()=> this.onRefresh()}
-            colors={[Colors.headerBlue]}
-            tintColor={Colors.headerBlue}
-          />
-        }
-      />
+      <SafeAreaView>
+        {this.renderModal()}
+        <FlatList
+          enableEmptySections
+          renderItem={this.renderItem}
+          data={this.props.stores}
+          keyExtractor={({ uid }) => String(uid)}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.pending}
+              onRefresh={()=> this.onRefresh()}
+              colors={[Colors.headerBlue]}
+              tintColor={Colors.headerBlue}
+            />
+          }
+        />
+      </SafeAreaView>
     );
+  }
+}
+
+const styles = {
+  centerContent: {
+    textAlign: 'center',
+  },
+  titleStyle: {
+    fontSize: 20,
+    marginTop: 10,
+    color: Colors.primaryText
+  },
+  modalStyle: {
+    justifyContent: 'center',
+    flex: 1
+  },
+  modalButtonStyle: {
+    color: Colors.primaryRed,
+  },
+  CardSectionStyle: {
+    borderBottomWidth: 0
   }
 }
 
