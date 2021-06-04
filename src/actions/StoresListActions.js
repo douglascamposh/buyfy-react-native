@@ -85,7 +85,7 @@ export const storeCreate = (store) => {
       })
       .finally(() => {
         firebase.firestore().collection('stores')
-          .add({ ...store, deleted: false })
+          .add({ ...store, deleted: true })
           .then(() => {
             console.info(`Store Created`);
             dispatch({ type: STORE_CREATE_SUCCESS, payload: store })
