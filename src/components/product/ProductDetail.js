@@ -17,15 +17,14 @@ class ProductDetail extends Component {
 
   render() {
     const { product } = this.props;
-    const { name, description, price, imageName } = product;
-    const imageRoute = imageName ? `images/${imageName}` : 'regalo.jpg';
+    const { name, description, price, imageUri } = product;
     return (
       <View style={styles.container}>
         <View style={styles.containerDetail}>
           <ScrollView>
             <KeyboardAwareScrollView>
             <Card>
-              <AsyncTile image={imageRoute} title={name}>
+                <AsyncTile uri={imageUri} title={name}>
                 <Content style={styles.descriptionStyle}>
                   {description}
                 </Content>

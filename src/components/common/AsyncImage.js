@@ -11,42 +11,54 @@ class AsyncImage extends Component {
     super(props);
     this.state = {
       loading: true,
-      image: "",
-      url: ""
+      image: null,
+      uri: null,
+      imageRoute: ""
     }
   }
 
   componentDidMount() {
     this._isMounted = true;
     if (this.props.uri) {
-      this.setState({ url: this.props.uri, loading: false });
+      this.setState({ uri: this.props.uri, loading: false });
     } else {
-      this.getAndLoadHttpUrl();
+      if (this.props.image) {
+        this.setState({ image: this.props.image, loading: false });
+      } else {
+        if (this.props.imageRoute) {
+          this.getAndLoadHttpUrl();
+        } else {
+          this.setState({loading: false});
+        }
+      }
     }
   }
 
   componentDidUpdate(prevProps) {
     if (!this.props.uri) {
-      if (this.props.image != prevProps.image) {
+      if (this.props.imageRoute != prevProps.imageRoute) {
         this.getAndLoadHttpUrl();
       }
     }
     if (this.props.uri !== prevProps.uri) {
-      this.setState({ url: this.props.uri, loading: false });
+      this.setState({ uri: this.props.uri, loading: false });
+    }
+    if (this.props.image !== prevProps.image) {
+      this.setState({ image: this.props.image, loading: false });
     }
   }
 
   
   getAndLoadHttpUrl() {
-    this.setState({loading: true});
-    const ref = firebase.storage().ref(this.props.image);
+    this.setState({ loading: true });
+    const ref = firebase.storage().ref(this.props.imageRoute);
     ref.getDownloadURL().then(data => {
       if (this._isMounted) {
         this.setState({ url: data, loading: false });
       }
     }).catch(error => {
       console.log("AsyncImage > getAndLoadHttpUrl", error);
-      this.setState({ url: null, loading: false });
+      this.setState({ uri: null, loading: false });
     });
   }
 
@@ -58,9 +70,8 @@ class AsyncImage extends Component {
     if (this.state.loading) {
       return <Spinner size="large"/>;
     }
-    return ( this.state.url &&
-      <Image style={this.props.style} source={{uri: this.state.url}} />
-    );
+    const image = this.state.uri ? { uri: this.state.uri } : this.state.image;
+    return <Image style={this.props.style} source={image} />;
   }
 }
 

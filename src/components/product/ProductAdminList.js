@@ -130,7 +130,7 @@ class ProductAdminList extends Component {
     if(this.props.pending){
       return(<Spinner />)
     }
-    const imageRoute = store.imageName ? `images/${store.imageName}` :'imageStore.jpg';
+
     return (
       <SafeAreaView style={styles.container}>   
       {this.renderModal()} 
@@ -138,7 +138,7 @@ class ProductAdminList extends Component {
           ListHeaderComponent={
           <>
             <Card>
-              <AsyncTile image={imageRoute} title={store.name}>
+                <AsyncTile uri={store.imageUri} title={store.name}>
                 <Content>
                   Tiempo de entrega aproximado {store.deliveryTime} min.
                 </Content>
@@ -156,7 +156,8 @@ class ProductAdminList extends Component {
           enableEmptySections
           renderItem={this.renderItem}
           data={this.props.products}
-          keyExtractor={({ uid }) => String(uid)} deleteProduct
+          keyExtractor={({ uid }) => String(uid)}
+          deleteProduct
           refreshControl={
             <RefreshControl
               refreshing={this.props.pending}

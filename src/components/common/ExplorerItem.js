@@ -6,13 +6,12 @@ import { Content } from './Content';
 
 const ExplorerItem = (props) => {
   const { containerStyle, containerImage, imageStyle, containerLabel, titleStyle, descriptionStyle } = styles;
-  const imageRoute = props.image ? `images/${props.image}` : 'regalo.jpg';
+  const image = props.uri ? {uri: props.uri} : {image: props.image};
   return (
     <View style={ containerStyle }>
       <View style={[containerImage, props.containerImage]}>
         <AsyncImage
-          image={imageRoute}
-          uri={props.uri}
+          {...image}
           style={ imageStyle }
         />
       </View>
@@ -29,6 +28,7 @@ const styles = {
   containerStyle: {
     width: 220,
     marginLeft: 20,
+    overflow: 'hidden'
   },
   containerImage: {
     height: '75%'
