@@ -1,13 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Carrousel, ExplorerItem } from '../common';
+import imgBackground from '../../../assets/imgBackground.jpg'
 
 const renderCarrouselItem = (item) => {
   return (
     <ExplorerItem
       title={item.name}
       description={`${item.deliveryTime}-${Number(item.deliveryTime) + 15} min | Bs. ${item.shippingCost}`}
-      image={item.imageName}
+      image={imgBackground}
       uri={item.imageUri}
     />
   );

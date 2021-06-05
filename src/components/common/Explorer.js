@@ -2,6 +2,7 @@ import React from 'react';
 import { Title } from './Title';
 import { View, ScrollView } from 'react-native';
 import { ExplorerItem } from './ExplorerItem';
+import imgBackground from '../../../assets/imgBackground.jpg'
 
 const Explorer = (props) => {
 
@@ -28,7 +29,6 @@ const Explorer = (props) => {
 };
 
 const renderItems = (items) => {
-  
   return (
     <ScrollView
       horizontal={true}
@@ -39,7 +39,7 @@ const renderItems = (items) => {
         title={item.name}
         description={item.description}
         footer={`Bs. ${item.price}`}
-        image={item.imageName}
+        image={imgBackground}
         uri={item.imageUri}
         containerImage={styles.containerImage}
         containerLabel={styles.containerLabel}
@@ -58,7 +58,7 @@ const styles = {
   containerStyle: {
     height:220,
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   containerImage: {
     height: '60%'
