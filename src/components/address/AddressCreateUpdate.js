@@ -33,7 +33,7 @@ class AddressCreateUpdate extends Component {
     return (
       <Overlay
         isVisible={this.state.isVisible}
-        onBackdropPress={this.navigateToProductList}
+        onBackdropPress={this.navigateTo}
       >
         <View style={styles.modalStyle}>
           <Icon
@@ -44,7 +44,7 @@ class AddressCreateUpdate extends Component {
           />
           <Title style={[styles.titleStyle, styles.centerContent]}>Se guardo la Direccion!</Title>
           <CardSection>
-            <Button style={styles.modalButtonStyle} onPress={() => { this.navigateTo() }}>Ver mis direcciones</Button>
+            <Button style={styles.modalButtonStyle} onPress={() => { this.navigateTo() }}>Continuar</Button>
           </CardSection>
         </View>
       </Overlay>

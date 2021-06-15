@@ -8,6 +8,7 @@ import OrderListScreen from '../screens/OrderListScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import CurrentOrderScreen from '../screens/CurrentOrderScreen';
 import MapScreen from '../screens/MapScreen';
+import AddressCreateScreen from '../screens/address/AddressCreateScreen';
 
 const screens = {
   storeList: {
@@ -33,7 +34,10 @@ const screens = {
   },
   map: {
     screen: MapScreen
-  }
+  },
+  addressCreateCheckout: {
+    screen: AddressCreateScreen
+  },
 };
 
 const StoreStack = createStackNavigator(screens);
