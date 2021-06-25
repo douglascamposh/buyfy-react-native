@@ -11,7 +11,6 @@ import {
     logoName: '',
     deliveryTime: '',
     shippingCost: '',
-    category: '',
     uid: '',
     minimumCost: '',
     street: '',

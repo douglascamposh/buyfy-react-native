@@ -4,3 +4,4 @@ export * from './OrderActions';
 export * from './InvoiceActions';
 export * from './AddressListActions';
 export * from './UserDataActions';
+export * from './CategoriesListAction';

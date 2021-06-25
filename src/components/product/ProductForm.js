@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Picker } from 'react-native';
 import { CardSection, ImagePicker, TextInput, Button } from '../common';
+import { Colors } from '../../constants/Styles';
 import * as ExpoImagePicker from 'expo-image-picker';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -69,6 +70,20 @@ class ProductForm extends Component {
                   onBlur={props.handleBlur('description')}
                   errorMessage={props.touched.description && props.errors.description}
                 />
+              </CardSection>
+              <CardSection style={{ flexDirection: 'column' }}>
+                <Picker
+                  mode='dropdown'
+                  selectedValue={props.values.categoryId}
+                  onValueChange={(itemValue, itemIndex) => {
+                    props.setFieldValue('categoryId', itemValue);
+                  }}>
+                  <Picker.Item color={Colors.primaryBlue} label="Seleccionar Categoría"/>
+                  { 
+                  props.values.categories.map( (item)=>{
+                    return <Picker.Item label={item.name} value={item.uid} key={item.uid}/>
+                  })}                  
+                </Picker>
               </CardSection>
               <CardSection>
                 <TextInput

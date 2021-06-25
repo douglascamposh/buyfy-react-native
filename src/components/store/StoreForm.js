@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Picker } from 'react-native';
 import { CardSection, ImagePicker, TextInput, Button, Title, GoogleMap, Content } from '../common';
 import { Size, Colors } from '../../constants/Styles';
 import { Overlay, Icon } from 'react-native-elements';
@@ -190,17 +190,19 @@ class StoreForm extends Component {
                   keyboardType='numeric'
                 />
               </CardSection>
-              <CardSection>
-                <TextInput
-                  label="Categoria"
-                  placeholder="Ingrese la Categoria"
-                  value={props.values.category}
-                  onChangeText={props.handleChange('category')}
-                  onBlur={props.handleBlur('category')}
-                  errorMessage={props.touched.category && props.errors.category}
-                />
-              </CardSection>
-              
+              <CardSection style={{ flexDirection: 'column' }}>
+                <Picker
+                  mode='dropdown'
+                  selectedValue={props.values.categoryId}
+                  onValueChange={(itemValue, itemIndex) => {
+                    props.setFieldValue('categoryId', itemValue);
+                  }}>
+                  <Picker.Item color={Colors.primaryBlue} label="Seleccionar Categoría"/>
+                  { props.values.categories.map( (item)=>{
+                    return <Picker.Item label={item.name} value={item.uid} key={item.uid}/>
+                  })}
+                </Picker>
+              </CardSection>         
               <CardSection style={{ flexDirection: 'column' }}>
                 <Title style={{ paddingBottom: 10 }}>
                   Agregar Logo de la tienda

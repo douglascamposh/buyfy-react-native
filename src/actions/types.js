@@ -34,6 +34,10 @@ export const INVOICES_FETCH_BY_USER_ID_SUCCESS = 'invoice_fetch_by_user_id_succe
 export const INVOICES_FETCH_BY_STORE_ID_SUCCESS = 'invoice_fetch_by_store_id_success';
 export const INVOICES_FETCH_BY_STATE_SUCCESS = 'invoices_fetch_by_state_success';
 
+export const CATEGORIES_STORE_FETCH_SUCCESS = 'categories_store_fetch_success';
+export const CATEGORIES_PRODUCTS_FETCH_SUCCESS = 'categories_products_fetch_success';
+export const CATEGORIES_FETCH_PENDING = 'catgories_fetch_pending';
+
 export const ADDRESS_FETCH_SUCCESS = 'addresses_fetch_success';
 export const ADDRESS_FETCH_PENDING = 'address_fetch_pending';
 export const ADDRESS_CREATE_SUCCESS = 'address_create_success';

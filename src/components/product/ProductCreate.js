@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { productCreate, productUpdate } from '../../actions';
-import { Card } from '../common';
+import { productCreate, productUpdate, productsCategoryListFetch } from '../../actions';
+import _ from 'lodash';
+import { Card, Spinner } from '../common';
 import ProductForm from './ProductForm';
 
 class ProductCreate extends Component {
+
+  componentDidMount() {
+    this.props.productsCategoryListFetch(this.props.categoryId);
+  }
   
-  onButtonPress = ({ name, description, price, image = '', imageName = '', storeId, uid }) => {
-    !uid ? this.props.productCreate({ name, description, price, image, storeId }) :
-    this.props.productUpdate({ name, description, price, image, imageName, storeId, uid });
+  onButtonPress = ({ name, description, price, image = '', imageName = '', storeId, categoryId,  uid }) => {
+    !uid ? this.props.productCreate({ name, description, price, image, storeId, categoryId }) :
+    this.props.productUpdate({ name, description, price, image, imageName, storeId, categoryId, uid });
     this.props.navigateTo();
   }
 
   render() {
-    const product = this.props.product ? this.props.product : { ...this.props, storeId: this.props.storeId };
+    if(this.props.pending){
+      return <Spinner/>;
+    } 
+    const product = this.props.product ? 
+    { ...this.props.product, categories: this.props.categories } :
+    { ...this.props.newProduct, storeId: this.props.storeId, categories: this.props.categories };
     return (
       <Card>
         <ProductForm product={product} saveProduct={this.onButtonPress}/>
@@ -23,8 +33,12 @@ class ProductCreate extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const product = state.productForm;
-  return { ...product };
+  const categories = _.map(state.categoriesProduct.data, (val) => {
+    return { ...val };
+  });
+  const newProduct = state.productForm;
+  const { pending } = state.categoriesProduct;
+  return { newProduct, categories, pending };
 }
 
-export default connect(mapStateToProps, { productCreate, productUpdate })(ProductCreate);
+export default connect(mapStateToProps, { productCreate, productUpdate, productsCategoryListFetch })(ProductCreate);
