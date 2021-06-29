@@ -20,7 +20,10 @@ const StoreSchema = yup.object({
     .required('Debes ingresar la ${label}.')
     .min(3, 'La ${label} es muy corta, ingresa minimo 3 caracteres.')
     .max(100, 'La ${label} es muy larga, ingresa maximo 100 caracteres.')
-    .trim('description')
+    .trim('description'),
+  categoryId: yup.string()
+    .label('Categoría')
+    .required('Debes ingresar una ${label}.')
 });
 
 class StoreForm extends Component {
@@ -123,6 +126,11 @@ class StoreForm extends Component {
     }
   }
 
+  onChangeDropDown = (itemValue, itemIndex, props) => {
+    props.setFieldTouched('categoryId', true)
+    props.setFieldValue('categoryId', itemValue);
+  }
+
   render() {
     const { store, saveStore } = this.props;
     return (
@@ -194,13 +202,16 @@ class StoreForm extends Component {
                 <Picker
                   mode='dropdown'
                   selectedValue={props.values.categoryId}
-                  onValueChange={(itemValue, itemIndex) => {
-                    props.setFieldValue('categoryId', itemValue);
-                  }}>
-                  <Picker.Item color={Colors.primaryBlue} label="Seleccionar Categoría"/>
+                  onValueChange={(itemValue, itemIndex ) => this.onChangeDropDown(itemValue, itemIndex, props)}> 
+                  { props.touched.categoryId && props.errors.categoryId ? 
+                    <Picker.Item 
+                      color={"red"}  
+                      label={ props.errors.categoryId } /> :
+                    <Picker.Item 
+                      color={Colors.primaryBlue} 
+                      label={"Seleccionar Categoría"} /> }
                   { props.values.categories.map( (item)=>{
-                    return <Picker.Item label={item.name} value={item.uid} key={item.uid}/>
-                  })}
+                    return <Picker.Item label={item.name} value={item.uid} key={item.uid}/>}) }
                 </Picker>
               </CardSection>         
               <CardSection style={{ flexDirection: 'column' }}>

@@ -13,6 +13,7 @@ import {
     shippingCost: '',
     uid: '',
     minimumCost: '',
+    categoryId: '',
     street: '',
     numberStreet: '',
     departmentNumber: '',

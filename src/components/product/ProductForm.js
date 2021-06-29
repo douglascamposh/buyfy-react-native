@@ -20,12 +20,14 @@ const ProductSchema = yup.object({
     .min(3, 'La ${label} es muy corta, ingresa minimo 3 caracteres.')
     .max(100, 'La ${label} es muy larga, ingresa maximo 100 caracteres.')
     .trim('description'),
+  categoryId: yup.string()
+    .label('Categoría')
+    .required('Debes ingresar una ${label}.'),
   price: yup.string()
     .label('Precio')
     .required('Debes ingresar el ${label}.')
     .min(1)
 });
-
 
 class ProductForm extends Component {
 
@@ -35,6 +37,11 @@ class ProductForm extends Component {
       const imageResized = await resizeImage(result.uri);
       props.setFieldValue('image', imageResized);
     }
+  }
+
+  onChangeDropDown = (itemValue, itemIndex, props) => {
+    props.setFieldTouched('categoryId', true)
+    props.setFieldValue('categoryId', itemValue);
   }
 
   render() {
@@ -72,17 +79,20 @@ class ProductForm extends Component {
                 />
               </CardSection>
               <CardSection style={{ flexDirection: 'column' }}>
-                <Picker
+                {/* todo dropdown component */}
+                <Picker 
                   mode='dropdown'
                   selectedValue={props.values.categoryId}
-                  onValueChange={(itemValue, itemIndex) => {
-                    props.setFieldValue('categoryId', itemValue);
-                  }}>
-                  <Picker.Item color={Colors.primaryBlue} label="Seleccionar Categoría"/>
-                  { 
-                  props.values.categories.map( (item)=>{
-                    return <Picker.Item label={item.name} value={item.uid} key={item.uid}/>
-                  })}                  
+                  onValueChange={(itemValue, itemIndex ) => this.onChangeDropDown(itemValue, itemIndex, props)}> 
+                  { props.touched.categoryId && props.errors.categoryId ? 
+                    <Picker.Item 
+                      color={"red"} 
+                      label={ props.errors.categoryId } /> :
+                    <Picker.Item 
+                      color={Colors.primaryBlue} 
+                      label={"Seleccionar Categoría"} /> }                           
+                  { props.values.categories.map( (item)=>{
+                    return <Picker.Item label={item.name} value={item.uid} key={item.uid}/>}) }
                 </Picker>
               </CardSection>
               <CardSection>
