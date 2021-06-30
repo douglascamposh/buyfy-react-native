@@ -60,6 +60,7 @@ export const storeCreate = (store) => {
   const { image, logo } = store;
   delete store.image;
   delete store.logo;
+  delete store.categories;
   const user = firebase.auth().currentUser;
   store.userId = user ? user.uid : '';
   store.created_at = Date.now();
@@ -103,7 +104,7 @@ export const storeUpdate = (store) => {
   delete store.uid;
   delete store.image;
   delete store.logo;
-  
+  delete store.categories;
   const images = [];
   image ? images.push({ name: uuid(), image: image }) : null;
   logo ? images.push({ name: uuid(), image: logo }) : null;

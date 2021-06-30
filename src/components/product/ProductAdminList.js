@@ -39,7 +39,7 @@ class ProductAdminList extends Component {
   }
 
   productEditOnClick = (product) => {
-    this.props.navigation.navigate('editProduct', { product });
+    this.props.navigation.navigate('editProduct', { product, categoryId: this.props.store.categoryId });
   }
 
   productDeleteOnClick = (productId) => {

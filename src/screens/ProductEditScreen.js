@@ -14,7 +14,8 @@ class ProductEditScreen extends Component {
 
   render() {
     const product = this.props.navigation.getParam('product', {});
-    return <ProductCreate navigateTo={this.navigateTo} title={'Editar Product'} product={product} />;
+    const categoryId = this.props.navigation.getParam('categoryId', {});
+    return <ProductCreate navigateTo={this.navigateTo} title={'Editar Product'} product={product} categoryId={categoryId}/>;
   }
 }
 

@@ -29,7 +29,7 @@ class StoreAdminList extends Component {
   }
 
   storeOnClick = (store) => {
-    this.props.navigation.navigate('productAdminList', { storeId: store.uid, name: store.name });
+    this.props.navigation.navigate('productAdminList', { storeId: store.uid, name: store.name, categoryId: store.categoryId });
   }
 
   storeEditOnClick = (store) => {
