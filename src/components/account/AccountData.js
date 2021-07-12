@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchUserData, userDataUpdate } from '../../actions';
+import { fetchUserData, userDataUpdate, userLogOut } from '../../actions';
 import firebase from 'firebase';
 import UserDataForm from './UserDataForm';
 import { CardSection, Button, Title } from '../common';
@@ -39,16 +39,8 @@ class AccountData extends Component {
 	}
 
 	logOutButton = () => {
-		firebase.auth().signOut();
-		firebase.auth().onAuthStateChanged(user => {
-			if (!user) {
-				this.setState({
-					email: this.verifyUser(),
-					isLogued: Boolean(firebase.auth().currentUser)
-				});
-				this.props.navigation.navigate('storeList');
-			}
-		});
+		this.props.userLogOut();
+		 		this.props.navigation.navigate('storeList');
 	}
 
 	onButtonPress() {
@@ -140,4 +132,4 @@ const mapStateToProps = state => {
 	} 
 	return {user};
 };
-export default connect(mapStateToProps, { fetchUserData, userDataUpdate })(AccountData);
+export default connect(mapStateToProps, { fetchUserData, userDataUpdate, userLogOut })(AccountData);
