@@ -1,15 +1,12 @@
 import firebase from 'firebase';
-import { USER_FETCH_SUCCESS, USER_DATA_UPDATE } from './types';
+import { USER_FETCH_SUCCESS, USER_DATA_UPDATE, USER_LOGOUT_SUCCESS } from './types';
 import { USERS } from './resources';
 
 export const fetchUserData = () => {
   return(dispatch) => {
     const user = firebase.auth().currentUser;
-    const userId = user ? user.uid : '';
-    firebase.database().ref(`${USERS}/${userId}`)
-    .on('value', snapshot => {
-      dispatch({ type: USER_FETCH_SUCCESS, payload: snapshot.val() })
-    })
+    user ? user.uid : '';
+    dispatch({ type: USER_FETCH_SUCCESS, payload: { ...user } })
   }
 }
 
@@ -26,3 +23,15 @@ export const userDataUpdate = ({ firstName, lastName}) => {
     });
   };
 };
+
+export const userLogOut = () => {
+  return(dispatch) => {
+      firebase.auth().signOut();
+      firebase.auth().onAuthStateChanged(userSignOut => {
+        if (!userSignOut) {     
+            dispatch({type: USER_LOGOUT_SUCCESS, payload: { isLoged:false }})
+          };
+        }      
+      );
+    }
+  }
