@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, StatusBar, Platform } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
+import { HeaderBar } from '../components/common';
 import { Colors } from '../constants/Styles'
 import LoadingScreen from '../screens/auth/LoadingScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
@@ -21,7 +22,7 @@ const CustomDrawerComponent = (props) => (
       <DrawerItems { ...props } />
     </ScrollView>
   </SafeAreaView>  
-)
+);
 
 const SwitchNavigator = createSwitchNavigator({
   loading: {
@@ -36,7 +37,6 @@ const SwitchNavigator = createSwitchNavigator({
       drawerLabel: () => null
     }
   },
-
   drawer: createDrawerNavigator({ 
     store: {
       screen: StoreStack,
@@ -115,7 +115,9 @@ const SwitchNavigator = createSwitchNavigator({
       },  
     }
   })
-})
+});
+
+const Navigator = createAppContainer(SwitchNavigator);
 
 const styles = {
   itemMenu: {
@@ -125,4 +127,5 @@ const styles = {
     paddingLeft: 3,
   }
 }
-export default createAppContainer(SwitchNavigator);
+
+export default Navigator;
