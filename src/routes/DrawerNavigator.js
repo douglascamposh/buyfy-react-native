@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StatusBar, Platform } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
-import { HeaderBar } from '../components/common';
 import { Colors } from '../constants/Styles'
 import LoadingScreen from '../screens/auth/LoadingScreen';
 import AuthScreen from '../screens/auth/AuthScreen';
@@ -117,8 +116,6 @@ const SwitchNavigator = createSwitchNavigator({
   })
 });
 
-const Navigator = createAppContainer(SwitchNavigator);
-
 const styles = {
   itemMenu: {
     width: 30,
@@ -128,4 +125,4 @@ const styles = {
   }
 }
 
-export default Navigator;
+export default createAppContainer(SwitchNavigator);
