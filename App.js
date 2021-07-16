@@ -7,6 +7,7 @@ import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
 import * as Permissions from 'expo-permissions';
 import { FIREBASE_CONFIG } from './environment.json';
+import { HeaderBar } from './src/components/common';
 LogBox.ignoreLogs(['expo-constants']);
 
 //temp fix, know issue only for android
@@ -33,6 +34,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
+        <HeaderBar />
         <AppNavigator/>
       </Provider>
     );

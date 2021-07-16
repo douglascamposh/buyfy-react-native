@@ -21,7 +21,7 @@ const CustomDrawerComponent = (props) => (
       <DrawerItems { ...props } />
     </ScrollView>
   </SafeAreaView>  
-)
+);
 
 const SwitchNavigator = createSwitchNavigator({
   loading: {
@@ -36,7 +36,6 @@ const SwitchNavigator = createSwitchNavigator({
       drawerLabel: () => null
     }
   },
-
   drawer: createDrawerNavigator({ 
     store: {
       screen: StoreStack,
@@ -115,7 +114,7 @@ const SwitchNavigator = createSwitchNavigator({
       },  
     }
   })
-})
+});
 
 const styles = {
   itemMenu: {
@@ -125,4 +124,5 @@ const styles = {
     paddingLeft: 3,
   }
 }
+
 export default createAppContainer(SwitchNavigator);

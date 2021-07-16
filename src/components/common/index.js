@@ -19,3 +19,4 @@ export * from './GoogleMap';
 export * from './TextInput';
 export * from './AppleStyleSwipeableRow';
 export * from './DatetimePicker';
+export * from './HeaderBar';
