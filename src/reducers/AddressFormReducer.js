@@ -10,6 +10,8 @@ const INITIAL_STATE = {
   city: '',
   town: '',
   streetReference: '',
+  latitude: '',
+  longitude: '',
   phone: '',
   userId: '',
   uid: '' 
