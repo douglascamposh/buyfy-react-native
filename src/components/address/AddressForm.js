@@ -63,7 +63,7 @@ const AddressSchema = yup.object({
     .trim(),
 });
 
-class AddressForm extends Component {
+class AddressForm extends Component { //TODO: migrate class to hooks
 
   state = {
     isVisible: false,
@@ -74,7 +74,6 @@ class AddressForm extends Component {
   }
 
   onDragEndMarker = (props, coordinate) => {
-    console.log("coordenadas", coordinate)
     const { latitude, longitude } = coordinate;
     props.setFieldValue('latitude', latitude);
     props.setFieldValue('longitude', longitude);
