@@ -2,10 +2,10 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import { Content } from './Content';
 
-const FloatButton = ({text, onPress}) => {
+const FloatButton = ({text, onPress, style}) => {
   return (
     <View style={styles.bottomView}>
-      <TouchableOpacity style={styles.buttonStyle} onPress={onPress}>
+      <TouchableOpacity style={[styles.buttonStyle, style]} onPress={onPress}>
         <Content style={styles.textStyle}>{text}</Content>
       </TouchableOpacity>
     </View>

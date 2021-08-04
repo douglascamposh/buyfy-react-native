@@ -115,7 +115,9 @@ class CheckoutDetail extends Component {
             </KeyboardAwareScrollView>
           </ScrollView>
         </View>
-        <FloatButton text={'Enviar mi pedido'} onPress={this.confirmOrder} />
+        { this.props.userAddresses.length ? 
+          <FloatButton text={'Enviar mi pedido'} onPress={this.confirmOrder} /> : 
+          <FloatButton style={styles.buttonConfirmOrderStyle} text={'Debes ingresar tu direccion'} />  }
         {this.renderModal()}
         {this.renderModalRequired()}
       </View>
@@ -152,6 +154,9 @@ const styles = {
   },
   modalButtonStyle: {
     color: Colors.primaryRed
+  },
+  buttonConfirmOrderStyle: {
+    backgroundColor: Colors.secondaryTextInverse,
   }
 }
 
