@@ -35,7 +35,6 @@ const UserDataSchema = yup.object({
 
 const UserDataForm = ({ userData, updateUser }) => {
   const { firstName, lastName } = userData;
-
   return (   
     <View style={styles.container}>
       <Formik
@@ -73,7 +72,7 @@ const UserDataForm = ({ userData, updateUser }) => {
               />
             </View>   
             {
-              props.values.firstName != firstName | props.values.lastName!= lastName ?
+              props.values.firstName != firstName || props.values.lastName!= lastName ?
                 (<Button style={styles.modalButtonStyle} onPress={props.handleSubmit}>Actualizar</Button>)
               : null
             }              

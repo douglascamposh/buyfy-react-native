@@ -48,3 +48,4 @@ export const ADDRESS_CREATE_FORM = 'address_create_form';
 export const USER_FETCH_SUCCESS = 'user_fetch_success';
 export const USER_DATA_UPDATE = 'user_data_update';
 export const  USER_LOGOUT_SUCCESS = 'user_logout_success';
+export const USER_ERROR_DATA_UPDATE = 'user_error_data_update';

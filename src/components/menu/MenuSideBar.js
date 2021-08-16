@@ -10,24 +10,26 @@ class MenuSideBar extends Component{
 	}
 
   verifyPhoto = () => {
-    const { photoURL, email } = this.props.user;
+    const { profilePicture, email } = this.props.user;
     const defaultPhoto = require('../../../assets/defaultPhoto.jpg');
-    const photoUrl = { uri: photoURL };
-     return photoURL ? <Image source={photoUrl} style={styles.photoStyle} /> : 
+    const photoUrl = { uri: profilePicture };
+     return profilePicture ? <Image source={photoUrl} style={styles.photoStyle} /> : 
      email ? <Image source={defaultPhoto} style={styles.photoStyle} /> : null
   }
 
   render(){
-    const {displayName, email} = this.props.user
+    const {firstName, lastName, email,} = this.props.user
     return(
       <View style={styles.centerContent}>
         {this.verifyPhoto()}
-        <Text 
-          style={ email ? styles.nameOrEmailStyle : null } 
-          numberOfLines={2} 
-          ellipsizeMode='tail'>
-          { displayName || email }
+        {firstName && lastName ?
+        <Text style={styles.nameOrEmailStyle} ellipsizeMode='tail' numberOfLines={2}>
+          {`${firstName} ${lastName}`}
+        </Text>  :
+        <Text style={styles.nameOrEmailStyle} ellipsizeMode='tail' numberOfLines={2}>
+          {email}
         </Text>
+      }
       </View> 
     )
   }
