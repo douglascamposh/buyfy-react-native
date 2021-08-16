@@ -47,14 +47,17 @@ class InvoiceForm extends Component {
           />
            <Button 
             style={{flex:0}}
-            onPress={()=> this.props.navigation.navigate('createAddress')}
+            onPress={this.createAddress }
           >Añadir nueva direccion</Button>
         </View>
       </Overlay>
     );
   }
-    
-  
+
+  createAddress = () => {
+    this.props.navigation.navigate('addressCreateCheckout')
+    this.setState({ isVisible: false })
+  }
 
   showModal = () => {
     this.setState({ isVisible: true });
