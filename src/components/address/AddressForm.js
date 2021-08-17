@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState  } from 'react';
 import { TextInput, Button, GoogleMap, CardSection, Title, Content } from '../common';
 import { View } from 'react-native';
 import { Size, Colors } from '../../constants/Styles';
 import { Overlay, Icon } from 'react-native-elements'
 import { Formik } from 'formik';
 import * as yup from 'yup';
-
 import { setLocale } from 'yup';
-import { Alert } from 'react-native';
 
 setLocale({
   mixed: {
@@ -63,23 +61,21 @@ const AddressSchema = yup.object({
     .trim(),
 });
 
-class AddressForm extends Component { //TODO: migrate class to hooks
+const AddressForm = ({ address, saveAddress }) => {
 
-  state = {
-    isVisible: false,
+  const [isVisible, setIsVisible] = useState(false);
+  
+  const showModal = () => {
+    setIsVisible(true);
   }
 
-  showModal = () => {
-    this.setState({ isVisible: true });
-  }
-
-  onDragEndMarker = (props, coordinate) => {
+  const onDragEndMarker = (props, coordinate) => {
     const { latitude, longitude } = coordinate;
     props.setFieldValue('latitude', latitude);
     props.setFieldValue('longitude', longitude);
   }
 
-  renderMapModal = (props) => {
+  const renderMapModal = (props) => {
 
     const showAddressInfo = () => {
       if(props.values.street && props.values.streetReference && props.values.numberStreet && props.values.city && props.values.town){
@@ -96,7 +92,7 @@ class AddressForm extends Component { //TODO: migrate class to hooks
               />
               <Content style={styles.styleTextAddressInfo} numberOfLines={2} ellipsizeMode='tail'>{addressInfo}</Content>
             </CardSection>
-            <Button onPress={() => this.setState({ isVisible: false })} style={styles.styleButtonMap} textStyle={styles.styleButtonTextMap}>Confirmar Direccion</Button>
+            <Button onPress={() => setIsVisible(false)} style={styles.styleButtonMap} textStyle={styles.styleButtonTextMap}>Confirmar Direccion</Button>
           </View>  
         )
       }
@@ -105,8 +101,8 @@ class AddressForm extends Component { //TODO: migrate class to hooks
       <Overlay
       width="auto"
       height="90%"
-      isVisible={this.state.isVisible}
-      onBackdropPress={() => this.setState({ isVisible: false })}
+      isVisible={isVisible}
+      onBackdropPress={() => setIsVisible(false)}
       >        
         <View>
           <Title>
@@ -118,7 +114,7 @@ class AddressForm extends Component { //TODO: migrate class to hooks
               description: 'Arrastre hasta la dirección de la tienda',
               latitude: props.values.latitude,
               longitude: props.values.longitude,
-              onDragEnd: (coordinate) => this.onDragEndMarker(props, coordinate)
+              onDragEnd: (coordinate) => onDragEndMarker(props, coordinate)
             }}
           />
             {showAddressInfo()}
@@ -127,10 +123,10 @@ class AddressForm extends Component { //TODO: migrate class to hooks
     );
   }
 
-  buttonGeoreference = (props) => {
+  const buttonGeoreference = (props) => {
     if( props.values.name && props.values.street && props.values.numberStreet && props.values.city && props.values.town) {
       return(
-      <Button onPress={this.showModal}>
+      <Button onPress={showModal}>
         Mostrar Mapa
       </Button>
       )
@@ -142,134 +138,129 @@ class AddressForm extends Component { //TODO: migrate class to hooks
       )
     }
   }
-
-  render(){
-    const {address, saveAddress} = this.props;
-    return (
-      <View style={styles.container}>
-        <Formik
-          initialValues={{ ...address }}
-          validationSchema={AddressSchema}
-          onSubmit={(values, actions) => {
-            actions.resetForm();
-            saveAddress(values);
-          }}
-        >
-          {(props) => (
-            <View>
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Alias"
-                  placeholder="Ingrese el alias ej. Hogar"
-                  value={props.values.name}
-                  onChangeText={props.handleChange('name')}
-                  errorMessage={props.touched.name && props.errors.name}
-                  onBlur={props.handleBlur('name')}
-                />
-              </View>
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Direccion"
-                  placeholder="Ingrese la calle"
-                  value={props.values.street}
-                  onChangeText={props.handleChange('street')}
-                  errorMessage={props.touched.street && props.errors.street}
-                  onBlur={props.handleBlur('street')}
-                />
-              </View>
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Referencia"
-                  placeholder="Ingrese la zona, nombre del edificio"
-                  value={props.values.streetReference}
-                  onChangeText={props.handleChange('streetReference')}
-                  errorMessage={props.touched.streetReference && props.errors.streetReference}
-                  onBlur={props.handleBlur('streetReference')}
-                />
-              </View>
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Numero del Edificio/Casa"
-                  placeholder="Ingrese la numeracion"
-                  value={props.values.numberStreet}
-                  onChangeText={props.handleChange('numberStreet')}
-                  errorMessage={props.touched.numberStreet && props.errors.numberStreet}
-                  onBlur={props.handleBlur('numberStreet')}
-                />
-              </View>
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Numero del departamento (Opcional)"
-                  placeholder="Ingrese el numero del departamento"
-                  value={props.values.departmentNumber}
-                  onChangeText={props.handleChange('departmentNumber')}
-                  errorMessage={props.touched.departmentNumber && props.errors.departmentNumber}
-                  onBlur={props.handleBlur('departmentNumber')}
-                />
-              </View>
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Ciudad"
-                  placeholder="Ingrese la ciudad"
-                  value={props.values.city}
-                  onChangeText={props.handleChange('city')}
-                  errorMessage={props.touched.city && props.errors.city}
-                  onBlur={props.handleBlur('city')}
-                />
-              </View>
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Municipio"
-                  placeholder="Ingrese el municipio"
-                  value={props.values.town}
-                  onChangeText={props.handleChange('town')}
-                  errorMessage={props.touched.town && props.errors.town}
-                  onBlur={props.handleBlur('town')}
-                />
-              </View>             
-              <View style={styles.inputView} >
-                <TextInput
-                  inputStyle={styles.input}
-                  labelStyle={styles.label}
-                  label="Numero de telefono"
-                  value={props.values.phone}
-                  onChangeText={props.handleChange('phone')}
-                  keyboardType='numeric'
-                  errorMessage={props.touched.phone && props.errors.phone}
-                  onBlur={props.handleBlur('phone')}
-                />
-              </View>   
-              <CardSection style={{ flexDirection: 'column'}}>
-                <Title style={{paddingBottom: 10}}>
-                  Georeferencia
-                </Title>
-                {this.buttonGeoreference(props)}            
-              </CardSection>
-              {this.renderMapModal(props)}   
-              <CardSection style={{ flexDirection: 'column'}}>             
-                <Button style={styles.modalButtonStyle} onPress={props.handleSubmit}>Guardar</Button>
-              </CardSection>
+  return (
+    <View style={styles.container}>
+      <Formik
+        initialValues={{ ...address }}
+        validationSchema={AddressSchema}
+        onSubmit={(values, actions) => {
+          actions.resetForm();
+          saveAddress(values);
+        }}
+      >
+        {(props) => (
+          <View>
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Alias"
+                placeholder="Ingrese el alias ej. Hogar"
+                value={props.values.name}
+                onChangeText={props.handleChange('name')}
+                errorMessage={props.touched.name && props.errors.name}
+                onBlur={props.handleBlur('name')}
+              />
             </View>
-
-          )}
-        </Formik>
-      </View>
-    );
-  }
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Direccion"
+                placeholder="Ingrese la calle"
+                value={props.values.street}
+                onChangeText={props.handleChange('street')}
+                errorMessage={props.touched.street && props.errors.street}
+                onBlur={props.handleBlur('street')}
+              />
+            </View>
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Referencia"
+                placeholder="Ingrese la zona, nombre del edificio"
+                value={props.values.streetReference}
+                onChangeText={props.handleChange('streetReference')}
+                errorMessage={props.touched.streetReference && props.errors.streetReference}
+                onBlur={props.handleBlur('streetReference')}
+              />
+            </View>
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Numero del Edificio/Casa"
+                placeholder="Ingrese la numeracion"
+                value={props.values.numberStreet}
+                onChangeText={props.handleChange('numberStreet')}
+                errorMessage={props.touched.numberStreet && props.errors.numberStreet}
+                onBlur={props.handleBlur('numberStreet')}
+              />
+            </View>
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Numero del departamento (Opcional)"
+                placeholder="Ingrese el numero del departamento"
+                value={props.values.departmentNumber}
+                onChangeText={props.handleChange('departmentNumber')}
+                errorMessage={props.touched.departmentNumber && props.errors.departmentNumber}
+                onBlur={props.handleBlur('departmentNumber')}
+              />
+            </View>
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Ciudad"
+                placeholder="Ingrese la ciudad"
+                value={props.values.city}
+                onChangeText={props.handleChange('city')}
+                errorMessage={props.touched.city && props.errors.city}
+                onBlur={props.handleBlur('city')}
+              />
+            </View>
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Municipio"
+                placeholder="Ingrese el municipio"
+                value={props.values.town}
+                onChangeText={props.handleChange('town')}
+                errorMessage={props.touched.town && props.errors.town}
+                onBlur={props.handleBlur('town')}
+              />
+            </View>             
+            <View style={styles.inputView} >
+              <TextInput
+                inputStyle={styles.input}
+                labelStyle={styles.label}
+                label="Numero de telefono"
+                value={props.values.phone}
+                onChangeText={props.handleChange('phone')}
+                keyboardType='numeric'
+                errorMessage={props.touched.phone && props.errors.phone}
+                onBlur={props.handleBlur('phone')}
+              />
+            </View>   
+            <CardSection style={{ flexDirection: 'column'}}>
+              <Title style={{paddingBottom: 10}}>
+                Georeferencia
+              </Title>
+              {buttonGeoreference(props)}            
+            </CardSection>
+            {renderMapModal(props)}   
+            <CardSection style={{ flexDirection: 'column'}}>             
+              <Button style={styles.modalButtonStyle} onPress={props.handleSubmit}>Guardar</Button>
+            </CardSection>
+          </View>
+        )}
+      </Formik>
+    </View>
+  );
 }
 
 const styles = {
