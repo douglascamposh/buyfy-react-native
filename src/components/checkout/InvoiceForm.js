@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { invoiceUpdateForm } from '../../actions';
-import { CardSection, Input, Card, Title, Content } from '../common';
+import { CardSection, Input, Card, Title, Content, Button } from '../common';
 import { Overlay, Icon } from 'react-native-elements';
 import { Size, Colors } from '../../constants/Styles';
 
@@ -29,7 +29,7 @@ class InvoiceForm extends Component {
     );
   }
 
-  renderModalAddressList() {
+  renderModalAddressList = () => {
     return (
       <Overlay
         isVisible={this.state.isVisible}
@@ -45,9 +45,18 @@ class InvoiceForm extends Component {
             data={this.props.userAddresses}
             keyExtractor={({ uid }) => String(uid)}
           />
+           <Button 
+            style={{flex:0}}
+            onPress={this.createAddress }
+          >Añadir nueva direccion</Button>
         </View>
       </Overlay>
     );
+  }
+
+  createAddress = () => {
+    this.props.navigation.navigate('addressCreateCheckout')
+    this.setState({ isVisible: false })
   }
 
   showModal = () => {

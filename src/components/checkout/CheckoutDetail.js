@@ -17,7 +17,6 @@ class CheckoutDetail extends Component {
     super(props);
     this.state = {
       isVisible: false,
-      isVisibleAddress: false,
     }
   }
 
@@ -29,13 +28,9 @@ class CheckoutDetail extends Component {
   }
 
   confirmOrder = () => {
-    const { addressId, nit, orders, shippingCost = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate
-    if (!addressId) {
-      this.setState({ isVisibleAddress: true });
-    } else{
+    const { addressId, nit, orders, shippingCost = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate  
       this.props.invoiceCreate({ addressId, nit, orders, shippingCost, subTotal, storeId });
       this.setState({ isVisible: true });
-    }
   }
 
   navigateToProductList = () => {
@@ -47,28 +42,6 @@ class CheckoutDetail extends Component {
     this.setState({ isVisible: false });
     const invoiceId = this.props.invoiceId;
     this.props.navigation.navigate('currentOrder', { invoiceId });
-  }
-
-  navigateToCreateAddress = () => {
-    this.setState({ isVisibleAddress: false });
-    this.props.navigation.navigate('addressCreateCheckout');
-  }
-
-  renderModalRequired() {
-    return (
-      <Overlay
-        isVisible={this.state.isVisibleAddress}
-        onBackdropPress={() => this.setState({ isVisibleAddress: false })}
-      >
-        <View style={styles.modalStyle}>
-          <Title style={styles.centerContent}>La dirección es requerida!</Title>
-          <CardSection>
-            <Button style={styles.modalButtonStyle} onPress={this.navigateToCreateAddress}>Agregar dirección</Button>
-            <Button style={styles.modalButtonStyle} onPress={() => this.setState({ isVisibleAddress: false })}>Cancelar</Button>
-          </CardSection>
-        </View>
-      </Overlay>
-    );
   }
 
   //TODO move this modal to a screen instead of use Modal
@@ -115,9 +88,10 @@ class CheckoutDetail extends Component {
             </KeyboardAwareScrollView>
           </ScrollView>
         </View>
-        <FloatButton text={'Enviar mi pedido'} onPress={this.confirmOrder} />
+        { this.props.userAddresses.length ? 
+          <FloatButton text={'Enviar mi pedido'} onPress={this.confirmOrder} /> : 
+          <FloatButton style={styles.buttonConfirmOrderStyle} text={'Debes ingresar tu direccion'} />  }
         {this.renderModal()}
-        {this.renderModalRequired()}
       </View>
     );
   }
@@ -152,6 +126,9 @@ const styles = {
   },
   modalButtonStyle: {
     color: Colors.primaryRed
+  },
+  buttonConfirmOrderStyle: {
+    backgroundColor: Colors.secondaryTextInverse,
   }
 }
 

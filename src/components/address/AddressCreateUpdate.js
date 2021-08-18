@@ -18,9 +18,9 @@ class AddressCreateUpdate extends Component {
     }
   }
 
-  saveAddress = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid }) => {
-    !uid ? this.props.addressCreate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone }) :
-    this.props.addressUpdate({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid });
+  saveAddress = ({ name, street, numberStreet, departmentNumber, city, town, latitude, longitude, streetReference, phone, uid }) => {
+    !uid ? this.props.addressCreate({ name, street, numberStreet, departmentNumber, city, town, latitude, longitude, streetReference, phone }) :
+    this.props.addressUpdate({ name, street, numberStreet, departmentNumber, city, town, latitude, longitude, streetReference, phone, uid });
     this.setState({ isVisible: true });
   }
 

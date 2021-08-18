@@ -1,9 +1,10 @@
-import React from 'react';
-import { TextInput, Button } from '../common';
+import React, { useState  } from 'react';
+import { TextInput, Button, GoogleMap, CardSection, Title, Content } from '../common';
 import { View } from 'react-native';
+import { Size, Colors } from '../../constants/Styles';
+import { Overlay, Icon } from 'react-native-elements'
 import { Formik } from 'formik';
 import * as yup from 'yup';
-
 import { setLocale } from 'yup';
 
 setLocale({
@@ -20,7 +21,7 @@ setLocale({
 
 const AddressSchema = yup.object({
   name: yup.string()
-    .label('Nombre')
+    .label('Alias')
     .required('Debes ingresar el ${label}.')
     .min(3)
     .trim(),
@@ -44,13 +45,13 @@ const AddressSchema = yup.object({
     .min(1)
     .trim(),
   city: yup.string()
-    .label('Departamento')
-    .required('Debes ingresar el ${label}')
+    .label('Ciudad')
+    .required('Debes ingresar la ${label}')
     .min(4)
     .trim(),
   town: yup.string()
-    .label('Ciudad')
-    .required('Debes ingresar la ${label}')
+    .label('Municipio')
+    .required('Debes ingresar el ${label}')
     .min(4)
     .trim(),
   phone: yup.string()
@@ -61,6 +62,82 @@ const AddressSchema = yup.object({
 });
 
 const AddressForm = ({ address, saveAddress }) => {
+
+  const [isVisible, setIsVisible] = useState(false);
+  
+  const showModal = () => {
+    setIsVisible(true);
+  }
+
+  const onDragEndMarker = (props, coordinate) => {
+    const { latitude, longitude } = coordinate;
+    props.setFieldValue('latitude', latitude);
+    props.setFieldValue('longitude', longitude);
+  }
+
+  const renderMapModal = (props) => {
+
+    const showAddressInfo = () => {
+      if(props.values.street && props.values.streetReference && props.values.numberStreet && props.values.city && props.values.town){
+        let addressInfo = `${props.values.street} Nº${props.values.numberStreet} ${props.values.streetReference}, ${props.values.town}`;
+        return(
+          <View>
+            <CardSection style={styles.cardSectionStyle}>
+              <Icon
+                name='ios-pin'
+                type='ionicon'
+                size={Size.iconInput}
+                color={Colors.secondaryText}
+                iconStyle={styles.iconStyle}
+              />
+              <Content style={styles.styleTextAddressInfo} numberOfLines={2} ellipsizeMode='tail'>{addressInfo}</Content>
+            </CardSection>
+            <Button onPress={() => setIsVisible(false)} style={styles.styleButtonMap} textStyle={styles.styleButtonTextMap}>Confirmar Direccion</Button>
+          </View>  
+        )
+      }
+    }
+    return (
+      <Overlay
+      width="auto"
+      height="90%"
+      isVisible={isVisible}
+      onBackdropPress={() => setIsVisible(false)}
+      >        
+        <View>
+          <Title>
+          Arrastra el marcador hasta su dirección
+          </Title>
+          <GoogleMap
+            marker={{
+              title: 'Georeferencia tienda',
+              description: 'Arrastre hasta la dirección de la tienda',
+              latitude: props.values.latitude,
+              longitude: props.values.longitude,
+              onDragEnd: (coordinate) => onDragEndMarker(props, coordinate)
+            }}
+          />
+            {showAddressInfo()}
+        </View>
+      </Overlay>
+    );
+  }
+
+  const buttonGeoreference = (props) => {
+    if( props.values.name && props.values.street && props.values.numberStreet && props.values.city && props.values.town) {
+      return(
+      <Button onPress={showModal}>
+        Mostrar Mapa
+      </Button>
+      )
+    }else {
+      return(
+        <Button style={styles.styleButtonDisable} textStyle={styles.styleButtonDIsableTextMap}>
+          Mostrar Mapa
+        </Button>
+      )
+    }
+  }
   return (
     <View style={styles.container}>
       <Formik
@@ -77,8 +154,8 @@ const AddressForm = ({ address, saveAddress }) => {
               <TextInput
                 inputStyle={styles.input}
                 labelStyle={styles.label}
-                label="Nombre"
-                placeholder="Ingrese el Nombre"
+                label="Alias"
+                placeholder="Ingrese el alias ej. Hogar"
                 value={props.values.name}
                 onChangeText={props.handleChange('name')}
                 errorMessage={props.touched.name && props.errors.name}
@@ -125,7 +202,7 @@ const AddressForm = ({ address, saveAddress }) => {
               <TextInput
                 inputStyle={styles.input}
                 labelStyle={styles.label}
-                label="Numero del departamento"
+                label="Numero del departamento (Opcional)"
                 placeholder="Ingrese el numero del departamento"
                 value={props.values.departmentNumber}
                 onChangeText={props.handleChange('departmentNumber')}
@@ -149,14 +226,14 @@ const AddressForm = ({ address, saveAddress }) => {
               <TextInput
                 inputStyle={styles.input}
                 labelStyle={styles.label}
-                label="Distrito"
-                placeholder="Ingrese la distrito"
+                label="Municipio"
+                placeholder="Ingrese el municipio"
                 value={props.values.town}
                 onChangeText={props.handleChange('town')}
                 errorMessage={props.touched.town && props.errors.town}
                 onBlur={props.handleBlur('town')}
               />
-            </View>
+            </View>             
             <View style={styles.inputView} >
               <TextInput
                 inputStyle={styles.input}
@@ -168,8 +245,17 @@ const AddressForm = ({ address, saveAddress }) => {
                 errorMessage={props.touched.phone && props.errors.phone}
                 onBlur={props.handleBlur('phone')}
               />
-            </View>
-            <Button style={styles.modalButtonStyle} onPress={props.handleSubmit}>Guardar</Button>
+            </View>   
+            <CardSection style={{ flexDirection: 'column'}}>
+              <Title style={{paddingBottom: 10}}>
+                Georeferencia
+              </Title>
+              {buttonGeoreference(props)}            
+            </CardSection>
+            {renderMapModal(props)}   
+            <CardSection style={{ flexDirection: 'column'}}>             
+              <Button style={styles.modalButtonStyle} onPress={props.handleSubmit}>Guardar</Button>
+            </CardSection>
           </View>
         )}
       </Formik>
@@ -192,8 +278,27 @@ const styles = {
   label: {
 
   },
+  styleButtonMap: {
+    flex:0,
+    backgroundColor: Colors.primaryRed,
+    borderColor: Colors.primaryRed
+  },
+  styleButtonTextMap: {
+		color: Colors.primaryTextInverse
+	},
   modalButtonStyle: {
     color: '#cc0000'
+  },
+  styleButtonDisable: {
+    borderColor: Colors.disable
+  },
+  styleButtonDIsableTextMap: {
+    color: Colors.disable
+  },
+  styleTextAddressInfo: {
+    marginTop: 0,
+    marginRight: 15,
+    alignSelf: 'center'
   }
 };
 

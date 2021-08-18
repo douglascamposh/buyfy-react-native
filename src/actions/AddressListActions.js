@@ -47,13 +47,13 @@ export const addressCreate = (address) => {
   };
 };
 
-export const addressUpdate = ({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid}) => {
-  const addressUpdate = { name, street, numberStreet, departmentNumber, city, town, streetReference, phone, uid}
+export const addressUpdate = ({ name, street, numberStreet, departmentNumber, city, town, latitude, longitude, streetReference, phone, uid}) => {
+  const addressUpdate = { name, street, numberStreet, departmentNumber, city, town, latitude, longitude, streetReference, phone, uid}
   const {currentUser} = firebase.auth();
   const userId = currentUser ? currentUser.uid : '';
   return (dispatch) => {
     firebase.firestore().collection(USERS).doc(userId).collection(ADDRESSES).doc(uid)
-    .update({ name, street, numberStreet, departmentNumber, city, town, streetReference, phone, userId })
+    .update({ name, street, numberStreet, departmentNumber, city, town,latitude, longitude, streetReference, phone, userId })
     .then(() => {
       console.info(`Address updated`);
       dispatch({type: ADDRESS_UPDATE_SUCCESS, payload: addressUpdate});
