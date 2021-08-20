@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { Button } from '../common';
 import { Icon } from 'react-native-elements'
 import { Size, Colors, Padding } from '../../constants/Styles';
 import * as Google from 'expo-google-app-auth';
-import firebase from 'firebase';
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from '../../../environment.json';
 
 class LoginGoogle extends Component {
@@ -38,7 +39,7 @@ class LoginGoogle extends Component {
         .then(function(result) {
           console.log('user signed in', result);
           if(result.additionalUserInfo.isNewUser) {
-            firebase.database().ref(`/users/${result.user.uid}`)
+            firebase.firestore().collection('users').doc(result.user.uid)
             .set({
               id: result.additionalUserInfo.profile.sub,
               email: result.user.email,
@@ -48,21 +49,19 @@ class LoginGoogle extends Component {
               locale: result.additionalUserInfo.profile.locale,
               createdAt: Date.now()
             })
-            .then(function(response) {
-              console.info('User Created', response);
-            })
-            .catch(error => {
+            .then(function(response){
+              console.info('User Created');
+            }).catch(error => {
               console.warn('It was not created the User', error);
             });
           } else {
-            firebase.database().ref(`/users/${result.user.uid}`)
+            firebase.firestore().collection('users').doc(result.user.uid)
             .update({
               lastLogged: Date.now()
             })
-            .then(function(response) {
+            .then(function(response){
               console.info('User Updated', response);
-            })
-            .catch(error => {
+            }).catch(error => {
               console.warn('It was not updated the User', error);
             });
           }

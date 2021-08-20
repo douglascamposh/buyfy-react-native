@@ -1,37 +1,57 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { Input, Icon } from 'react-native-elements'
 import { Text, View } from 'react-native';
 import { Button, Spinner } from './../common';
 import { FontWeight, Size, Colors, Padding } from '../../constants/Styles';
 
 class LoginForm extends Component {
-  state = { email: '', password: '', error: '', loading: false };
+  state = {firstName: '', lastName: '', email: '', password: '', error: '', loading: false };
 
   onButtonPress() {
     const { email, password } = this.state;
     this.setState({ error: '', loading: true });
     firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(this.onLoginUserExists.bind(this))
+    .catch(() => {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(this.onLoginSucces.bind(this))
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(this.onLoginSucces.bind(this))
-          .catch(this.onLoginFail.bind(this));
-      });
+      .catch(this.onLoginFail.bind(this));
+    });
   }
 
   onLoginFail() {
     this.setState({ error: 'No se pudo Autenticar', loading: false });
   }
 
-  onLoginSucces() {
+  onLoginUserExists() {
     this.setState({
       email: '',
       password: '',
       loading: false,
       error: ''
     });
-    this.props.navigateTo(); //ToDo: check if we need to pass the route, to be more flexible
+    this.props.navigateTo(); //ToDo: check if we need to pass the route, to be more flexible  
+  }
+
+  onLoginSucces() {
+    const user = firebase.auth().currentUser;
+    firebase.firestore().collection('users').doc(user.uid)
+    .set({
+      profilePicture: '',
+      firstName:'',
+      lastName: '',
+      email: this.state.email,
+      createdAt: Date.now()
+    })
+    this.setState({
+      email: '',
+      password: '',
+      loading: false,
+      error: ''
+    });
+    this.props.navigateTo(); //ToDo: check if we need to pass the route, to be more flexible  
   }
 
   renderButton() {

@@ -1,85 +1,78 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import { connect } from 'react-redux';
-import { fetchUserData, userDataUpdate, userLogOut } from '../../actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { useToast } from 'react-native-fast-toast'
+import { Icon } from 'react-native-elements'
+import { userDataUpdate, userLogOut } from '../../actions';
 import firebase from 'firebase';
 import UserDataForm from './UserDataForm';
 import { CardSection, Button, Title } from '../common';
 import { Size, FontWeight, Colors } from '../../constants/Styles';
 
-class AccountData extends Component {
-	state = {
-		email: '',
-		isLogued: false
-	}
-
-	componentDidMount() {
-		const { navigation } = this.props;
-		this.focusListener = navigation.addListener('didFocus', () => {
-			this.props.fetchUserData();
-			this.setState({
-				email: this.verifyUser(),
-				isLogued: Boolean(firebase.auth().currentUser)
-			});
-		});
-	}
-
-	componentWillUnmount() {
-		this.focusListener.remove();
-	}
-
-	logInLogOutButton = () => {
-		const { isLogued } = this.state;
-		return isLogued ? (
+const AccountData = (props) => {
+	const toast = useToast()
+	const { firstName, lastName, email, isLoged, error} = useSelector((store) => store.user);
+	const dispatch = useDispatch();
+	const showLogInLogOutButton = () => {
+		return isLoged ? (
 			<View>
-				<UserDataForm userData={this.props.user} updateUser={this.updateUser} />
-				<Button style={styles.logOutBtn} textStyle={styles.logOutTextBtn} onPress={() => this.logOutButton()}>Cerrar sesión</Button>
+				<UserDataForm userData={{firstName, lastName}} updateUser={updateUser} />
+				<Button style={styles.logOutBtn} textStyle={styles.logOutTextBtn} onPress={() => logOutButton()}>Cerrar sesión</Button>
 			</View>
-		) : (<Button style={styles.logIntBtn} textStyle={styles.logInTextBtn} onPress={this.onButtonPress.bind(this)}>Iniciar sesión</Button>);
+		) : (<Button style={styles.logIntBtn} textStyle={styles.logInTextBtn} onPress={() => onButtonPress()}>Iniciar sesión</Button>);
 	}
 
-	logOutButton = () => {
-		this.props.userLogOut();
-		 		this.props.navigation.navigate('storeList');
+	const logOutButton = () => {
+		dispatch(userLogOut())
 	}
 
-	onButtonPress() {
-		this.setState({
-			email: '',
-			isLogued: false
-		});
-		this.props.navigation.navigate('auth');
+	const onButtonPress = () => {
+		props.navigation.navigate('auth');
 	}
 
-	verifyUser = () => {
-		const user = firebase.auth().currentUser;
-		return !firebase.auth().currentUser ? 'Debes iniciar sesion' : user.email;
+	const updateUser = ({ firstName, lastName }) => { 
+		dispatch(userDataUpdate({ firstName, lastName }));
+	}	
+
+	const showToast = () =>{
+	if(!error && error !== null){
+		toast.show("Usuario actualizado", {
+			icon: <Icon name="checkmark-sharp" type='ionicon' color='#fff'/>,
+			duration: 1500,			
+			style: { 
+				padding: 0, 
+				backgroundColor: Colors.primaryBlue
+			},
+			textStyle: { fontSize: 15 } 
+	});
+	} else if(error){
+		toast.show("Error al actualizar datos", {
+		icon: <Icon name="close-sharp" type='ionicon' color='#fff'/>,	
+		duration: 1500,
+		style: { 
+			padding: 0,
+			backgroundColor: Colors.primaryRed 
+		},
+		textStyle: { fontSize: 15 }, });
+	}
 	}
 
-	updateUser = ({ firstName, lastName }) => { 
-		this.props.userDataUpdate({ firstName, lastName }); 
-		this.props.navigation.navigate('storeList');
-	}
-
-	render() {
-		const { email } = this.state;
-		return (
-			<View>
-				<CardSection style={styles.carsSecction}>
-					<View>
-						<Title style={styles.titleStyleHeader}>Mis datos</Title>
-					</View>
-					<View>
-						<Title style={styles.emailStyle}>{email}</Title>
-					</View>
-				
-				</CardSection>
+	return (
+		<View>
+			<CardSection style={styles.carsSecction}>
 				<View>
-					{this.logInLogOutButton()}
+					<Title style={styles.titleStyleHeader}>Mis datos</Title>
 				</View>
+				<View>
+					<Title style={styles.emailStyle}>{email || 'Debes inicar sesion'} </Title>
+				</View>		
+			</CardSection>
+			<View>
+				{showLogInLogOutButton()}
+				{showToast()}
 			</View>
-		);
-	}
+		</View>
+	);
 }
 
 const styles = {
@@ -122,14 +115,4 @@ const styles = {
 	}
 };
 
-const mapStateToProps = state => {
-	let { user } = state;
-	if(!user) { 
-		user = { 
-			firstName: '', 
-			lastName:'' 
-		}
-	} 
-	return {user};
-};
-export default connect(mapStateToProps, { fetchUserData, userDataUpdate, userLogOut })(AccountData);
+export default AccountData;

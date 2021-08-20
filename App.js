@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { ToastProvider } from 'react-native-fast-toast'
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/reducers';
 import AppNavigator from './src/routes/DrawerNavigator';
@@ -34,8 +35,10 @@ class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
-        <HeaderBar />
-        <AppNavigator/>
+        <ToastProvider>
+          <HeaderBar />
+          <AppNavigator/>
+        </ToastProvider>
       </Provider>
     );
   }
