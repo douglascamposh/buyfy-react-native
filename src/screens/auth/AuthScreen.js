@@ -13,8 +13,12 @@ class AuthScreen extends Component {
     this.props.navigation.navigate('storeList');
   }
 
+  navigateToForm = () => {
+    this.props.navigation.navigate('signUp');
+  }
+
   render() {
-    return <Auth navigateTo={this.navigateTo}/>
+    return <Auth navigateTo={this.navigateTo} navigateSignUp={this.navigateToForm}/>
   }
 }
 
