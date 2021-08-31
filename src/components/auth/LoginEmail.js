@@ -23,14 +23,14 @@ const LoginEmail = (props) => {
   
   const showToast = () =>{
     if(error){
-      toast.show("Usuario no encontrado crea una cuenta", {
+      toast.show("Usuario no encontrado, por favor crea una cuenta", {
         icon: <Icon name="close-sharp" type='ionicon' color='#fff'/>,
         duration: 2500,			
         style: { 
           padding: 0, 
           backgroundColor: Colors.primaryRed 
         },
-        textStyle: { fontSize: 15 } 
+        textStyle: { fontSize: 15, textAlign: 'center', paddingRight: 35} 
       });
     }  
   }

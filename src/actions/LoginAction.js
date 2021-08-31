@@ -14,7 +14,7 @@ export const signInUser = ({email, password}) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => dispatch({ type: USER_LOGIN, payload: {error:''}}))
     .catch(error => {
-      dispatch({ type: USER_ERROR_LOGIN, payload: {email, error }})
+      dispatch({ type: USER_ERROR_LOGIN, payload: {email, error }});
     })
   }
 }
@@ -35,9 +35,9 @@ export const createUser = (user) => {
         email: email,
         createdAt: Date.now()
       })
-      dispatch({ type: USER_SIGN_UP, payload: {firstName, lastName, signUpError: ''}})
+      dispatch({ type: USER_SIGN_UP, payload: {firstName, lastName, signUpError: ''}});
     }).catch(error => {
-      dispatch({ type: USER_ERROR_SIGN_UP, payload: { error }})
+      dispatch({ type: USER_ERROR_SIGN_UP, payload: { signUpError: error }});
     })
   }
 }
