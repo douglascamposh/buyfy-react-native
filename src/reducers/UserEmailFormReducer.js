@@ -18,7 +18,8 @@ export default (state = INITIAL_STATE, action) => {
     case USER_LOGIN:
       return {
         ...state,
-        ...action.payload, 
+        email: action.payload.email,
+        error: action.payload.error, 
         pending: false
       }
     case USER_ERROR_LOGIN:
@@ -42,7 +43,9 @@ export default (state = INITIAL_STATE, action) => {
     case USER_SIGN_UP:   
       return {
       ...state,
-      ...action.payload,
+      firstName: action.payload.firstName,
+      lastName: action.payload.lastName,
+      signUpError: action.payload.signUpError,
       pending: false
     }
     case USER_LOGOUT_SUCCESS:
