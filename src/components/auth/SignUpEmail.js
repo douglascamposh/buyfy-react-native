@@ -8,7 +8,7 @@ import { createUser } from '../../actions'
 import { Colors } from '../../constants/Styles';
 import SignUpEmailForm from './SignUpEmailForm';
 
-const SignUpEmail = () => {
+const SignUpEmail = (props) => {
   const toast = useToast();
   const { firstName, lastName, email, password, confirmPassword, signUpError, pending} = useSelector((store) => store.emailForm);
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const SignUpEmail = () => {
   
   return (
     <View style={styles.container}>
-     <SignUpEmailForm user={{ firstName, lastName, email, password, confirmPassword, pending }} signUp={OnButtonPress}/>
+     <SignUpEmailForm user={{ firstName, lastName, email, password, confirmPassword, pending }} signUp={OnButtonPress} navigateTo={props.navigateTo}/>
      {showToast()}
     </View>
   );

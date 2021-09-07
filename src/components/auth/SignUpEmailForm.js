@@ -37,7 +37,8 @@ const UserSchema = yup.object({
     .oneOf([yup.ref('password')], 'El password no coincide'),
 });
 
-const SignUpEmailForm = ({user, signUp}) => {
+const SignUpEmailForm = (props) => {
+  const {user, signUp} = props;
   return (  
     <Formik
       initialValues={{ ...user }}
@@ -146,7 +147,7 @@ const SignUpEmailForm = ({user, signUp}) => {
           </View>         
           {user.pending ? <Spinner size={'small'}/> : <Button style={styles.loginBtn} textStyle={styles.loginText} onPress={props.handleSubmit}>Crear Cuenta</Button>}   
           <Title style={styles.title}>- O -</Title>
-          <LoginGoogle/>        
+          <LoginGoogle navigateTo={props.navigateTo}/>        
         </>        
       )}
     </Formik>  
