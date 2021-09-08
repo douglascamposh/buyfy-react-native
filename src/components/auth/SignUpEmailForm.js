@@ -1,9 +1,8 @@
-import React, { useState  } from 'react';
-import { TextInput, Button, GoogleMap, CardSection, Title, Content, Spinner } from '../common';
+import React from 'react';
+import { TextInput, Button, Spinner } from '../common';
 import { View } from 'react-native';
 import { FontWeight, Size, Colors, Padding } from '../../constants/Styles';
-import LoginGoogle from '../auth/LoginGoogle';
-import { Input, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
@@ -145,10 +144,8 @@ const SignUpEmailForm = (props) => {
               leftIconContainerStyle={styles.iconContainerStyle}
             />
           </View>         
-          {user.pending ? <Spinner size={'small'}/> : <Button style={styles.loginBtn} textStyle={styles.loginText} onPress={props.handleSubmit}>Crear Cuenta</Button>}   
-          <Title style={styles.title}>- O -</Title>
-          <LoginGoogle navigateTo={props.navigateTo}/>        
-        </>        
+          {user.pending ? <Spinner size={'small'}/> : <Button style={styles.loginBtn} textStyle={styles.loginText} onPress={props.handleSubmit}>Crear Cuenta</Button>}
+        </>
       )}
     </Formik>  
   );
@@ -185,9 +182,6 @@ const styles = {
   iconContainerStyle: {
     paddingRight: Padding.headerLeft
   },
-  title: {
-    textAlign: 'center'
-  }
 };
 
 export default SignUpEmailForm;

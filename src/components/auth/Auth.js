@@ -9,7 +9,7 @@ class Auth extends Component {
     return (  
       <View style={styles.container}>
         <LoginEmail navigateTo={this.props.navigateTo} navigateSignUp={this.props.navigateSignUp}/>
-        <LoginGoogle navigateTo={this.navigateTo}/>
+        <LoginGoogle navigateTo={this.props.navigateTo}/>
         <SkipLogin navigateTo={this.props.navigateTo}/>
       </View>
     );

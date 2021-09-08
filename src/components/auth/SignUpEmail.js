@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import 'firebase/firestore';
 import { Icon } from 'react-native-elements'
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +7,9 @@ import { useToast } from 'react-native-fast-toast'
 import { createUser } from '../../actions'
 import { Colors } from '../../constants/Styles';
 import SignUpEmailForm from './SignUpEmailForm';
+import LoginGoogle from '../auth/LoginGoogle';
+import { Title } from '../common';
+
 
 const SignUpEmail = (props) => {
   const toast = useToast();
@@ -34,6 +37,8 @@ const SignUpEmail = (props) => {
   return (
     <View style={styles.container}>
      <SignUpEmailForm user={{ firstName, lastName, email, password, confirmPassword, pending }} signUp={OnButtonPress} navigateTo={props.navigateTo}/>
+      <Title>- O -</Title>
+      <LoginGoogle navigateTo={props.navigateTo} />
      {showToast()}
     </View>
   );
