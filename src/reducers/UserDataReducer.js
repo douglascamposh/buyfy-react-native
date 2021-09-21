@@ -12,13 +12,26 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USER_FETCH_SUCCESS:
-      return {...state, ...action.payload};
+      return {
+        ...state, 
+        ...action.payload,
+      };
     case USER_DATA_UPDATE:
-      return {...state, ...action.payload, isLoged: true}
+      return {
+        ...state, 
+        ...action.payload, 
+        isLoged: true
+      }
       case USER_ERROR_DATA_UPDATE:
-        return {...state, ...action.payload}
+        return {
+          ...state, 
+          ...action.payload
+        }
     case USER_LOGOUT_SUCCESS:
-      return {...INITIAL_STATE, ...action.payload};
+      return {
+        ...INITIAL_STATE, 
+        ...action.payload
+      };
     default:
       return state;
   }

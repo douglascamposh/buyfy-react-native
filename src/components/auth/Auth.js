@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LoginGoogle from '../../components/auth/LoginGoogle';
-import LoginForm from '../../components/auth/LoginForm';
+import LoginEmail from '../../components/auth/LoginEmail';
 import SkipLogin from '../../components/auth/SkipLogin';
 import { View } from 'react-native';
 
@@ -8,8 +8,8 @@ class Auth extends Component {
   render() {
     return (  
       <View style={styles.container}>
-        <LoginForm navigateTo={this.navigateTo}/>
-        <LoginGoogle navigateTo={this.navigateTo}/>
+        <LoginEmail navigateTo={this.props.navigateTo} navigateSignUp={this.props.navigateSignUp}/>
+        <LoginGoogle navigateTo={this.props.navigateTo}/>
         <SkipLogin navigateTo={this.props.navigateTo}/>
       </View>
     );
@@ -19,8 +19,8 @@ class Auth extends Component {
 const styles = {
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+     alignItems: 'center',
+     justifyContent: 'center',
   }
 };
   

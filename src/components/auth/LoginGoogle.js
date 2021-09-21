@@ -91,7 +91,7 @@ class LoginGoogle extends Component {
       });
 
       if (result.type === 'success') {
-        console.log("Login.js | ", result.user.givenName);
+        console.log("LoginGoogle.js | ", result.user.givenName);
         this.onSignIn(result);
         this.props.navigateTo(); //ToDo: check if we need to pass the route, to be more flexible
         return result.accessToken;
@@ -99,7 +99,7 @@ class LoginGoogle extends Component {
         return { cancelled: true };
       }
     } catch (e) {
-      console.log('Login.js | Error with login', e);
+      console.log('LoginGoogle.js | Error with login', e);
       return { error: true };
     }
   }

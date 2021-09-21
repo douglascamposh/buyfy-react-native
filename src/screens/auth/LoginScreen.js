@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LoginForm from '../../components/auth/LoginForm';
+import LoginForm from '../../components/auth/LoginEmail';
 
 class AuthenticationScreen extends Component {
   static navigationOptions = ({ navigation }) => {

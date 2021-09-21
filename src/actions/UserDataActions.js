@@ -4,21 +4,22 @@ import { USER_FETCH_SUCCESS, USER_DATA_UPDATE, USER_LOGOUT_SUCCESS, USER_ERROR_D
 import { USERS } from './resources';
 
 export const fetchUserData = () => {
-  const { currentUser } = firebase.auth();
-  if(currentUser){
-    const userId = currentUser.uid
-    return(dispatch) => {
-      firebase.firestore().collection('users').doc(userId).get()
-      .then(doc => {
-        if (doc.exists) {
-          const userData = { ...doc.data() };
-          dispatch({type: USER_FETCH_SUCCESS, payload: {...userData, isLoged: true}})
-        } 
-      })
-    }
-  } else {
-    return (dispatch) => {dispatch({type: USER_FETCH_SUCCESS})}
-  }
+  return(dispatch => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const userId = user.uid;
+        firebase.firestore().collection('users').doc(userId).get()
+        .then(doc => {
+          if (doc.exists) {
+            const userData = { ...doc.data() };
+            dispatch({type: USER_FETCH_SUCCESS, payload: { ...userData, isLoged: true }});
+          } 
+        })
+      } else {
+        dispatch({type: USER_FETCH_SUCCESS});
+      }
+    });
+  })
 }
 
 export const userDataUpdate = ({ firstName, lastName }) => {

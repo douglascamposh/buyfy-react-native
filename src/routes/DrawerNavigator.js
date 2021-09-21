@@ -5,7 +5,7 @@ import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { Colors } from '../constants/Styles'
 import LoadingScreen from '../screens/auth/LoadingScreen';
-import AuthScreen from '../screens/auth/AuthScreen';
+import AuthStack from './AuthStack';
 import AccountDataStack from './AccountStack';
 import AddressStack from './AddressStack';
 import AdminStack from './AdminStack';
@@ -13,6 +13,7 @@ import StoreStack from './StoreStack';
 import OrderAdminStack from './OrderAdminStack';
 import OrderRiderStack from './OrderRiderStack';
 import MenuSideBar from '../components/menu/MenuSideBar'; 
+
 
 const CustomDrawerComponent = (props) => (    
   <SafeAreaView forceInset={{ vertical : 'always', horizontal: 'never' }}>
@@ -31,7 +32,7 @@ const SwitchNavigator = createSwitchNavigator({
     }
   },
   auth: {
-    screen: AuthScreen,
+    screen: AuthStack,
     navigationOptions: {
       drawerLabel: () => null
     }
