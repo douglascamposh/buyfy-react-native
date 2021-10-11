@@ -16,7 +16,6 @@ export const orderFetchByUserIdAndStoreIdAndState = (storeId, state) => {
     const userId = user ? user.uid : '';  
     firebase.firestore().collection('orders').where('userId', '==', userId).where('state', '==', state).where('storeId', '==', storeId).get()
     .then(snapshot => {
-      //Todo filter by userId and state in backend because is not possible in the client
       const docsOrders = snapshot.docs.map(doc => {
         return { ...doc.data(), uid:doc.id }
       });

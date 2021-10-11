@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { productCreate, productUpdate, productsCategoryListFetch } from '../../actions';
 import _ from 'lodash';
 import { Card, Spinner } from '../common';
+import { ScrollView, SafeAreaView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ProductForm from './ProductForm';
 
 class ProductCreate extends Component {
@@ -25,9 +27,15 @@ class ProductCreate extends Component {
     { ...this.props.product, categories: this.props.categories } :
     { ...this.props.newProduct, storeId: this.props.storeId, categories: this.props.categories };
     return (
-      <Card>
-        <ProductForm product={product} saveProduct={this.onButtonPress}/>
-      </Card>
+      <SafeAreaView>
+        <ScrollView>
+          <KeyboardAwareScrollView>
+            <Card>
+              <ProductForm product={product} saveProduct={this.onButtonPress}/>
+            </Card>
+          </KeyboardAwareScrollView>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }

@@ -7,14 +7,15 @@ export const orderStates = {
 export const invoiceStates = {
   "created": 1,
   "received": 2,
-  "processed": 3,
-  "delivered": 4,
-  "payed": 5,
-  "rejected": 6,
-  "unpayed": 7,
-  "undelivered": 8,
-  "refunded": 9,
-  "rejectedRider": 10
+  "takenByRider": 3,
+  "processed": 4,
+  "delivered": 5,
+  "payed": 6,
+  "rejected": 7,
+  "unpayed": 8,
+  "undelivered": 9,
+  "refunded": 10,
+  "rejectedRider": 11
 };
 
 export const weekDays = {
