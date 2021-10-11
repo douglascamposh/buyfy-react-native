@@ -59,8 +59,8 @@ class LoginGoogle extends Component {
             .update({
               lastLogged: Date.now()
             })
-            .then(function(response){
-              console.info('User Updated', response);
+            .then(() => {
+              console.info('User Updated', result.user.uid);
             }).catch(error => {
               console.warn('It was not updated the User', error);
             });

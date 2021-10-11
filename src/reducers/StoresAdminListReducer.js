@@ -28,14 +28,14 @@ export default (state = INITIAL_STATE, action) => {
         return store;
       });
       return { ...state, data: data };
-      case STORE_DISABLE_ENABLE_SUCCESS:
-        const dataDisableEnable = state.data.map(store => {
-          if (store.uid === action.payload.uid) {
-            return { ...store, deleted: !store.deleted };
-          }
-          return store;
-        });
-        return { ...state, data: dataDisableEnable };
+    case STORE_DISABLE_ENABLE_SUCCESS:
+      const dataDisableEnable = state.data.map(store => {
+        if (store.uid === action.payload.uid) {
+          return { ...store, deleted: !store.deleted };
+        }
+        return store;
+      });
+      return { ...state, data: dataDisableEnable };
         
     default:
       return state;

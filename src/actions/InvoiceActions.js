@@ -3,8 +3,8 @@ import 'firebase/firestore';
 import {
   INVOICE_CREATE,
   INVOICE_UPDATE_FORM,
+  INVOICES_FETCH_BY_USER_ID_PENDING,
   INVOICES_FETCH_BY_USER_ID_SUCCESS,
-  INVOICES_FETCH_SUCCESS,
   INVOICE_FETCH_SUCCESS,
   INVOICE_CREATE_SUCCESS,
   INVOICE_UPDATE_SUCCESS,
@@ -46,15 +46,16 @@ export const invoiceUpdateById = (invoice) => {
   const {uid} = invoice;
   delete invoice.uid;
   return (dispatch) => {
+    dispatch({ type: INVOICES_FETCH_BY_USER_ID_PENDING });
     firebase.firestore().collection('invoices').doc(uid)
     .update(invoice)
     .then(() => {
       console.info(`Invoice updated with id ${uid}`);
+      dispatch({ type: INVOICE_UPDATE_SUCCESS, payload: { ...invoice, uid} });
     })
     .catch(error => {
       console.warn('The invoice was not updated', error);
     });
-    dispatch({ type: INVOICE_UPDATE_SUCCESS, payload: invoice, uid });
   }
 }
 
@@ -62,6 +63,7 @@ export const invoiceUpdateRiderById = (invoice) => {
   const {uid} = invoice;
   delete invoice.uid;
   return (dispatch) => {
+    dispatch({ type: INVOICES_FETCH_BY_USER_ID_PENDING });
     firebase.firestore().collection('invoices').doc(uid)
     .update(invoice)
     .then(() => {

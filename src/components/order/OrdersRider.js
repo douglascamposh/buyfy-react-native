@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native';
-import { invoiceFetchByState, invoiceUpdateById } from '../../actions';
+import { invoiceFetchByState, invoiceUpdateRiderById } from '../../actions';
 import InvoiceListRider from './InvoiceListRider';
 import { invoiceStates } from '../../constants/Enum';
 import SegmentedControl from '@react-native-community/segmented-control';
 import CurrentInvoiceRider from './CurrentInvoiceRider';
+import {Spinner} from '../common';
 
 class OrdersRider extends Component {
 
@@ -31,7 +32,7 @@ class OrdersRider extends Component {
   invoiceButtonOnClick = (invoice) => {
     const { currentUser } = firebase.auth();
     invoice.riderId = currentUser.uid;
-    this.props.invoiceUpdateById(invoice);
+    this.props.invoiceUpdateRiderById(invoice);
     // this.props.navigation.navigate('productDetail', { order });
   }
 
@@ -53,6 +54,9 @@ class OrdersRider extends Component {
   render() {
     const currentInvoiceRider = this.getCurrentInvoiceRider(this.props.pendings);
     const pendingInvoices = this.props.pendings.filter(invoice => !invoice.riderId);
+    if(this.props.pending){
+      return <Spinner />
+    }
     return (
       <SafeAreaView style={styles.container}>
         <SegmentedControl
@@ -90,7 +94,8 @@ const mapStateToProps = state => {
     val.orders = orders;
     return { ...val};
   });
-  return { pendings };
+  const {pending} = state.invoices;
+  return { pendings, pending };
 };
 
-export default connect(mapStateToProps, { invoiceFetchByState, invoiceUpdateById })(OrdersRider);
+export default connect(mapStateToProps, { invoiceFetchByState, invoiceUpdateRiderById })(OrdersRider);

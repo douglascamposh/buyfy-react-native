@@ -6,6 +6,7 @@ import { invoiceFetchByStoreId, invoiceUpdateById } from '../../actions';
 import InvoiceListAdmin from './InvoiceListAdmin';
 import { invoiceStates } from '../../constants/Enum';
 import SegmentedControl from '@react-native-community/segmented-control';
+import {Spinner} from '../common';
 
 class OrdersReceivedStore extends Component {
 
@@ -23,9 +24,11 @@ class OrdersReceivedStore extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { navigation } = this.props;
-    const store = navigation.getParam('store', {});
-    this.props.order && prevProps.order === null ? this.props.invoiceFetchByStoreId(store.uid) : null;     
+    if(this.props.invoices.length !== prevProps.invoices.length) {
+      const { navigation } = this.props;
+      const store = navigation.getParam('store', {});
+      this.props.invoiceFetchByStoreId(store.uid);
+    }
   }
 
   invoiceButtonOnClick = (invoice) => {
@@ -34,6 +37,9 @@ class OrdersReceivedStore extends Component {
   }
 
   render() {
+    if(this.props.pending){
+      return <Spinner />
+    }
     return (
       <SafeAreaView style={styles.container}>
         <SegmentedControl
@@ -80,7 +86,8 @@ const mapStateToProps = state => {
   const pendings = invoices.filter(invoice => invoice.state === invoiceStates.created);
   const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);//Todo: we should all invoices delivered not only received
   const rejected = invoices.filter(invoice => invoice.state === invoiceStates.rejected);
-  return { pendings, accepted, rejected, invoices };
+  const { pending } = state.invoices;
+  return { pendings, accepted, rejected, invoices, pending };
 };
 
 export default connect(mapStateToProps, { invoiceFetchByStoreId, invoiceUpdateById })(OrdersReceivedStore);

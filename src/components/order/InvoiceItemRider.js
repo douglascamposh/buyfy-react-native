@@ -62,7 +62,7 @@ class InvoiceItemRider extends Component {
               </View>
             </CardSection>
             {(!!invoiceOnClick) && <CardSection>
-              <Button onPress={() => invoiceOnClick({ uid })}>Tomar pedido</Button>
+              <Button onPress={() => invoiceOnClick({ uid, state: invoiceStates.takenByRider })}>Aceptar pedido</Button>
             </CardSection>
             }
           </Card>

@@ -9,6 +9,8 @@ import { Colors } from '../../constants/Styles';
 import SignUpEmailForm from './SignUpEmailForm';
 import LoginGoogle from '../auth/LoginGoogle';
 import { Title } from '../common';
+import { ScrollView, SafeAreaView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 const SignUpEmail = (props) => {
@@ -35,12 +37,14 @@ const SignUpEmail = (props) => {
   }
   
   return (
-    <View style={styles.container}>
-     <SignUpEmailForm user={{ firstName, lastName, email, password, confirmPassword, pending }} signUp={OnButtonPress} navigateTo={props.navigateTo}/>
-      <Title>- O -</Title>
-      <LoginGoogle navigateTo={props.navigateTo} />
-     {showToast()}
-    </View>
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
+      <SignUpEmailForm user={{ firstName, lastName, email, password, confirmPassword, pending }} signUp={OnButtonPress} navigateTo={props.navigateTo}/>
+        <Title>- O -</Title>
+        <LoginGoogle navigateTo={props.navigateTo} />
+      {showToast()}
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 
