@@ -84,7 +84,7 @@ const mapStateToProps = state => {
     return { ...val };
   });
   const pendings = invoices.filter(invoice => invoice.state === invoiceStates.created);
-  const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);//Todo: we should all invoices delivered not only received
+  const accepted = invoices.filter(invoice => invoice.state === invoiceStates.received);//Todo: we should get all invoices delivered not only received
   const rejected = invoices.filter(invoice => invoice.state === invoiceStates.rejected);
   const { pending } = state.invoices;
   return { pendings, accepted, rejected, invoices, pending };

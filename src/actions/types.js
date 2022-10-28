@@ -34,6 +34,9 @@ export const INVOICES_FETCH_BY_USER_ID_PENDING = 'invoice_fetch_by_user_id_pendi
 export const INVOICES_FETCH_BY_USER_ID_SUCCESS = 'invoice_fetch_by_user_id_success';
 export const INVOICES_FETCH_BY_STORE_ID_SUCCESS = 'invoice_fetch_by_store_id_success';
 export const INVOICES_FETCH_BY_STATE_SUCCESS = 'invoices_fetch_by_state_success';
+export const INVOICE_FETCH_RIDER_LOADING = 'invoice_fetch_rider_loading';
+export const INVOICE_FETCH_BY_STATE_RIDER_SUCCESS = 'invoice_fetch_by_state_rider_success';
+export const INVOICE_FETCH_BY_STATE_RIDER_ERROR = 'invoice_fetch_by_state_rider_error';
 
 export const CATEGORIES_STORE_FETCH_SUCCESS = 'categories_store_fetch_success';
 export const CATEGORIES_PRODUCTS_FETCH_SUCCESS = 'categories_products_fetch_success';
@@ -55,3 +58,8 @@ export const USER_ERROR_LOGIN = 'user_error_login';
 export const USER_ERROR_SIGN_UP = 'user_error_sign_up';
 export const USER_SIGN_UP = 'user_sign_up';
 export const USER_PENDING = 'user_pending';
+
+export const DELIVERY_STATUS_FETCH_SUCCESS = 'delivery_status_fetch_success';
+export const DELIVERY_STATUS_FETCH_PENDING = 'delivery_status_fetch_pending';
+export const DELIVERY_STATUS_FETCH_ERROR = 'delivery_status_fetch_error';
+export const DELIVERY_STATUS_CREATE_SUCCESS = 'delivery_status_create_success';

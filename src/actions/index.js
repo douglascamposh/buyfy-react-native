@@ -5,4 +5,5 @@ export * from './InvoiceActions';
 export * from './AddressListActions';
 export * from './UserDataActions';
 export * from './CategoriesListAction';
-export * from './LoginAction'
+export * from './LoginAction';
+export * from './DeliveryStatusActions';

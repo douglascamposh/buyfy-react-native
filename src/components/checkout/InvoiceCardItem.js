@@ -46,7 +46,7 @@ class InvoiceCardItem extends Component {
       return <Spinner size="small"/>;
     }
     const { invoice, onPress } = this.props;
-    const date = new Date(invoice.created_at);
+    const date = new Date(invoice.createdAt);
     const h = this.addZero(date.getHours());
     const m = this.addZero(date.getMinutes());
     const date2 = this.addMinutes(date, Number(store.deliveryTime));

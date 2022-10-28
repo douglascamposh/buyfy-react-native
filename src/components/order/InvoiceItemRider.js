@@ -29,10 +29,10 @@ class InvoiceItemRider extends Component {
   }
 
   render() {
-    const { uid, subTotal, shippingCost, orders, created_at, state, riderId } = this.props.invoice;
+    const { uid, subTotal, shippingCost, orders, createdAt, state, riderId } = this.props.invoice;
     const { invoiceOnClick } = this.props;
-    const orderDate = new Date(created_at).toLocaleDateString();
-    const orderTime = new Date(created_at).toLocaleTimeString();
+    const orderDate = new Date(createdAt).toLocaleDateString();
+    const orderTime = new Date(createdAt).toLocaleTimeString();
     return (
       <FlatList
         ListHeaderComponent={
@@ -62,7 +62,7 @@ class InvoiceItemRider extends Component {
               </View>
             </CardSection>
             {(!!invoiceOnClick) && <CardSection>
-              <Button onPress={() => invoiceOnClick({ uid, state: invoiceStates.takenByRider })}>Aceptar pedido</Button>
+              <Button onPress={() => invoiceOnClick({ uid, state: invoiceStates.processed })}>Aceptar pedido</Button>
             </CardSection>
             }
           </Card>

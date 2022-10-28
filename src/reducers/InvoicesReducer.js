@@ -59,13 +59,13 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ordersReceived: data, pending: false,}
     
     case INVOICE_RIDER_UPDATE_SUCCESS: 
-    const dataRider = state.ordersRider.map(invoice => {
-      if (invoice.uid === action.payload.uid) {
-        return { ...invoice, ...action.payload };
-      }
-      return invoice;
-    });
-    return { ...state,  ordersRider: [...dataRider], pending: false,}
+      const dataRider = state.ordersRider.map(invoice => {
+        if (invoice.uid === action.payload.uid) {
+          return { ...invoice, ...action.payload };
+        }
+        return invoice;
+      });
+      return { ...state,  ordersRider: [...dataRider], pending: false,}
     default:
       return state;
   }

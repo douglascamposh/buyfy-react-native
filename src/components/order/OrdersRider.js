@@ -1,78 +1,69 @@
 import _ from 'lodash';
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import firebase from 'firebase';
-import { connect } from 'react-redux';
 import { SafeAreaView } from 'react-native';
-import { invoiceFetchByState, invoiceUpdateRiderById } from '../../actions';
+import { invoiceFetchByState, invoiceUpdateRiderById, deliveryStatusCreate } from '../../actions';
 import InvoiceListRider from './InvoiceListRider';
-import { invoiceStates } from '../../constants/Enum';
+import { invoiceStates, deliveryStates } from '../../constants/Enum';
 import SegmentedControl from '@react-native-community/segmented-control';
 import CurrentInvoiceRider from './CurrentInvoiceRider';
 import {Spinner} from '../common';
 
-class OrdersRider extends Component {
+const OrdersRider = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedIndex: 0
-    }
-  }
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const dispatch = useDispatch();
+  const {ordersRider: pendings, pending} = useSelector(state => state.invoices);
 
-  componentDidMount() {
-    this.props.invoiceFetchByState(invoiceStates.received); //pending orders
-  }
+  useEffect(() => {
+    dispatch(invoiceFetchByState(invoiceStates.received));
+  },[pendings.length]);
 
-  componentDidUpdate(prevProps){
-    if(this.props.pendings.length !== prevProps.pendings.length){
-      this.props.invoiceFetchByState(invoiceStates.received);
-    }
-  }
-
-  invoiceButtonOnClick = (invoice) => {
+  const invoiceButtonOnClick = (invoice) => {
     const { currentUser } = firebase.auth();
     invoice.riderId = currentUser.uid;
-    this.props.invoiceUpdateRiderById(invoice);
-    // this.props.navigation.navigate('productDetail', { order });
+    const {uid: invoiceId} = invoice;
+    dispatch(invoiceUpdateRiderById(invoice));
+    dispatch(deliveryStatusCreate({invoiceId, state: deliveryStates.taken}));
   }
 
-  getCurrentInvoiceRider = (invoices) => {
+  const getCurrentInvoiceRider = (invoices) => {
     const { currentUser } = firebase.auth();
     const riderId = currentUser.uid;
     return _.last(invoices.filter(invoice => invoice.riderId === riderId));
   }
 
-  renderCurrentInvoice = (currentInvoiceRider) => {
-    return Boolean(currentInvoiceRider) ? (
-      <CurrentInvoiceRider
-        invoice={currentInvoiceRider}
-        invoiceButtonOnClick={this.invoiceButtonOnClick}
-      />
-    ) : null;
+  const renderCurrentInvoice = (currentInvoiceRider) => {
+    //deberia agregar verificacion de si el estado es en camino
+    //revisara deliveryStatus ya no validar currentInvoice?
+    return (
+      <CurrentInvoiceRider/>
+    );
   }
 
-  render() {
-    const currentInvoiceRider = this.getCurrentInvoiceRider(this.props.pendings);
-    const pendingInvoices = this.props.pendings.filter(invoice => !invoice.riderId);
-    if(this.props.pending){
-      return <Spinner />
-    }
+  const currentInvoiceRider = getCurrentInvoiceRider(pendings);
+  const pendingInvoices = pendings.filter(invoice => !invoice.riderId);
+  
+  if(pending){
+    return <Spinner />
+  } else {
     return (
       <SafeAreaView style={styles.container}>
         <SegmentedControl
           values={['Pendientes', 'Pedido en curso']}
-          selectedIndex={this.state.selectedIndex}
+          selectedIndex={selectedIndex}
           onChange={(event) => {
             const { selectedSegmentIndex } = event.nativeEvent;
-            this.setState({ selectedIndex: selectedSegmentIndex });
+            setSelectedIndex(selectedSegmentIndex);
           }}
         >
         </SegmentedControl>
-        {this.state.selectedIndex === 0 && <InvoiceListRider
+        {selectedIndex === 0 && <InvoiceListRider
           invoices={pendingInvoices}
-          invoiceButtonOnClick={!currentInvoiceRider ? this.invoiceButtonOnClick : null}
+          invoiceButtonOnClick={!currentInvoiceRider ? invoiceButtonOnClick : null}
         />}
-        {this.state.selectedIndex === 1 && this.renderCurrentInvoice(currentInvoiceRider)}
+        {selectedIndex === 1 && renderCurrentInvoice(currentInvoiceRider)}
       </SafeAreaView>
     );
   }
@@ -88,14 +79,4 @@ const styles = {
   }
 }
 
-const mapStateToProps = state => {
-  const pendings = _.map(state.invoices.ordersRider, (val) => {
-    const orders = _.map(val.orders, (order) => { return { ...order }; });
-    val.orders = orders;
-    return { ...val};
-  });
-  const {pending} = state.invoices;
-  return { pendings, pending };
-};
-
-export default connect(mapStateToProps, { invoiceFetchByState, invoiceUpdateRiderById })(OrdersRider);
+export default OrdersRider;

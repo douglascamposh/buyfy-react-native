@@ -63,8 +63,8 @@ export const storeCreate = (store) => {
   delete store.categories;
   const user = firebase.auth().currentUser;
   store.userId = user ? user.uid : '';
-  store.created_at = Date.now();
-  store.updated_at = Date.now();
+  store.createdAt = Date.now();
+  store.updatedAt = Date.now();
   return (dispatch) => {
     const images = [];
     image ? images.push({ name: uuid(), image: image}) : null;
@@ -111,7 +111,7 @@ export const storeUpdate = (store) => {
   
   const user = firebase.auth().currentUser;
   store.userId = user ? user.uid : '';
-  store.updated_at = Date.now();
+  store.updatedAt = Date.now();
   return (dispatch) => {
     uploadImages(images)
     .then(imagesResponse => {
@@ -145,10 +145,10 @@ export const storeUpdate = (store) => {
 export const storeUpdateFields = (store) => {
   const {uid} = store;
   delete store.uid;
-  const updated_at = Date.now();
+  const updatedAt = Date.now();
   return (dispatch) => {
     firebase.firestore().collection('stores').doc(uid)
-    .update({ ...store, updated_at })
+    .update({ ...store, updatedAt })
     .then(() => {
       console.info(`Updated field Store, storeId: ${uid}`);
       dispatch({ type: STORE_UPDATE_SUCCESS, payload: {...store, uid} });
@@ -161,10 +161,10 @@ export const storeUpdateFields = (store) => {
 
 export const disableEnableStore = (store) => {
   const { uid, deleted } = store;
-  const updated_at = Date.now();
+  const updatedAt = Date.now();
   return (dispatch) => {
     firebase.firestore().collection('stores').doc(uid)
-    .update({updated_at, deleted })
+    .update({updatedAt, deleted })
     .then(() => {
       deleted? console.info(`disabled field Store, storeId: ${uid}`): console.info(`enabled field Store, storeId: ${uid}`);    
       dispatch({type: STORE_DISABLE_ENABLE_SUCCESS, payload: {uid, deleted}});

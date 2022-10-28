@@ -10,7 +10,10 @@ import {
   INVOICE_UPDATE_SUCCESS,
   INVOICES_FETCH_BY_STORE_ID_SUCCESS,
   INVOICES_FETCH_BY_STATE_SUCCESS,
-  INVOICE_RIDER_UPDATE_SUCCESS
+  INVOICE_RIDER_UPDATE_SUCCESS,
+  INVOICE_FETCH_RIDER_LOADING,
+  INVOICE_FETCH_BY_STATE_RIDER_SUCCESS,
+  INVOICE_FETCH_BY_STATE_RIDER_ERROR
 } from './types';
 import _ from 'lodash';
 import { orderStates, invoiceStates } from '../constants/Enum';
@@ -19,7 +22,7 @@ export const invoiceCreate = (invoice) => {
   return (dispatch) => {
     const user = firebase.auth().currentUser;
     invoice.userId = user ? user.uid : '';
-    invoice.created_at = Date.now();
+    invoice.createdAt = Date.now();
     invoice.state = invoiceStates.created;
     firebase.firestore().collection('invoices')
     .add(invoice)
@@ -55,23 +58,6 @@ export const invoiceUpdateById = (invoice) => {
     })
     .catch(error => {
       console.warn('The invoice was not updated', error);
-    });
-  }
-}
-
-export const invoiceUpdateRiderById = (invoice) => {
-  const {uid} = invoice;
-  delete invoice.uid;
-  return (dispatch) => {
-    dispatch({ type: INVOICES_FETCH_BY_USER_ID_PENDING });
-    firebase.firestore().collection('invoices').doc(uid)
-    .update(invoice)
-    .then(() => {
-      console.info(`Invoice Rider updated with id ${uid}`);
-      dispatch({ type: INVOICE_RIDER_UPDATE_SUCCESS, payload: { ...invoice, uid } });
-    })
-    .catch(error => {
-      console.warn('The invoice rider was not updated', error);
     });
   }
 }
@@ -134,4 +120,45 @@ export const invoiceUpdateForm = ({ prop, value }) => {
     type: INVOICE_UPDATE_FORM,
     payload: { prop, value }
   }
+};
+
+//Invoice Rider Actions
+
+export const invoiceUpdateRiderById = (invoice) => {
+  const {uid} = invoice;
+  delete invoice.uid;
+  return (dispatch) => {
+    dispatch({ type: INVOICES_FETCH_BY_USER_ID_PENDING });
+    firebase.firestore().collection('invoices').doc(uid)
+    .update(invoice)
+    .then(() => {
+      console.info(`Invoice Rider updated with id ${uid}`);
+      dispatch({ type: INVOICE_RIDER_UPDATE_SUCCESS, payload: { ...invoice, uid } });
+    })
+    .catch(error => {
+      console.warn('The invoice rider was not updated', error);
+    });
+  }
+}
+
+export const invoiceFetchByStateAndRiderId = (state) => {
+  const user = firebase.auth().currentUser;
+  const riderId = user ? user.uid : '';
+  return (dispatch) => {
+    dispatch({ type: INVOICE_FETCH_RIDER_LOADING });
+    firebase.firestore().collection('invoices')
+    .where('state', '==', state)
+    .where('riderId', '==', riderId)
+    // .where('createdAt', '==', riderId) deberia traer el mas reciente
+    .get()
+    .then(snapshot => {
+      const [currentInvoiceRider] = snapshot.docs.map(doc => {
+        return { ...doc.data(), uid:doc.id }
+      });
+      dispatch({ type: INVOICE_FETCH_BY_STATE_RIDER_SUCCESS, payload: currentInvoiceRider });
+    }).catch(error => {
+      console.warn('The invoice rider was not updated', error);
+      dispatch({ type: INVOICE_FETCH_BY_STATE_RIDER_ERROR, payload: error });
+    });
+  };
 };
