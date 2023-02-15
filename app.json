@@ -3,7 +3,6 @@
     "name": "La Cancha",
     "slug": "buyfy",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android",
@@ -24,7 +23,22 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.buyfy.all",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.347797334825-nj4fi4us4n547n36apv91f189b4ka44q"
+        },
+        "googleMapsApiKey": "AIzaSyAbJRzffbfOPbdqmlCm1I221TXhUPlLeHs"
+      }
+    },
+    "android": {
+      "package": "com.buyfy.all",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAbJRzffbfOPbdqmlCm1I221TXhUPlLeHs"
+        }
+      }
     }
   }
 }

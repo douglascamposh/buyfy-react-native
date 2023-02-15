@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
-import ProductDetail from '../components/ProductDetail';
+import ProductDetail from '../components/product/ProductDetail';
 
 class ProductDetailScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'Details',
+      headerTitle: 'Detalles',
       title: 'Product Detail'
     }
   }
 
+  navigateTo = (route) => {
+    this.props.navigation.navigate(route);
+  }
+
   render() {
     const product = this.props.navigation.getParam('product', {});
-    return <ProductDetail product={product}/>;
+    const order = this.props.navigation.getParam('order', {});
+    return <ProductDetail navigateTo={this.navigateTo} product={product} order={order} navigation={this.props.navigation}/>;
   }
 }
 

@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import ProductCreate from '../components/ProductCreate';
+import ProductCreate from '../components/product/ProductCreate';
 
 class ProductCreateScreen extends Component {
   static navigationOptions = ({ navigation }) => {
+    
     return {
       headerTitle: 'Crear Producto',
       title: 'Nuevo Producto'
     }
   }
 
-  onButtonPress = () => {
-    this.props.navigation.navigate('productList');
+  navigateTo = () => {
+    this.props.navigation.goBack();
   }
 
   render() {
     const storeId = this.props.navigation.getParam('storeId', {});
-    return <ProductCreate onButtonPress={this.onButtonPress} storeId={storeId}/>;
+    const categoryId = this.props.navigation.getParam('categoryId',{})
+    return <ProductCreate navigateTo={this.navigateTo} storeId={storeId} categoryId={categoryId}/>;
   }
 }
 

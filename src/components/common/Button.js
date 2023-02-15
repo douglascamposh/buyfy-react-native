@@ -1,32 +1,43 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import { Title } from './Title';
+import { Colors, Padding } from '../../constants/Styles';
 
 const Button = (props) => {
     const styles = {
         textStyle: {
-            alignSelf: 'center',
-            color: '#007aff',
-            fontSize: 16,
-            fontWeight: '600',
-            paddingTop: 10,
-            paddingBottom: 10
+          alignSelf: 'center',
+          color: Colors.primaryBlue,
+          paddingTop: Padding.buttonTop,
+          paddingBottom: Padding.buttonBottom,
+          paddingLeft: 0,
+          marginTop: 0
         },
         buttonStyle: {
-            flex: 1,
-            alignSelf: 'stretch',
-            backgroundColor: '#fff',
-            borderRadius: 5,
-            borderWidth: 1,
-            borderColor: '#007aff',
-            marginLeft: 5,
-            marginRight: 5
+          flex: 1, // flex ocupa toda la pantalla, y hay algunos problemas con otros componentes q no usan card y card section
+          // alignSelf: 'stretch',
+          backgroundColor: '#fff',
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: Colors.primaryBlue,
+          marginLeft: 5,
+          marginRight: 5
+        },
+        containerStyle: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          
         }
     };
     
     const {buttonStyle, textStyle} = styles;
     return (
-        <TouchableOpacity onPress={props.onPress} style={buttonStyle}>
-            <Text style={textStyle}>{props.children}</Text>
+        <TouchableOpacity onPress={props.onPress} style={[buttonStyle, props.style]}>
+          <View style={styles.containerStyle}>
+            {props.icon}
+            <Title style={[textStyle, props.textStyle]}>{props.children}</Title>
+          </View>
         </TouchableOpacity>
     );
 };

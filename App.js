@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { ToastProvider } from 'react-native-fast-toast'
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/reducers';
-import AppNavigator from './src/navigation/DrawerNavigator';
+import AppNavigator from './src/routes/DrawerNavigator';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
+import * as Permissions from 'expo-permissions';
+import { FIREBASE_CONFIG } from './environment.json';
+import { HeaderBar } from './src/components/common';
+LogBox.ignoreLogs(['expo-constants']);
+
+//temp fix, know issue only for android
+import { LogBox } from 'react-native';
+import _ from 'lodash';
+
+LogBox.ignoreLogs(['Setting a timer']);
+// const _console = _.clone(console);
+// console.warn = message => {
+//   if (message.indexOf('Setting a timer') <= -1) {
+//     _console.warn(message);
+//   }
+// };
 
 class App extends Component {
-  
-  componentWillMount(){
-    const firebaseConfig = {
-      apiKey: "AIzaSyCF_B7_evu1i8GNqYLaoN2W3VdJkjR-n1I",
-      authDomain: "buyfy-4c6ff.firebaseapp.com",
-      databaseURL: "https://buyfy-4c6ff.firebaseio.com",
-      projectId: "buyfy-4c6ff",
-      storageBucket: "buyfy-4c6ff.appspot.com",
-      messagingSenderId: "490218052808",
-      appId: "1:490218052808:web:a8d021f6c084695de819fd",
-      measurementId: "G-7BSLRN0X6M"
-    };
+
+  async componentDidMount() {
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    await Permissions.askAsync(Permissions.LOCATION);
   }
 
   render() {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
-        <AppNavigator/>
+        <ToastProvider>
+          <HeaderBar />
+          <AppNavigator/>
+        </ToastProvider>
       </Provider>
     );
   }

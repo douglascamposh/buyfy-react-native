@@ -1,28 +1,25 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
+import { Colors, Padding } from '../../constants/Styles';
 
 const Card = (props) => {
-    return (
-        <View style={styles.containerStyle}>
-            {props.children}
-        </View>
-    );
+  return (
+    <View style={[styles.containerStyle, props.style]}>
+      {props.children}
+    </View>
+  );
 };
 
 const styles = {
-    containerStyle: {
-        borderWidth: 1,
-        borderRadius: 2,
-        borderColor: '#ddd',
-        borderBottomWidth: 0,
-        shadowColor: '#000',
-        shadowOffset: {width:0, height: 2},
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-        elevation: 1,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 10
-    }
+  containerStyle: {
+    borderBottomWidth: 10,
+    borderColor: Colors.borderPrimary,
+    elevation: 1,
+    paddingTop: Padding.card,
+    paddingBotom: Padding.card,
+    flex: 1,
+    backgroundColor: Colors.backgroundPrimary
+  }
 };
-export {Card};
+
+export { Card };

@@ -10,11 +10,11 @@ class StoreCreateScreen extends Component {
   }
 
   navigateTo = () => {
-    this.props.navigation.navigate('storeList');
+    this.props.navigation.goBack();
   }
 
   render() {
-    return <StoreCreate onButtonPress={this.navigateTo} />;
+    return <StoreCreate navigateTo={this.navigateTo} />;
   }
 }
 

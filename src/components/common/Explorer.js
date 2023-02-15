@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { Title } from './Title';
+import { View, ScrollView } from 'react-native';
 import { ExplorerItem } from './ExplorerItem';
+import imgBackground from '../../../assets/imgBackground.jpg'
 
 const Explorer = (props) => {
 
@@ -10,9 +12,9 @@ const Explorer = (props) => {
       scrollEventThrottle={16}
     >
       <View>
-        <Text style={titleStyle}>
+        <Title style={titleStyle}>
           Productos Recomendados
-        </Text>
+        </Title>
         <View style={containerStyle}>
           <ScrollView
             horizontal={true}
@@ -27,13 +29,22 @@ const Explorer = (props) => {
 };
 
 const renderItems = (items) => {
-  
   return (
     <ScrollView
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     >
-      {items.map(item => <ExplorerItem key={item.uid} label={item.name} image={item.imageName}/>)}
+      {items.map( item => <ExplorerItem
+        key={item.uid}
+        title={item.name}
+        description={item.description}
+        footer={`Bs. ${item.price}`}
+        image={imgBackground}
+        uri={item.imageUri}
+        containerImage={styles.containerImage}
+        containerLabel={styles.containerLabel}
+        />)
+      }
     </ScrollView>
   )
 }
@@ -41,13 +52,20 @@ const renderItems = (items) => {
 const styles = {
   titleStyle: {
     fontSize: 24,
-    fontWeight: '700',
-    paddingHorizontal: 20
+    fontFamily: 'SanFrancisco-Bold',
+    paddingLeft: 10
   },
   containerStyle: {
-    height:130,
-    marginTop: 20
-  }
+    height:220,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  containerImage: {
+    height: '60%'
+  },
+  containerLabel: {
+    height: '40%'
+  },
 };
 
 export {Explorer};

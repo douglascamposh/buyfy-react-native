@@ -1,43 +1,54 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { AsyncImage } from './AsyncImage';
+import { Title } from './Title';
+import { Content } from './Content';
 
 const ExplorerItem = (props) => {
-  const { boxStyle, imageStyle, labelStyle } = styles;
-  const imageRoute = props.image ? `images/${props.image}` : 'regalo.jpg';
+  const { containerStyle, containerImage, imageStyle, containerLabel, titleStyle, descriptionStyle } = styles;
+  const image = props.uri ? {uri: props.uri} : {image: props.image};
   return (
-    <View style={ boxStyle }>
-      <View style={{ flex: 2 }}>
+    <View style={ containerStyle }>
+      <View style={[containerImage, props.containerImage]}>
         <AsyncImage
-          image={imageRoute}
+          {...image}
           style={ imageStyle }
         />
       </View>
-      <View style={ labelStyle }>
-        <Text>{props.label}</Text>
+      <View style={[containerLabel, props.containerLabel]}>
+        <Title style={titleStyle}>{props.title}</Title>
+        <Content numberOfLines={2} style={descriptionStyle}>{props.description}</Content>
+        <Title style={titleStyle}>{props.footer}</Title>
       </View>
     </View>
   );
 };
 
 const styles = {
-  boxStyle: {
-    height: 130,
-    width: 130,
+  containerStyle: {
+    width: 220,
     marginLeft: 20,
-    borderWidth: 0.5,
-    borderColor: '#dddddd'
+    overflow: 'hidden'
+  },
+  containerImage: {
+    height: '75%'
   },
   imageStyle: {
     flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
+    borderRadius: 5,
+    overflow: 'hidden'
   },
-  labelStyle: {
-    flex: 1,
+  containerLabel: {
+    height: '25%',
     paddingLeft: 10,
-    paddingTop: 10
+    marginTop: 10
+  },
+  titleStyle: {
+    marginTop: 0,
+  },
+  descriptionStyle: {
+    marginTop: 0
   }
 };
 

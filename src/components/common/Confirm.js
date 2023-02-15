@@ -3,6 +3,7 @@ import { Text, View, Modal } from 'react-native';
 import { CardSection } from './CardSection';
 import { Button } from './Button'
 
+//TODO we need support backdrop click also custome styles text 
 const Confirm = ({children, visible, onAccept, onDecline}) => {
   const {containerStyle, textStyle, cardSectionStyle} = styles;
   return (

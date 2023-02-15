@@ -1,0 +1,15 @@
+{
+  "FIREBASE_CONFIG": {
+    "apiKey": "AIzaSyALhzKI92XH0vVJHoqo5k74GCh3DOZKgsc",
+    "authDomain": "tienda-reactnative.firebaseapp.com",
+    "databaseURL": "https://tienda-reactnative.firebaseio.com",
+    "projectId": "tienda-reactnative",
+    "storageBucket": "tienda-reactnative.appspot.com",
+    "messagingSenderId": "24123836113",
+    "appId": "1:24123836113:web:e25357f6c7d820294be7f0",
+    "measurementId": "G-R121M4RY9D"
+
+  },
+  "ANDROID_CLIENT_ID": "24123836113-jh5thnt5haoq3ug2dqddfbmb6jb56idp.apps.googleusercontent.com",
+  "IOS_CLIENT_ID": "24123836113-0119p5q3c92kkq88g7on10e91vgvrgh8.apps.googleusercontent.com"
+}

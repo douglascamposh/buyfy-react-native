@@ -10,7 +10,7 @@ const ImagePicker = (props) => {
       <Button onPress={props.onPress}>
         {props.children}
       </Button>
-      {image && <Image source={{uri: image}} style={{width: 50, height: 50}}/>}
+      {Boolean(image) && <Image source={{uri: image}} style={{width: 50, height: 50}}/>}
     </View>
   );
 }
