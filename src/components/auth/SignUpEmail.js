@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import 'firebase/firestore';
 import { Icon } from 'react-native-elements'
 import { useSelector, useDispatch } from 'react-redux';
-import { useToast } from 'react-native-fast-toast'
+import { useToast } from 'react-native-toast-notifications'
 import { createUser } from '../../actions'
 import { Colors } from '../../constants/Styles';
 import SignUpEmailForm from './SignUpEmailForm';

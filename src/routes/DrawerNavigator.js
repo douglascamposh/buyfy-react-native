@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements'
-import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+// import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { Colors } from '../constants/Styles'
 import LoadingScreen from '../screens/auth/LoadingScreen';
@@ -19,7 +19,7 @@ const CustomDrawerComponent = (props) => (
   <SafeAreaView forceInset={{ vertical : 'always', horizontal: 'never' }}>
     <MenuSideBar/>
     <ScrollView>
-      <DrawerItems { ...props } />
+      {/* <DrawerItems { ...props } /> */}
     </ScrollView>
   </SafeAreaView>  
 );

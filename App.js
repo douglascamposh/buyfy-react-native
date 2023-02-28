@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { ToastProvider } from 'react-native-fast-toast'
+import { ToastProvider } from 'react-native-toast-notifications'
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './src/reducers';
 import AppNavigator from './src/routes/DrawerNavigator';
