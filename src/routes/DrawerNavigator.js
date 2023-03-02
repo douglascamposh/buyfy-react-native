@@ -19,7 +19,7 @@ const CustomDrawerComponent = (props) => (
   <SafeAreaView forceInset={{ vertical : 'always', horizontal: 'never' }}>
     <MenuSideBar/>
     <ScrollView>
-      {/* <DrawerItems { ...props } /> */}
+      <DrawerItems { ...props } />
     </ScrollView>
   </SafeAreaView>  
 );

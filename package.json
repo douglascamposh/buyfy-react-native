@@ -7,7 +7,8 @@
     "web:dev": "node scripts/set-environment.js development && expo start --web",
     "eject": "expo eject",
     "local": "node scripts/set-environment.js local && expo start",
-    "dev": "node scripts/set-environment.js development && expo start"
+    "dev": "node scripts/set-environment.js development && expo start",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "6.2.0",
@@ -20,7 +21,6 @@
     "expo-google-app-auth": "~8.3.0",
     "expo-image-manipulator": "~10.4.0",
     "expo-image-picker": "~13.3.1",
-    "expo-permissions": "~13.2.0",
     "firebase": "7.9.0",
     "formik": "^2.1.4",
     "fs-promise": "^2.0.3",
@@ -49,7 +49,9 @@
     "redux-thunk": "^2.3.0",
     "utf-8-validate": "^5.0.2",
     "uuid": "^3.3.3",
-    "yup": "^0.28.3"
+    "yup": "^0.28.3",
+    "expo-location": "~14.3.0",
+    "expo-camera": "~12.5.0"
   },
   "devDependencies": {
     "babel-preset-expo": "~9.2.0"

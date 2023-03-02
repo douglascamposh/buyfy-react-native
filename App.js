@@ -6,7 +6,8 @@ import reducers from './src/reducers';
 import AppNavigator from './src/routes/DrawerNavigator';
 import ReduxThunk from 'redux-thunk';
 import firebase from 'firebase';
-import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+import { Camera } from 'expo-camera';
 import { FIREBASE_CONFIG } from './environment.json';
 import { HeaderBar } from './src/components/common';
 LogBox.ignoreLogs(['expo-constants']);
@@ -16,12 +17,6 @@ import { LogBox } from 'react-native';
 import _ from 'lodash';
 
 LogBox.ignoreLogs(['Setting a timer']);
-// const _console = _.clone(console);
-// console.warn = message => {
-//   if (message.indexOf('Setting a timer') <= -1) {
-//     _console.warn(message);
-//   }
-// };
 
 class App extends Component {
 
@@ -29,7 +24,12 @@ class App extends Component {
     // Initialize Firebase
     firebase.initializeApp(FIREBASE_CONFIG);
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    await Permissions.askAsync(Permissions.LOCATION);
+    await Camera.requestCameraPermissionsAsync();
+    await Location.requestForegroundPermissionsAsync();
+    // if (status !== 'granted') { TODO: create a view or message "location is required to display the map"
+    //   setErrorMsg('Permission to access location was denied');
+    //   return;
+    // }
   }
 
   render() {

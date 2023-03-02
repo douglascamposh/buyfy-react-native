@@ -16,7 +16,7 @@ class GoogleMap extends Component {
   }
 
   verifyPermission = async() => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    const { status } = await Location.requestForegroundPermissionsAsync();
     return status;
   }
 

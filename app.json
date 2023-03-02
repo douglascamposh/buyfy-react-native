@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "La Cancha",
+    "name": "BuyFy",
     "slug": "buyfy",
     "privacy": "public",
     "platforms": [
@@ -39,6 +39,20 @@
           "apiKey": "AIzaSyAbJRzffbfOPbdqmlCm1I221TXhUPlLeHs"
         }
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ]
+    ]
   }
 }
