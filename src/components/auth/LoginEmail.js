@@ -1,7 +1,7 @@
 import React from 'react';
 import 'firebase/firestore';
 import { useSelector, useDispatch } from 'react-redux';
-import { useToast } from 'react-native-fast-toast'
+import { useToast } from 'react-native-toast-notifications'
 import { signInUser } from '../../actions'
 import { Icon } from 'react-native-elements'
 import { Text, View } from 'react-native';

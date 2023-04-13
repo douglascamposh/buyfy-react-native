@@ -110,8 +110,8 @@ const AddressForm = ({ address, saveAddress }) => {
           </Title>
           <GoogleMap
             marker={{
-              title: 'Georeferencia tienda',
-              description: 'Arrastre hasta la dirección de la tienda',
+              title: 'Georeferencia',
+              description: 'Arrastre hasta la dirección de su ubicación',
               latitude: props.values.latitude,
               longitude: props.values.longitude,
               onDragEnd: (coordinate) => onDragEndMarker(props, coordinate)

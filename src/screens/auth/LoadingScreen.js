@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Spinner } from '../../components/common';
-import * as Font from 'expo-font';
+import * as Fonts from 'expo-font';
 import customFonts from '../../../src/constants/Fonts';
-
+//refactor with the new package https://docs.expo.dev/versions/latest/sdk/font/
 class LoadingScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -16,7 +16,7 @@ class LoadingScreen extends Component {
   };
 
   async _loadFontsAsync() {
-    await Font.loadAsync(customFonts);
+     await Fonts.loadAsync(customFonts);
     this.setState({ fontsLoaded: true });
   }
 
