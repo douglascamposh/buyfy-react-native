@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Picker } from 'react-native';
+import { View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { CardSection, ImagePicker, TextInput, Button, Title, GoogleMap, Content } from '../common';
 import { Size, Colors } from '../../constants/Styles';
 import { Overlay, Icon } from 'react-native-elements';
@@ -110,7 +111,7 @@ class StoreForm extends Component {
   }
 
   buttonGeoreference = (props) => {
-    if( props.values.street && props.values.streetReference && props.values.numberStreet && props.values.departmentNumber && props.values.city){
+    if( props.values.street && props.values.streetReference && props.values.numberStreet && props.values.city){
       return(
       <Button onPress={this.showModal}>
         Mostrar Mapa
@@ -178,7 +179,7 @@ class StoreForm extends Component {
               </CardSection>
               <CardSection>
                 <TextInput
-                  label="Costo de envío"
+                  label="Costo de envío" // we should remove this field and calculate depending of the distance of the client
                   placeholder="Costo de envío"
                   value={props.values.shippingCost}
                   onChangeText={props.handleChange('shippingCost')}

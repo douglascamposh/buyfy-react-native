@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Picker } from 'react-native';
+import { View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { CardSection, ImagePicker, TextInput, Button } from '../common';
 import { Colors } from '../../constants/Styles';
 import * as ExpoImagePicker from 'expo-image-picker';
