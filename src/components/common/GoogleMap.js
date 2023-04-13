@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MapView from 'react-native-maps';
 import { View, Dimensions, Alert } from 'react-native';
 import { Spinner } from './Spinner';
+import * as Location from 'expo-location';
 
 class GoogleMap extends Component {
 
@@ -20,18 +21,21 @@ class GoogleMap extends Component {
     return status;
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // this._isGranted = this.verifyPermission();
     // if (this._isGranted !== 'granted') { // ToDo: We should render a page to display an alert
     //   this.showAlert()
     // }
-    navigator.geolocation.getCurrentPosition(
-      ({coords: { latitude, longitude }}) => {
-        this.setState({ latitude, longitude })
-      },
-      (positionError) => console.log('Error at get position', positionError)
-    );
-  }
+    // navigator.geolocation.getCurrentPosition(
+    //   ({coords: { latitude, longitude }}) => {
+    //     this.setState({ latitude, longitude })
+    //   },
+    //   (positionError) => console.log('Error at get position', positionError)
+    // );
+      let { coords: { latitude, longitude } } = await Location.getCurrentPositionAsync();
+      this.setState({ latitude, longitude });
+  }    
+  
 
   showAlert = () => {
     Alert.alert(

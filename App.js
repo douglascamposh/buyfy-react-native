@@ -23,7 +23,7 @@ class App extends Component {
   async componentDidMount() {
     // Initialize Firebase
     firebase.initializeApp(FIREBASE_CONFIG);
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     await Camera.requestCameraPermissionsAsync();
     await Location.requestForegroundPermissionsAsync();
     // if (status !== 'granted') { TODO: create a view or message "location is required to display the map"
