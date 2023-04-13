@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { useToast } from 'react-native-toast-notifications'
+import { useToast } from 'react-native-toast-notifications';
 import { Icon } from 'react-native-elements'
 import { userDataUpdate, userLogOut } from '../../actions';
 import firebase from 'firebase';
@@ -10,7 +10,7 @@ import { CardSection, Button, Title } from '../common';
 import { Size, FontWeight, Colors } from '../../constants/Styles';
 
 const AccountData = (props) => {
-	const toast = useToast()
+	const toast = useToast();
 	const { firstName, lastName, email, isLoged, error} = useSelector((store) => store.user);
 	const dispatch = useDispatch();
 	const showLogInLogOutButton = () => {

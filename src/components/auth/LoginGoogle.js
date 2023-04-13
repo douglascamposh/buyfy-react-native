@@ -4,9 +4,10 @@ import 'firebase/firestore';
 import { Button } from '../common';
 import { Icon } from 'react-native-elements'
 import { Size, Colors, Padding } from '../../constants/Styles';
-import * as Google from 'expo-google-app-auth';
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from '../../../environment.json';
-
+//remove this component because is deprecated
 class LoginGoogle extends Component {
 
   isUserEqual = (googleUser, firebaseUser) => {
