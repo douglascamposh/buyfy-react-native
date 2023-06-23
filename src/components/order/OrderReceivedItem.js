@@ -8,7 +8,8 @@ class OrderReceivedItem extends Component {
 
   statesText = {
     2: "Sin Despachar",
-    3: "Despachado"
+    3: "Listo para Despachar",
+    4: "Despachado",
   }
 
   renderState = (state) => {
@@ -47,10 +48,10 @@ class OrderReceivedItem extends Component {
   }
 
   render() {
-    const { uid, subTotal, shippingCost, orders, created_at, state } = this.props.invoice;
+    const { uid, subTotal, shippingCost, orders, createdAt, state } = this.props.invoice;
     const { invoiceOnClick, showState } = this.props;
-    const orderDate = new Date(created_at).toLocaleDateString();
-    const orderTime = new Date(created_at).toLocaleTimeString();
+    const orderDate = new Date(createdAt).toLocaleDateString();
+    const orderTime = new Date(createdAt).toLocaleTimeString();
     return (
       <FlatList
         ListHeaderComponent={

@@ -17,6 +17,9 @@ import AddressFormReducer from './AddressFormReducer';
 import StoresAdminReducer from './StoresAdminListReducer';
 import UserDataReducer from './UserDataReducer';
 import UserEmailFormReducer from './UserEmailFormReducer';
+import DeliveryStatusReducer from './DeliveryStatusReducer';
+import DeliveryStatusListReducer from './DeliveryStatusListReducer';
+import InvoicesRiderReducer from './InvoicesRiderReducer';
 
 export default combineReducers({
     products: ProductReducer,
@@ -31,10 +34,13 @@ export default combineReducers({
     invoiceForm: InvoiceFormReducer,
     invoices: InvoicesReducer,
     invoice: InvoiceReducer,
+    invoicesRider: InvoicesRiderReducer,
     categoriesStore: CategoriesStoreReducer,
     categoriesProduct: CategoriesProductReducer,
     addresses: AddressReducer,
     addressForm: AddressFormReducer,
     user: UserDataReducer,
-    emailForm: UserEmailFormReducer
+    emailForm: UserEmailFormReducer,
+    deliveryStatus: DeliveryStatusReducer,
+    deliveryStatusList: DeliveryStatusListReducer,
 });

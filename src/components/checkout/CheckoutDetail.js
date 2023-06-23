@@ -29,8 +29,8 @@ class CheckoutDetail extends Component {
 
   confirmOrder = () => {
     const { addressId, nit, orders, shippingCost = 10, totalOrders: subTotal, storeId } = this.props;// get delivery price from the store or calculate  
-      this.props.invoiceCreate({ addressId, nit, orders, shippingCost, subTotal, storeId });
-      this.setState({ isVisible: true });
+    this.props.invoiceCreate({ addressId, nit, orders, shippingCost, subTotal, storeId });
+    this.setState({ isVisible: true });
   }
 
   navigateToProductList = () => {
