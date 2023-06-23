@@ -1,10 +1,15 @@
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { invoiceFetchByStateAndRiderId, deliveryStatusFetchByUserIdAndInvoiceId, deliveryStatusCreate } from '../../actions';
 import { FlatList, View } from 'react-native';
 import { Card, CardSection, Title, Content, Button,Spinner } from '../common';
 import { deliveryStates, invoiceStates } from '../../constants/Enum';
 import { Colors } from '../../constants/Styles';
+import {
+  invoiceFetchByStateAndRiderId,
+  deliveryStatusFetchByUserIdAndInvoiceId,
+  deliveryStatusUpdate,
+  invoiceUpdateRiderById
+} from '../../actions';
 
 const CurrentInvoiceRider = props => {
   const dispatch = useDispatch();
@@ -16,7 +21,12 @@ const CurrentInvoiceRider = props => {
   
   useEffect(() => {
     dispatch(invoiceFetchByStateAndRiderId(invoiceStates.processed));
-  }, [invoice.uid]);
+  }, [invoice && invoice.uid]);
+
+  useEffect(() => {
+    if (invoice && invoice.uid)
+      dispatch(deliveryStatusFetchByUserIdAndInvoiceId(invoice.uid));
+  }, [deliveryStatusList && deliveryStatusList.length]);
 
   // useEffect(() => {
   //   if(ordersRider.length > 0 && ordersPending) {
@@ -59,12 +69,32 @@ const CurrentInvoiceRider = props => {
     );
   };
 
-  const invoiceButtonOnClick = ({uid: invoiceId, state}) => {
-    dispatch(deliveryStatusCreate({invoiceId, state}));
+  const invoiceButtonOnClick = (deliveryStatus) => {
+    dispatch(deliveryStatusUpdate(deliveryStatus));
+  }
+
+  const invoiceStatusButtonOnclick = (invoice, deliveryStatus) => {
+    invoiceButtonOnClick(deliveryStatus);
+    dispatch(invoiceUpdateRiderById(invoice));
+  }
+
+  const renderDeliveryStatus = (deliveryStatus) => {
+    const { invoiceId, deliveryStatus: deliveryStatusId } = deliveryStatus;
+    return (
+      <View style={styles.containerDeliveryStatus}>
+        <Button
+          onPress={() => {
+            invoiceButtonOnClick({ invoiceId, deliveryStatusId });
+          }}
+        >
+          {deliveryStatusId === deliveryStates.pending ? 'Pendiente' : 'Entregado'}
+        </Button>
+      </View>
+    );
   }
 
   const renderInvoiceRider = (currentInvoice) => {
-    const { uid, subTotal, shippingCost, orders, createdAt, state } = currentInvoice;
+    const { uid: invoiceId, subTotal, shippingCost, orders, createdAt, state } = currentInvoice;
     const orderDate = new Date(createdAt).toLocaleDateString();
     const orderTime = new Date(createdAt).toLocaleTimeString();
     return (
@@ -127,11 +157,17 @@ const CurrentInvoiceRider = props => {
                 </Content>
               </View>
             </CardSection>
-            {(!!invoiceButtonOnClick) && <CardSection>
-              <Button onPress={() => invoiceButtonOnClick({ uid, state: deliveryStates.picked })}>Recoger pedido</Button>
-              <Button onPress={() => invoiceButtonOnClick({ uid, state: deliveryStates.rejected })}>Rechazar pedido</Button>
+            {(invoice.state === invoiceStates.processed && deliveryStatusList[0] && deliveryStatusList[0].state == deliveryStates.taken) && <CardSection>
+              <Button onPress={() => invoiceButtonOnClick({ ...deliveryStatusList[0], state: deliveryStates.picked })}>Recoger pedido</Button>
+              <Button onPress={() => invoiceButtonOnClick({ ...deliveryStatusList[0], state: deliveryStates.rejected })}>Rechazar pedido</Button>
               {/* TODO: al rechazar el pedido se deberia agregar una nota y deberia ser obligatorio*/}
               {/* TODO: despues de recogear el pedido se deberia mostrar el boton de entrega*/}
+            </CardSection>
+            }
+            {(invoice.state === invoiceStates.processed && deliveryStatusList[0] && deliveryStatusList[0].state == deliveryStates.picked) && <CardSection>
+              <Button onPress={() => invoiceStatusButtonOnclick({...invoice, state: invoiceStates.delivered}, { ...deliveryStatusList[0], state: deliveryStates.delivered })}>entregar pedido</Button>
+              <Button onPress={() => invoiceStatusButtonOnclick({...invoice, state: invoiceStates.undelivered}, { ...deliveryStatusList[0], state: deliveryStates.undelivered })}>No se pudo entregar</Button>
+              {/* TODO: al no entregar el pedido se deberia agregar una nota y deberia ser obligatorio*/}
             </CardSection>
             }
           </Card>

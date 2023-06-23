@@ -1,5 +1,6 @@
 import {
     DELIVERY_STATUS_CREATE_SUCCESS,
+    DELIVERY_STATUS_UPDATE_SUCCESS
   } from '../actions/types';
   
   const INITIAL_STATE = {
@@ -7,6 +8,7 @@ import {
     riderId: null,
     invoiceId: null,
     createdAt: null,
+    states: [],
     error: ''
   };
   
@@ -14,6 +16,8 @@ import {
     switch (action.type) {
       case DELIVERY_STATUS_CREATE_SUCCESS:
         return { ...INITIAL_STATE, ...action.payload};
+      case DELIVERY_STATUS_UPDATE_SUCCESS:
+          return { ...INITIAL_STATE, ...action.payload};
       default:
         return state;
     }

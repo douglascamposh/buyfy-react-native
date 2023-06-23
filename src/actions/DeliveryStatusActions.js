@@ -3,7 +3,8 @@ import 'firebase/firestore';
 import {
     DELIVERY_STATUS_CREATE_SUCCESS,
     DELIVERY_STATUS_FETCH_SUCCESS,
-    DELIVERY_STATUS_FETCH_PENDING
+    DELIVERY_STATUS_FETCH_PENDING,
+    DELIVERY_STATUS_UPDATE_SUCCESS
 } from './types';
 import { DELIVERY_STATUS } from './resources';
 
@@ -12,6 +13,8 @@ export const deliveryStatusCreate = (item) => {
     const userId = user ? user.uid : '';
     item.userId = userId;
     item.createdAt = Date.now();
+    item.updatedAt = Date.now();
+    item.states = [{userId: userId, state: item.state, createdAt: Date.now(), updatedAt: Date.now()}];
     return (dispatch) => {
       firebase.firestore().collection(DELIVERY_STATUS)
       .add(item)
@@ -20,6 +23,26 @@ export const deliveryStatusCreate = (item) => {
         })
         .catch(error => {
           console.error("Delivery Status was not created", error);
+        })
+    };
+  };
+
+  export const deliveryStatusUpdate = (item) => {
+    const {uid} = item;
+    delete item.uid;
+    const user = firebase.auth().currentUser;
+    const userId = user ? user.uid : '';
+    item.userId = userId;
+    item.updatedAt = Date.now();
+    item.states.push({userId: userId, state: item.state, createdAt: Date.now(), updatedAt: Date.now()});
+    return (dispatch) => {
+      firebase.firestore().collection(DELIVERY_STATUS).doc(uid)
+      .update(item)
+        .then(() => {
+          dispatch({ type: DELIVERY_STATUS_UPDATE_SUCCESS, payload: {...item, uid}});  
+        })
+        .catch(error => {
+          console.error("Delivery Status was not updated", error);
         })
     };
   };

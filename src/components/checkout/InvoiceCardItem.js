@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import { Size, Colors, Padding } from '../../constants/Styles';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { invoiceStates } from '../../constants/Enum';
 
 class InvoiceCardItem extends Component {
 
@@ -40,6 +41,21 @@ class InvoiceCardItem extends Component {
     return new Date(date.getTime() + minutes * 60000);
   }
 
+  currentStateTitle(invoice) {
+    switch (invoice.state) {
+      case invoiceStates.created:
+        return 'Estamos procesando tu pedido';
+      case invoiceStates.received:
+        return 'El restaurante ha recibido tu pedido';
+      case invoiceStates.processed:
+        return 'El delivery esta en camino';
+      case invoiceStates.delivered:
+        return 'Tu pedido ha sido entregado';
+      default:
+        return 'Estamos procesando tu pedido';
+    }
+  }
+
   render() {
     const { store, loading } = this.state;
     if(loading) {
@@ -58,7 +74,7 @@ class InvoiceCardItem extends Component {
           <View>
             <CardSection>
               <View>
-                <Title>Estamos procesando tu pedido</Title>
+                <Title>{this.currentStateTitle(invoice)}</Title>
                 <Content>{store.name}</Content>
               </View>
             </CardSection>

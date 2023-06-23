@@ -8,7 +8,8 @@ class OrderReceivedItem extends Component {
 
   statesText = {
     2: "Sin Despachar",
-    3: "Despachado"
+    3: "Listo para Despachar",
+    4: "Despachado",
   }
 
   renderState = (state) => {

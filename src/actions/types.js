@@ -63,3 +63,4 @@ export const DELIVERY_STATUS_FETCH_SUCCESS = 'delivery_status_fetch_success';
 export const DELIVERY_STATUS_FETCH_PENDING = 'delivery_status_fetch_pending';
 export const DELIVERY_STATUS_FETCH_ERROR = 'delivery_status_fetch_error';
 export const DELIVERY_STATUS_CREATE_SUCCESS = 'delivery_status_create_success';
+export const DELIVERY_STATUS_UPDATE_SUCCESS = 'delivery_status_update_success';
