@@ -15,7 +15,7 @@
     "@react-native-community/segmented-control": "2.2.1",
     "@use-expo/font": "^2.0.0",
     "bufferutil": "^4.0.1",
-    "expo": "^40.0.0",
+    "expo": "^49.0.0",
     "expo-google-app-auth": "^8.1.4",
     "expo-image-manipulator": "~8.4.0",
     "expo-image-picker": "~9.2.0",
@@ -50,7 +50,7 @@
     "yup": "^0.28.3"
   },
   "devDependencies": {
-    "babel-preset-expo": "8.3.0"
+    "babel-preset-expo": "9.5.0"
   },
   "private": true
 }
